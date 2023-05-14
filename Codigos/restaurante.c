@@ -87,7 +87,7 @@ int inserir_no_inicio(Lista *lista, Conteudo_Pedido pedido)
         return 2;
     No *no = (No *) calloc(1, sizeof(No));
 
-    no->valor = pedido;
+    no->dados_pedido = pedido;
     no->prox = lista->inicio;
     lista->inicio = no;
 
@@ -110,11 +110,11 @@ int inserir_no_fim(Lista *lista, Conteudo_Pedido pedido)
     while (noLista->prox != NULL)
         noLista = noLista->prox;
 
-    No *no = (No *) calloc(1, sizeof(No));
+    No *novo_no = (No *) calloc(1, sizeof(No));
 
-    no->valor = pedido;
-    noLista->prox = no;
-    no->prox = NULL;
+    novo_no->dados_pedido = pedido;
+    noLista->prox = novo_no;
+    novo_no->prox = NULL;
 
     return 0;
 }

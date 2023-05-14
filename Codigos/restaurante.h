@@ -10,6 +10,7 @@ typedef struct conteudo_pedido {
 typedef struct lista Lista;
 
 
+
 Lista *criar_lista();
 int lista_existe(Lista *lista);
 int lista_vazia(Lista *lista);
