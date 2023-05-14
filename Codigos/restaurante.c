@@ -6,10 +6,14 @@
 
 typedef struct no {
     Conteudo_Pedido dados_pedido;
-    struct no *inicio;
-    
+
 } No;
 
+
+typedef struct lista {
+    No *inicio
+
+} Lista;
 
 
 Lista criar_lista()
