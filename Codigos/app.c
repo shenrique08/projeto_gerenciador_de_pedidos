@@ -6,7 +6,6 @@
 int main()
 {
     Lista *pedido = criar_lista();
-    
 
 
     return 0;
