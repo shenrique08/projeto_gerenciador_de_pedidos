@@ -1,6 +1,6 @@
 #include "usuario.h"
+#include "usuario.h"
 #include <stdio.h>
-
 
 
 int main()

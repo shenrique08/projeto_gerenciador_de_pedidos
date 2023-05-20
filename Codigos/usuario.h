@@ -1,3 +1,6 @@
+#ifndef usuario_h
+#define usuario_h
+int a;
 
 
 
@@ -20,3 +23,4 @@ int tam_lista(Lista *lista);
 
 int inserir_no_inicio(Lista *lista, Conteudo_Pedido pedido);
 int inserir_no_fim(Lista *lista, Conteudo_Pedido pedido);
+#endif
