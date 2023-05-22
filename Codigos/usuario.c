@@ -251,6 +251,9 @@ int insere_adm(Lista *lista, Usuario usuario)
         strcpy(usuario.cpf, "12345678");
         strcpy(usuario.nome, "adm");
         strcpy(usuario.num_telefone, "666");
+        strcpy(usuario.login, "bazooka@catmail.com");
+        strcpy(usuario.senha, "bazooka666");
+
 
         inserir_no_inicio(lista, usuario);
     }
