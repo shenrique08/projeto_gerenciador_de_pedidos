@@ -264,6 +264,8 @@ int insere_adm(Lista *lista, Usuario usuario)
 
         inserir_no_inicio(lista, novo_no->dados_usuario);
     }
+
+    return 0;
 }
 
 

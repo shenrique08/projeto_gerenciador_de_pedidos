@@ -16,9 +16,9 @@ int main()
     char operando;
     char tem_cadastro; 
 
-    //insere_adm(lista, usuario);
+    insere_adm(lista, usuario);
     insere_restaurantes_cadastrados(fila, restaurante);
-    //cadastrar_restaurante(fila, restaurante);
+    
     printf("\n##############################################################################\n");
     mostra_restaurantes(fila);
     printf("\n##############################################################################\n\n\n\n\n\n\n");

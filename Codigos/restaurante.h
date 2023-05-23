@@ -6,6 +6,8 @@ typedef struct {
     
 } Prato;
 
+
+
 // Estrutura para armazenar os dados do restaurante
 typedef struct restaurante{
     char nome[100];
@@ -16,6 +18,8 @@ typedef struct restaurante{
     
 } Restaurante;
 
+
+
 // Estrutura para armazenar os dados do pedido
 typedef struct {
     Restaurante restaurante;
@@ -24,6 +28,8 @@ typedef struct {
     float valorTotal;
     int status; // 0 - Em andamento, 1 - Entregue
 } Pedido;
+
+
 
 typedef struct fila Fila;
 
