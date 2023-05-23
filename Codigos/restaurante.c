@@ -215,7 +215,7 @@ int insere_restaurantes_cadastrados(Fila *fila, Restaurante restaurante)
             strcpy(novo_no->dados_restaurante.tipo_culinaria, "Fast Food");
             strcpy(novo_no->dados_restaurante.prato.nome, "Baratissimo");
 
-            strcpy(novo_no->dados_restaurante.prato.bebida, "bazooka");
+            strcpy(novo_no->dados_restaurante.prato.bebida, "Sprite zero");
             novo_no->dados_restaurante.prato.preco = 19.90;
             
             insere_restaurante(fila, novo_no->dados_restaurante);
