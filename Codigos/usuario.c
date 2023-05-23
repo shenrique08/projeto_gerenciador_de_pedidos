@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <math.h>
 
 
 
@@ -84,9 +83,11 @@ int imprime(Lista *lista)
     No *noLista = lista->inicio;
 
     while (noLista != NULL) {
-        printf("\nNOME: %s", noLista->dados_usuario.nome);
-        printf("CPF: %s", noLista->dados_usuario.cpf);
-        printf("NUMERO DE TELEFONE: [%s\n", noLista->dados_usuario.num_telefone);
+        printf("\nNOME: %s\n", noLista->dados_usuario.nome);
+        printf("CPF: %s\n", noLista->dados_usuario.cpf);
+        printf("NUMERO DE TELEFONE: %s\n", noLista->dados_usuario.num_telefone);
+        printf("LOGIN: %s\n", noLista->dados_usuario.login);
+        printf("SENHA: %s\n", noLista->dados_usuario.senha);
 
         noLista = noLista->prox;
     }
@@ -173,6 +174,7 @@ int remover_usuario(Lista *lista, Usuario usuario)
     else 
         anterior->prox = atual->prox;
 
+    lista->tam_lista--;
     free(atual);
 
     return 0;
@@ -202,11 +204,12 @@ int cadastrar_usuario(Lista *lista, Usuario usuario)
     printf("Informe seu [NUMERO DE TELEFONE]: (+55) ");
     fgets(novo_no->dados_usuario.num_telefone, sizeof(novo_no->dados_usuario.num_telefone), stdin);
 
-    printf("\nAgora, escolha seu login e sua senha: \n");
-    printf("[LOGIN]: (ex: 'bazooka_nelas_007') ");
+    printf("\nAgora, crie seu [LOGIN] e sua [SENHA]: \n");
+    printf("[LOGIN]: ");
     fgets(novo_no->dados_usuario.login, sizeof(novo_no->dados_usuario.login), stdin);
 
     printf("[SENHA]: ");
+    fgets(novo_no->dados_usuario.senha, sizeof(novo_no->dados_usuario.senha), stdin);
 
     inserir_no_fim(lista, novo_no->dados_usuario);
 
@@ -218,26 +221,25 @@ int cadastrar_usuario(Lista *lista, Usuario usuario)
 
 
 
-int buscar_usuario(Lista *lista, Usuario *usuario_retorno, char *nome)
+int verifica_login(Lista *lista, char *login, char *senha)
 {
-    if (lista_existe(lista) == 0)
-        return -1;
-    if (lista_vazia(lista) == 1)
-        return -2;
-
-    No *anterior = NULL;
+    if (lista == NULL) 
+        return -1;  
+    
+    if (lista_vazia(lista) == 1) 
+        return -2;  
+    
     No *atual = lista->inicio;
-
-    // percorre a lista para descobrir a posição desejada
-    while (atual != NULL && strcmp(atual->dados_usuario.nome, nome) != 0) {
-        anterior = atual;
-        atual = atual ->prox;
+    
+    while (atual != NULL) {
+        if (strcmp(atual->dados_usuario.login, login) == 0 && strcmp(atual->dados_usuario.senha, senha) == 0) 
+            return 1;  // Login válido
+        atual = atual->prox;
     }
 
-    *usuario_retorno = atual->dados_usuario;
-
-    return 0;
+    return 0;  // Login inválido
 }
+
 
 
 
@@ -248,14 +250,16 @@ int insere_adm(Lista *lista, Usuario usuario)
         No *novo_no = (No*) calloc(1, sizeof(No));
         novo_no->dados_usuario = usuario;
 
-        strcpy(usuario.cpf, "12345678");
-        strcpy(usuario.nome, "adm");
-        strcpy(usuario.num_telefone, "666");
-        strcpy(usuario.login, "bazooka@catmail.com");
-        strcpy(usuario.senha, "bazooka666");
+        strcpy(novo_no->dados_usuario.cpf, "adm");
+        strcpy(novo_no->dados_usuario.nome, "adm");
+        strcpy(novo_no->dados_usuario.num_telefone, "666");
 
+        strcpy(novo_no->dados_usuario.login, "bazooka");
+        strcat(novo_no->dados_usuario.login, "\n"); // Adiciona '\n' ao final da string login
+        strcpy(novo_no->dados_usuario.senha, "delas");
+        strcat(novo_no->dados_usuario.senha, "\n"); // Adiciona '\n' ao final da string senha
 
-        inserir_no_inicio(lista, usuario);
+        inserir_no_inicio(lista, novo_no->dados_usuario);
     }
 }
 

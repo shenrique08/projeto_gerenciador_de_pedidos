@@ -28,7 +28,8 @@ int inserir_no_fim(Lista *lista, Usuario usuario);
 int remover_usuario(Lista *lista, Usuario usuario);
 
 int cadastrar_usuario(Lista *lista, Usuario usuario);
-int buscar_usuario(Lista *lista, Usuario *usuario_retorno, char *nome);
+int verifica_login(Lista *lista, char *nome, char *senha);
 int insere_adm(Lista *lista, Usuario usuario);
+
 
 void sleep(float seconds);
