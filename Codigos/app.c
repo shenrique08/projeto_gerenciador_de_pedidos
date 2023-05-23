@@ -1,4 +1,5 @@
 #include "usuario.h"
+#include "restaurante.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -7,12 +8,16 @@
 int main()
 {
     Lista *lista = criar_lista();
-    
     Usuario usuario;
+
+    Fila *fila = criar_restaurante();
+    Restaurante restaurante;
+    
     char operando;
     char tem_cadastro; 
 
     insere_adm(lista, usuario);
+    insere_restaurantes_cadastrados(fila, restaurante);
     printf("\n##############################################################################\n");
     imprime(lista);
     printf("\n##############################################################################\n\n\n\n\n\n\n");
@@ -20,6 +25,7 @@ int main()
     printf("\n*************** SEJA BEM VINDO AO NOSSO APLICATIVO ***************\n");
     printf("LOADING");
 
+    // simulação de loading
     for (int i = 0; i < 5; i++) {
         sleep(0.5);
         printf(".");
@@ -27,6 +33,7 @@ int main()
 
     printf("\n\n========== ~~~~~ BAZOOKA DELIVERY ~~~~~~ =========\n\n");
     
+    // precisamos verificar se o usuário já tem cadastro no app
     do {
         printf("\nVoce ja tem cadastro no app?\n");
         printf("[1] -> SIM\n");
@@ -74,6 +81,10 @@ int main()
 
         } while (tentar_novamente == '1' && verifica_login(lista, login, senha) == 0);
     }
+
+    // a partir deste ponto, o usuário já está logado no sistema
+    // e pode acessar as funcionalidades do app
+    mostra_restaurantes(fila);
 
     return 0;
 }

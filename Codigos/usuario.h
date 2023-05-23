@@ -1,4 +1,5 @@
-
+#ifndef USUARIO_H
+#define USUARIO_H
 
 
 typedef struct usuario {
@@ -33,3 +34,5 @@ int insere_adm(Lista *lista, Usuario usuario);
 
 
 void sleep(float seconds);
+
+#endif

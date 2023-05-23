@@ -62,6 +62,7 @@ int lista_vazia(Lista *lista)
 
 
 
+
 int tam_lista(Lista *lista)
 {
     if (lista == NULL) return -1;
@@ -71,6 +72,8 @@ int tam_lista(Lista *lista)
     
     return lista->tam_lista;
 }
+
+
 
 
 
@@ -86,7 +89,7 @@ int imprime(Lista *lista)
         printf("\nNOME: %s\n", noLista->dados_usuario.nome);
         printf("CPF: %s\n", noLista->dados_usuario.cpf);
         printf("NUMERO DE TELEFONE: %s\n", noLista->dados_usuario.num_telefone);
-        printf("LOGIN: %s\n", noLista->dados_usuario.login);
+        printf("LOGIN: %s", noLista->dados_usuario.login);
         printf("SENHA: %s\n", noLista->dados_usuario.senha);
 
         noLista = noLista->prox;
@@ -262,6 +265,8 @@ int insere_adm(Lista *lista, Usuario usuario)
         inserir_no_inicio(lista, novo_no->dados_usuario);
     }
 }
+
+
 
 
 
