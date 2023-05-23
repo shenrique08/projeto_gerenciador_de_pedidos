@@ -16,13 +16,14 @@ int main()
     char operando;
     char tem_cadastro; 
 
-    insere_adm(lista, usuario);
+    //insere_adm(lista, usuario);
     insere_restaurantes_cadastrados(fila, restaurante);
+    //cadastrar_restaurante(fila, restaurante);
     printf("\n##############################################################################\n");
-    imprime(lista);
+    mostra_restaurantes(fila);
     printf("\n##############################################################################\n\n\n\n\n\n\n");
 
-    printf("\n*************** SEJA BEM VINDO AO NOSSO APLICATIVO ***************\n");
+    /*printf("\n*************** SEJA BEM VINDO AO NOSSO APLICATIVO ***************\n");
     printf("LOADING");
 
     // simulação de loading
@@ -69,9 +70,9 @@ int main()
             
             int v = verifica_login(lista, login, senha);
             if (v == 1)
-                printf("\nLogin realizado com sucesso!!!\n\n");
+                printf("\nLogin realizado com sucesso!\n\n");
             else if (v == 0) {
-                printf("\nUsuario nao encontrado!!!\n\n");
+                printf("\nUsuario nao encontrado!\n\n");
                 printf("Deseja tentar novamente?\n");
                 printf("[1] -> SIM\n");
                 printf("[0] -> NAO\n");
@@ -84,7 +85,7 @@ int main()
 
     // a partir deste ponto, o usuário já está logado no sistema
     // e pode acessar as funcionalidades do app
-    mostra_restaurantes(fila);
+    mostra_restaurantes(fila);*/
 
     return 0;
 }

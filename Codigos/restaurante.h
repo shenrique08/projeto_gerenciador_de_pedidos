@@ -1,6 +1,3 @@
-
-
-
 // Estrutura para armazenar os dados do prato
 typedef struct {
     char nome[100];
@@ -9,22 +6,15 @@ typedef struct {
     
 } Prato;
 
-
-
 // Estrutura para armazenar os dados do restaurante
-typedef struct {
+typedef struct restaurante{
     char nome[100];
     char categoria;
-    char tipo_culinaria[100];
-    Prato prato;
+    int tipo_culinaria;
+    int qtd_pratos;
+    Prato *prato;
     
 } Restaurante;
-
-
-
-
-
-
 
 // Estrutura para armazenar os dados do pedido
 typedef struct {
@@ -35,20 +25,17 @@ typedef struct {
     int status; // 0 - Em andamento, 1 - Entregue
 } Pedido;
 
-
 typedef struct fila Fila;
-
 
 Fila *criar_restaurante();
 int fila_vazia(Fila *fila);
 int limpar_fila(Fila *fila);
 
-
 int insere_restaurante(Fila *fila, Restaurante r);
-int insere_restaurantes_cadastrados(Fila *fila, Restaurante restaurante);
+int insere_restaurantes_cadastrados(Fila *fila, Restaurante r);
 
 int imprime_pedidos(Fila *fila);
-int mostra_restaurantes(Fila *fila);
+void mostra_restaurantes(Fila *fila);
 
 int cadastrar_restaurante(Fila *fila, Restaurante restaurante);
 

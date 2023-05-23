@@ -100,10 +100,9 @@ int insere_restaurante(Fila *fila, Restaurante r)
         return -1;
     }
 
-    // será o novo usuário
-    No *novo_no = (No*) calloc(1, sizeof(No));
-
+    No *novo_no = (No*) malloc(sizeof(No));
     novo_no->dados_restaurante = r;
+    novo_no->prox = NULL;
 
     if (fila_vazia(fila)) {
         fila->inicio = novo_no;
@@ -118,83 +117,70 @@ int insere_restaurante(Fila *fila, Restaurante r)
     return 0;
 }
 
-
-
-
-
-int cadastrar_restaurante(Fila *fila, Restaurante restaurante) 
-{
-    if (fila->inicio == NULL) 
+int cadastrar_restaurante(Fila *fila, Restaurante restaurante) {
+    
+    if (fila == NULL) {
         return -1;
+    }
 
-    // será o novo usuário
-    No *novo_no = (No*) calloc(1, sizeof(No));
-
-    novo_no->dados_restaurante = restaurante;
+    int opcao;
+    int i;
 
     printf("\n=============== SISTEMA DE CADASTRO DE RESTAURANTES ===============\n");
-    printf("\nInforme o [NOME] do restaurante: ");
-    fgets(novo_no->dados_restaurante.nome, sizeof(novo_no->dados_restaurante.nome), stdin);
 
-    printf("Informe o tipo culinario que o restaurante oferece: ");
-    printf("\n[1] - Brasileira");
-    printf("\n[2] - Fast Food");
-    printf("\n[3] - Japonesa\n");
-    scanf("%c", &novo_no->dados_restaurante.categoria);
-    getchar();
     do {
-        switch (novo_no->dados_restaurante.categoria) 
-        {
-        case '1':
-            strcpy(novo_no->dados_restaurante.tipo_culinaria, "Brasileira");
-            strcat(novo_no->dados_restaurante.tipo_culinaria, "\n");
 
-            printf("\nInforme o [nome do prato 'brazuka']: ");
-            fgets(novo_no->dados_restaurante.prato.nome, sizeof(novo_no->dados_restaurante.prato.nome), stdin);
+        printf("[1] Cadastrar novo restaurante\n");
+        printf("[2] Sair\n");
+        printf("Opcao: ");
+        scanf("%d", &opcao);
+        getchar();
 
-            printf("\nInforme a ['bebida' que acompanha o prato]: ");
-            fgets(novo_no->dados_restaurante.prato.bebida, sizeof(novo_no->dados_restaurante.prato.bebida), stdin);
+        switch(opcao){
+            case 1:
+                No *novo_no = (No*) malloc(sizeof(No));
+                novo_no->dados_restaurante = restaurante;
 
-            printf("\nInforme o [preco do prato 'brazuka'] em R$: ");
-            scanf("%f", &novo_no->dados_restaurante.prato.preco);
-            break;
-        case '2':
-            strcpy(novo_no->dados_restaurante.tipo_culinaria, "Fast Food");
-            strcat(novo_no->dados_restaurante.tipo_culinaria, "\n");
+                printf("\nInforme o nome do restaurante: ");
+                fgets(novo_no->dados_restaurante.nome, sizeof(novo_no->dados_restaurante.nome), stdin);
 
-            printf("\nInforme o [nome do 'lanche']: ");
-            fgets(novo_no->dados_restaurante.prato.nome, sizeof(novo_no->dados_restaurante.prato.nome), stdin);
+                printf("Informe a categoria do restaurante:\n");
+                printf("\n[1] - Brasileira");
+                printf("\n[2] - Fast Food");
+                printf("\n[3] - Japonesa\n");
+                printf("Categoria: ");
+                // guardar em int tipo_culinaria na struct restaurante
+                scanf("%d", &novo_no->dados_restaurante.tipo_culinaria);
+                getchar();
 
-            printf("\nInforme a ['bebida' que acompanha o prato]: ");
-            fgets(novo_no->dados_restaurante.prato.bebida, sizeof(novo_no->dados_restaurante.prato.bebida), stdin);
+                printf("Informe a quantidade de pratos: ");
+                scanf("%d", &novo_no->dados_restaurante.qtd_pratos);
 
-            printf("\nInforme o [preco do 'lanche'] em R$: ");
-            scanf("%f", &novo_no->dados_restaurante.prato.preco);
-            break;
-        case '3':
-            strcpy(novo_no->dados_restaurante.tipo_culinaria, "Japonesa");
-            strcat(novo_no->dados_restaurante.tipo_culinaria, "\n");
+                novo_no->dados_restaurante.prato = (Prato*) malloc(novo_no->dados_restaurante.qtd_pratos * sizeof(Prato));
+                
+                for (i = 0; i < novo_no->dados_restaurante.qtd_pratos; i++) {
+                    getchar();
+                    printf("Informe o nome do prato: ");
+                    fgets(novo_no->dados_restaurante.prato[i].nome, sizeof(novo_no->dados_restaurante.prato[i].nome), stdin);
+                    printf("Informe o nome da bebida que acompanha: ");
+                    fgets(novo_no->dados_restaurante.prato[i].bebida, sizeof(novo_no->dados_restaurante.prato[i].bebida), stdin);
+                    printf("Informe o preco do prato: ");
+                    scanf("%f", &novo_no->dados_restaurante.prato[i].preco);
+                }
 
-            printf("\nInforme o [nome do prato 'japones']: ");
-            fgets(novo_no->dados_restaurante.prato.nome, sizeof(novo_no->dados_restaurante.prato.nome), stdin);
+                insere_restaurante(fila, novo_no->dados_restaurante);
+                break;
 
-            printf("\nInforme a ['bebida' que acompanha o prato]: ");
-            fgets(novo_no->dados_restaurante.prato.bebida, sizeof(novo_no->dados_restaurante.prato.bebida), stdin);
+            case 2:
+                break;
 
-            printf("\nInforme o [preco do prato 'japones'] em R$: ");
-            scanf("%f", &novo_no->dados_restaurante.prato.preco);
-            break;
-        default:
-            printf("\nOpcao invalida! Tente novamente!\n\n");
-            break;
+            default:
+                printf("Opcao invalida!");
+            
         }
 
-    } while (novo_no->dados_restaurante.categoria != '1' && novo_no->dados_restaurante.categoria != '2' && 
-    novo_no->dados_restaurante.categoria != '3');
+    } while (opcao != 2);
 
-    inserir_restaurante(fila, novo_no->dados_restaurante);
-
-    return 0;
 }
 
 
@@ -202,13 +188,13 @@ int cadastrar_restaurante(Fila *fila, Restaurante restaurante)
 
 
 // função que "simula uma base de dados de restaurantes", para que, inicialmente, o usuário tenha acesso a vários restaurantes previamente disponíveis
-int insere_restaurantes_cadastrados(Fila *fila, Restaurante restaurante)
+/*int insere_restaurantes_cadastrados(Fila *fila, Restaurante restaurante)
 {
     if (fila->inicio != NULL) {
         int contador = 0;
         while (contador < 1) 
         {
-            No *novo_no = (No*) calloc(1, sizeof(No));
+            No *novo_no = (No*) malloc(sizeof(No));
             novo_no->dados_restaurante = restaurante;
 
             strcpy(novo_no->dados_restaurante.nome, "Subway");
@@ -224,31 +210,57 @@ int insere_restaurantes_cadastrados(Fila *fila, Restaurante restaurante)
         }
     }
 
-}
+}*/
 
-
-
-
-
-
-
-int mostra_restaurantes(Fila *fila)
+int insere_restaurantes_cadastrados(Fila *fila, Restaurante r)
 {
-    if (fila == NULL) {
+    if (fila == NULL)
         return -1;
-    }
 
-    No *aux = fila->inicio;
-    printf("\n\n=============== RESTAURANTES DISPONIVEIS ===============\n");
-    while (aux != NULL) {
-        printf("\nRestaurante: [%s]", aux->dados_restaurante.nome);
-        printf("\nTipo culinario: [%s]", aux->dados_restaurante.tipo_culinaria);
-        printf("\nPrato: [%s]", aux->dados_restaurante.prato.nome);
-        printf("\nBebida: [%s]", aux->dados_restaurante.prato.bebida);
-        printf("\nPreco: [R$%.2f]", aux->dados_restaurante.prato.preco);
-        printf("\n\n");
-        aux = aux->prox;
-    }
+    r.prato = (Prato*) malloc(r.qtd_pratos * sizeof(Prato));
+
+    strcpy(r.nome, "Subway");
+    r.tipo_culinaria = 2;
+    r.qtd_pratos = 2;
+    
+    strcpy(r.prato[0].nome, "Baratissimo");
+    strcpy(r.prato[0].bebida, "Sprite zero");
+    r.prato[0].preco = 9.90;
+
+    strcpy(r.prato[1].nome, "Carissimo");
+    strcpy(r.prato[1].bebida, "Coca cola");
+    r.prato[1].preco = 29.90;
+
+    insere_restaurante(fila, r);
 
     return 0;
 }
+
+void mostra_restaurantes(Fila *fila){
+    if (fila == NULL) return;
+
+    No *aux = fila->inicio;
+    int i = 1;
+    printf("\n\n=============== RESTAURANTES DISPONIVEIS ===============\n");
+
+    while (aux != NULL){
+        printf("%d - %s\n", i, aux->dados_restaurante.nome);
+        printf("Categoria:");
+        if (aux->dados_restaurante.tipo_culinaria == 1) printf(" Brasileira\n");
+        else if (aux->dados_restaurante.tipo_culinaria == 2) printf(" Fast Food\n");
+        else if (aux->dados_restaurante.tipo_culinaria == 3) printf(" Japonesa\n");
+
+        printf("Pratos disponiveis:\n");
+        for (i = 0; i < aux->dados_restaurante.qtd_pratos; i++) {
+            printf("Combo %d:\n", i+1);
+            printf("- Prato: %s\n", aux->dados_restaurante.prato[i].nome);
+            printf("- Acompanhamento: %s\n", aux->dados_restaurante.prato[i].bebida);
+            printf("- Preco: R$%.2f\n", aux->dados_restaurante.prato[i].preco);
+            printf("\n");
+        }
+        printf("\n");
+        aux = aux->prox;
+    }
+    printf("\n\n");
+}
+
