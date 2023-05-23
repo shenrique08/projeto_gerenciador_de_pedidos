@@ -93,30 +93,7 @@ int imprime_pedidos(Fila *fila)
 
 
 
-// agora, iremos fazer uma função para inserir um restaurante na fila
-int insere_restaurante(Fila *fila, Restaurante r)
-{
-    if (fila == NULL) {
-        return -1;
-    }
 
-    // será o novo usuário
-    No *novo_no = (No*) calloc(1, sizeof(No));
-
-    novo_no->dados_restaurante = r;
-
-    if (fila_vazia(fila)) {
-        fila->inicio = novo_no;
-        fila->fim = novo_no;
-    } else {
-        fila->fim->prox = novo_no;
-        fila->fim = novo_no;
-    }
-
-    fila->tam_fila++;
-
-    return 0;
-}
 
 
 
@@ -226,29 +203,3 @@ int insere_restaurantes_cadastrados(Fila *fila, Restaurante restaurante)
 
 }
 
-
-
-
-
-
-
-int mostra_restaurantes(Fila *fila)
-{
-    if (fila == NULL) {
-        return -1;
-    }
-
-    No *aux = fila->inicio;
-    printf("\n\n=============== RESTAURANTES DISPONIVEIS ===============\n");
-    while (aux != NULL) {
-        printf("\nRestaurante: [%s]", aux->dados_restaurante.nome);
-        printf("\nTipo culinario: [%s]", aux->dados_restaurante.tipo_culinaria);
-        printf("\nPrato: [%s]", aux->dados_restaurante.prato.nome);
-        printf("\nBebida: [%s]", aux->dados_restaurante.prato.bebida);
-        printf("\nPreco: [R$%.2f]", aux->dados_restaurante.prato.preco);
-        printf("\n\n");
-        aux = aux->prox;
-    }
-
-    return 0;
-}
