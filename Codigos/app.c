@@ -13,15 +13,15 @@ int main()
     Fila *fila = criar_restaurante();
     Restaurante restaurante;
     
-    char operando;
-    char tem_cadastro; 
+    //char operando;
+    //char tem_cadastro; 
 
     insere_adm(lista, usuario);
     insere_restaurantes_cadastrados(fila, restaurante);
     
-    printf("\n##############################################################################\n");
+    printf("\n######################################################################################\n");
     mostra_restaurantes(fila);
-    printf("\n##############################################################################\n\n\n\n\n\n\n");
+    printf("\n######################################################################################\n\n\n\n");
 
     /*printf("\n*************** SEJA BEM VINDO AO NOSSO APLICATIVO ***************\n");
     printf("LOADING");
