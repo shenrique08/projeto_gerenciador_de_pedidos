@@ -1,3 +1,5 @@
+bin.exe: $(wildcard *.c)
+	gcc $^ -o $@
 
-app.exe: app.c restaurante.c usuario.c
-	gcc app.c restaurante.c usuario.c -o app.exe -Wall -Wextra
+run: bin.exe 
+	@$<
