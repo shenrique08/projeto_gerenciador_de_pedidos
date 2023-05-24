@@ -291,32 +291,32 @@ int insere_restaurantes_cadastrados(Fila *fila, Restaurante r)
     insere_restaurante(fila, r);
 
     // quarto restaurante
-    strcpy(r.nome, "Burger King");
+    strcpy(r.nome, "Acai do Para");
     r.tipo_culinaria = 2;
     r.qtd_pratos = 5; 
 
     r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
 
-    strcpy(r.prato[0].nome, "Whopper");
-    strcpy(r.prato[0].bebida, "Coca cola");
-    r.prato[0].preco = 17.90;
+    strcpy(r.prato[0].nome, "Acai 300ml");
+    strcpy(r.prato[0].bebida, "Banana e Morango");
+    r.prato[0].preco = 15.00;
 
-    strcpy(r.prato[1].nome, "Chicken Royale");
-    strcpy(r.prato[1].bebida, "Sprite");
-    r.prato[1].preco = 15.50;
+    strcpy(r.prato[1].nome, "Acai 500ml");
+    strcpy(r.prato[1].bebida, "Leite em Po");
+    r.prato[1].preco = 20.00;
 
     
-    strcpy(r.prato[2].nome, "Cheddar Duplo");
-    strcpy(r.prato[2].bebida, "Fanta Uva");
-    r.prato[2].preco = 19.90;
+    strcpy(r.prato[2].nome, "Acai 700ml");
+    strcpy(r.prato[2].bebida, "Granola e Leite em Po");
+    r.prato[2].preco = 24.00;
 
-    strcpy(r.prato[3].nome, "Big King");
-    strcpy(r.prato[3].bebida, "Pepsi");
-    r.prato[3].preco = 18.80;
+    strcpy(r.prato[3].nome, "Acai 1L");
+    strcpy(r.prato[3].bebida, "Granola, Leite em Po e Morango");
+    r.prato[3].preco = 30.00;
 
-    strcpy(r.prato[4].nome, "Rodeio Burguer");
-    strcpy(r.prato[4].bebida, "Guarana Antartica");
-    r.prato[4].preco = 20.50;
+    strcpy(r.prato[4].nome, "Barca de Acai");
+    strcpy(r.prato[4].bebida, "Granola, Leite em Po, Morango e Banana");
+    r.prato[4].preco = 40.00;
 
     insere_restaurante(fila, r);
 
@@ -399,7 +399,7 @@ void mostra_restaurantes(Fila *fila)
 
     for (; aux != NULL; aux = aux->prox, i++) {
         if (i == opcao_restaurante) {
-            printf("\n\n=============== PRATOS DISPONIVEIS ===============\n\n");
+            printf("\n\n================= PRATOS DISPONIVEIS =================\n\n");
             sleep(0.3); 
 
             printf("-> CATEGORIA: ");
