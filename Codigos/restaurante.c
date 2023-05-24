@@ -200,7 +200,7 @@ int insere_restaurantes_cadastrados(Fila *fila, Restaurante r)
         return -1;
 
     // primeiro restaurante
-    strcpy(r.nome, "Delicias BaRUka");
+    strcpy(r.nome, "[DELICIAS BARUKA]");
     r.tipo_culinaria = 1;
     r.qtd_pratos = 5; 
 
@@ -230,7 +230,7 @@ int insere_restaurantes_cadastrados(Fila *fila, Restaurante r)
     insere_restaurante(fila, r);
 
     // segundo restaurante
-    strcpy(r.nome, "Subway");
+    strcpy(r.nome, "[SUBWAY]");
     r.tipo_culinaria = 2;
     r.qtd_pratos = 5; 
 
@@ -261,7 +261,7 @@ int insere_restaurantes_cadastrados(Fila *fila, Restaurante r)
 
 
     // terceiro restaurante
-    strcpy(r.nome, "Pizza Hut");
+    strcpy(r.nome, "[PIZZA HUT]");
     r.tipo_culinaria = 2;
     r.qtd_pratos = 5; 
 
@@ -291,7 +291,7 @@ int insere_restaurantes_cadastrados(Fila *fila, Restaurante r)
     insere_restaurante(fila, r);
 
     // quarto restaurante
-    strcpy(r.nome, "Acai do Para");
+    strcpy(r.nome, "[ACAI CASEIRO]");
     r.tipo_culinaria = 2;
     r.qtd_pratos = 5; 
 
@@ -321,18 +321,18 @@ int insere_restaurantes_cadastrados(Fila *fila, Restaurante r)
     insere_restaurante(fila, r);
 
     // quinto restaurante
-    strcpy(r.nome, "Sushi House");
+    strcpy(r.nome, "[SUSHI HOUSE]");
     r.tipo_culinaria = 3;
     r.qtd_pratos = 5; 
 
     r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
 
     strcpy(r.prato[0].nome, "Sashimi Moriawase");
-    strcpy(r.prato[0].bebida, "Chá verde");
+    strcpy(r.prato[0].bebida, "Cha verde");
     r.prato[0].preco = 45.90;
 
     strcpy(r.prato[1].nome, "Sushi Nigiri");
-    strcpy(r.prato[1].bebida, "Saquê");
+    strcpy(r.prato[1].bebida, "Saque");
     r.prato[1].preco = 42.50;
 
    
@@ -381,7 +381,7 @@ void mostra_restaurantes(Fila *fila)
         // Imprimir o nome do restaurante letra por letra
         for (int j = 0; aux->dados_restaurante.nome[j] != '\0'; j++) {
             printf("%c", aux->dados_restaurante.nome[j]);
-            fflush(stdout); // Limpa o buffer de saída
+            fflush(stdout); 
             sleep(0.1); 
         }
 
@@ -390,20 +390,26 @@ void mostra_restaurantes(Fila *fila)
     }
 
     printf("\n");
-    printf("Escolha um restaurante (1-%d): ", fila->tam_fila);
-    fflush(stdout); // Limpa o buffer de saída
-    scanf("%d", &opcao_restaurante);
+    do {
+        printf("Escolha um restaurante (1-%d): ", fila->tam_fila);
+        fflush(stdout); 
+        scanf("%d", &opcao_restaurante);
+        if (opcao_restaurante < 1 || opcao_restaurante > fila->tam_fila)
+            printf("\nOpcao invalida! Tente novamente\n");
+    } while (opcao_restaurante < 1 || opcao_restaurante > fila->tam_fila);
+    
 
     aux = fila->inicio;
     i = 1;
 
     for (; aux != NULL; aux = aux->prox, i++) {
-        if (i == opcao_restaurante) {
+        if (i == opcao_restaurante) 
+        {
             printf("\n\n================= PRATOS DISPONIVEIS =================\n\n");
             sleep(0.3); 
 
             printf("-> CATEGORIA: ");
-            fflush(stdout); // Limpa o buffer de saída
+            fflush(stdout); 
 
             if (aux->dados_restaurante.tipo_culinaria == 1)
                 printf("[BRASILEIRA]\n");
@@ -413,11 +419,11 @@ void mostra_restaurantes(Fila *fila)
                 printf("[JAPONESA]\n");
 
             printf("-> PRATOS DISPONIVEIS:\n\n");
-            sleep(0.3); // Espera 2 segundos
+            sleep(0.3); 
 
             for (int j = 0; j < aux->dados_restaurante.qtd_pratos; j++) {
                 printf("Combo %d:\n", j + 1);
-                sleep(0.3); // Espera 2 segundos
+                sleep(0.3); 
 
                 printf("- Prato: ");
                 fflush(stdout); // Limpa o buffer de saída
@@ -426,16 +432,16 @@ void mostra_restaurantes(Fila *fila)
                 for (int k = 0; aux->dados_restaurante.prato[j].nome[k] != '\0'; k++) {
                     printf("%c", aux->dados_restaurante.prato[j].nome[k]);
                     fflush(stdout); // Limpa o buffer de saída
-                    sleep(0.1); // Espera 1 segundo
+                    sleep(0.1); 
                 }
 
                 printf("\n");
-                sleep(0.3); // Espera 2 segundos
+                sleep(0.3);
                 printf("- Acompanhamento: %s\n", aux->dados_restaurante.prato[j].bebida);
-                sleep(0.3); // Espera 2 segundos
+                sleep(0.3); 
                 printf("- Preco: R$%.2f\n", aux->dados_restaurante.prato[j].preco);
                 printf("\n");
-                sleep(0.3); // Espera 2 segundos
+                sleep(0.3); 
             }
 
             break;
@@ -444,8 +450,3 @@ void mostra_restaurantes(Fila *fila)
 
     printf("\n");
 }
-
-
-
-
-
