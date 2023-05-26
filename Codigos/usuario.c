@@ -77,7 +77,7 @@ int tam_lista(Lista *lista)
 
 
 
-int imprime(Lista *lista)
+int mostra_usuarios(Lista *lista)
 {
     if (lista == NULL) 
         return -1;
@@ -241,6 +241,26 @@ int verifica_login(Lista *lista, char *login, char *senha)
     }
 
     return 0;  // Login inválido
+}
+
+
+
+
+int verifica_administrador(Lista *lista, char *login_ins, char *senha_ins)
+{
+    if (lista == NULL) 
+        return -1;  
+    
+    if (lista_vazia(lista) == 1) 
+        return -2;  
+    
+    No *atual = lista->inicio;
+    
+    // verificaremos o primeiro usuário da lista, que é o administrador
+    if (strcmp(atual->dados_usuario.login, login_ins) == 0 && strcmp(atual->dados_usuario.senha, senha_ins) == 0) 
+        return 1;  // é administrador
+
+    return 0;  // não é administrador
 }
 
 

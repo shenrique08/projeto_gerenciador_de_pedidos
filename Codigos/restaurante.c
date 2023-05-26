@@ -16,6 +16,7 @@ typedef struct no {
 } No;  
 
 
+
 typedef struct fila {
     No *inicio;
     No *fim;
@@ -72,29 +73,6 @@ int limpar_fila(Fila *fila)
 
 
 
-int imprime_pedidos(Fila *fila)
-{
-    if (fila == NULL) {
-        return -1;
-    }
-
-    No *aux = fila->inicio;
-    while (aux != NULL) {
-        printf("\nRestaurante: [%s]", aux->dados_pedido.restaurante.nome);
-        printf("\nPrato: [%s]", aux->dados_pedido.prato.nome);
-        printf("\nQuantidade: [%d]", aux->dados_pedido.quantidade);
-        printf("\nValor total: [$%.2f]", aux->dados_pedido.valorTotal);
-        printf("\nStatus do pedido: [%d]", aux->dados_pedido.status);
-        printf("\n\n");
-        aux = aux->prox;
-    }
-
-    return 0;
-}
-
-
-
-
 
 // agora, iremos fazer uma função para inserir um restaurante na fila
 int insere_restaurante(Fila *fila, Restaurante r)
@@ -121,12 +99,27 @@ int insere_restaurante(Fila *fila, Restaurante r)
 }
 
 
-
-int cadastrar_restaurante(Fila *fila, Restaurante restaurante) {
-    
-    if (fila == NULL) {
+int remove_restaurante(Fila *fila, Restaurante *r)
+{
+    if (fila == NULL || fila_vazia(fila)) {
         return -1;
     }
+
+    No *aux = fila->inicio;
+    fila->inicio = fila->inicio->prox;
+    *r = aux->dados_restaurante;
+    free(aux);
+
+    fila->tam_fila--;
+
+    return 0;
+}
+
+
+
+int cadastrar_restaurante(Fila *fila, Restaurante *restaurante) {
+    if (fila == NULL || restaurante == NULL) 
+        return -1;
 
     int opcao;
     int i;
@@ -134,18 +127,17 @@ int cadastrar_restaurante(Fila *fila, Restaurante restaurante) {
     printf("\n=============== SISTEMA DE CADASTRO DE RESTAURANTES ===============\n");
 
     do {
-
         printf("[1] Cadastrar novo restaurante\n");
         printf("[2] Sair\n");
         printf("Opcao: ");
         scanf("%d", &opcao);
         getchar();
+        if (opcao == 2) break;
 
-        switch(opcao){
-            case 1:
-                ; // o ponto e virgula é necessário para o switch funcionar
-                No *novo_no = (No*) malloc(sizeof(No));
-                novo_no->dados_restaurante = restaurante;
+        switch (opcao) {
+            case 1:;
+                No *novo_no = (No*) calloc(1, sizeof(No));
+                novo_no->dados_restaurante = *restaurante;
 
                 printf("\nInforme o nome do restaurante: ");
                 fgets(novo_no->dados_restaurante.nome, sizeof(novo_no->dados_restaurante.nome), stdin);
@@ -153,9 +145,8 @@ int cadastrar_restaurante(Fila *fila, Restaurante restaurante) {
                 printf("Informe a categoria do restaurante:\n");
                 printf("\n[1] - Brasileira");
                 printf("\n[2] - Fast Food");
-                printf("\n[3] - Japonesa\n");
+                printf("\n[3] - Japonesa\n\n");
                 printf("Categoria: ");
-                // guardar em int tipo_culinaria na struct restaurante
                 scanf("%d", &novo_no->dados_restaurante.tipo_culinaria);
                 getchar();
 
@@ -163,15 +154,16 @@ int cadastrar_restaurante(Fila *fila, Restaurante restaurante) {
                 scanf("%d", &novo_no->dados_restaurante.qtd_pratos);
 
                 novo_no->dados_restaurante.prato = (Prato*) malloc(novo_no->dados_restaurante.qtd_pratos * sizeof(Prato));
-                
+
                 for (i = 0; i < novo_no->dados_restaurante.qtd_pratos; i++) {
                     getchar();
-                    printf("Informe o nome do prato: ");
+                    printf("Informe o nome do [%do] prato: ", i + 1);
                     fgets(novo_no->dados_restaurante.prato[i].nome, sizeof(novo_no->dados_restaurante.prato[i].nome), stdin);
-                    printf("Informe o nome da bebida que acompanha: ");
+                    printf("Informe o nome da [%da] bebida que acompanha: ", i + 1);
                     fgets(novo_no->dados_restaurante.prato[i].bebida, sizeof(novo_no->dados_restaurante.prato[i].bebida), stdin);
-                    printf("Informe o preco do prato: ");
+                    printf("Informe o preco do [%do] prato: ", i + 1);
                     scanf("%f", &novo_no->dados_restaurante.prato[i].preco);
+                    printf("\n");
                 }
 
                 insere_restaurante(fila, novo_no->dados_restaurante);
@@ -181,8 +173,7 @@ int cadastrar_restaurante(Fila *fila, Restaurante restaurante) {
                 break;
 
             default:
-                printf("Opcao invalida!");
-            
+                printf("Opcao invalida! Tente Novamente.\n\n");
         }
 
     } while (opcao != 2);
@@ -191,6 +182,9 @@ int cadastrar_restaurante(Fila *fila, Restaurante restaurante) {
 
     return 0;
 }
+
+
+
 
 
 
@@ -358,10 +352,42 @@ int insere_restaurantes_cadastrados(Fila *fila, Restaurante r)
 
 
 
+void mostrar_restaurantes(Fila *fila)
+{
+    if (fila == NULL)
+        return;
+
+    No *aux = fila->inicio;
+    int i = 1;
+
+    printf("\n\n=============== RESTAURANTES DISPONIVEIS ===============\n\n");
+    sleep(0.3);
+
+    for (; aux != NULL; aux = aux->prox, i++) {
+        // Imprimir índice e nome do restaurante
+        printf("%d -> ", i);
+        fflush(stdout); // Limpa o buffer de saída
+
+        // Imprimir o nome do restaurante letra por letra
+        for (int j = 0; aux->dados_restaurante.nome[j] != '\0'; j++) {
+            printf("%c", aux->dados_restaurante.nome[j]);
+            fflush(stdout);
+            sleep(0.1);
+        }
+
+        printf("\n");
+        sleep(0.3);
+    }
+}
 
 
 
-void mostra_restaurantes(Fila *fila)
+
+
+
+
+
+void menu_restaurante(Fila *fila)
 {
     if (fila == NULL)
         return;
@@ -386,7 +412,7 @@ void mostra_restaurantes(Fila *fila)
         }
 
         printf("\n");
-        sleep(0.2);
+        sleep(0.3);
     }
 
     printf("\n");
@@ -407,7 +433,7 @@ void mostra_restaurantes(Fila *fila)
         if (i == opcao_numero) // Alteração: Comparação com int
         {
             printf("\n\n================= PRATOS DISPONIVEIS =================\n\n");
-            sleep(0.3);
+            sleep(0.5);
 
             printf("-> CATEGORIA: ");
             fflush(stdout);
@@ -424,7 +450,7 @@ void mostra_restaurantes(Fila *fila)
 
             for (int j = 0; j < aux->dados_restaurante.qtd_pratos; j++) {
                 printf("Combo %d:\n", j + 1);
-                sleep(0.3);
+                sleep(0.5);
 
                 printf("- Prato: ");
                 fflush(stdout); // Limpa o buffer de saída
@@ -437,12 +463,12 @@ void mostra_restaurantes(Fila *fila)
                 }
 
                 printf("\n");
-                sleep(0.3);
+                sleep(0.5);
                 printf("- Acompanhamento: %s\n", aux->dados_restaurante.prato[j].bebida);
-                sleep(0.3);
+                sleep(0.5);
                 printf("- Preco: R$%.2f\n", aux->dados_restaurante.prato[j].preco);
                 printf("\n");
-                sleep(0.3);
+                sleep(1);
             }
 
             break;
@@ -451,3 +477,7 @@ void mostra_restaurantes(Fila *fila)
 
     printf("\n");
 }
+
+
+
+
