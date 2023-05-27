@@ -198,21 +198,21 @@ int cadastrar_usuario(Lista *lista, Usuario usuario)
 
     novo_no->dados_usuario = usuario;
 
-    printLetterByLetter("\n=============== SISTEMA DE CADASTRO ===============\n", 0.1);
-    printLetterByLetter("\nInforme seu [NOME]: ", 0.1);
+    printLetterByLetter("\n=============== SISTEMA DE CADASTRO DE USUARIO ===============\n", 0.05);
+    printLetterByLetter("\nInforme seu [NOME]: ", 0.05);
     fgets(novo_no->dados_usuario.nome, sizeof(novo_no->dados_usuario.nome), stdin);
 
-    printLetterByLetter("Informe seu [CPF]: ", 0.1);
+    printLetterByLetter("Informe seu [CPF]: ", 0.05);
     fgets(novo_no->dados_usuario.cpf, sizeof(novo_no->dados_usuario.cpf), stdin);
 
-    printLetterByLetter("Informe seu [NUMERO DE TELEFONE]: (+55) ", 0.1);
+    printLetterByLetter("Informe seu [NUMERO DE TELEFONE]: (+55) ", 0.05);
     fgets(novo_no->dados_usuario.num_telefone, sizeof(novo_no->dados_usuario.num_telefone), stdin);
 
-    printLetterByLetter("\nAgora, crie seu [LOGIN] e sua [SENHA]: \n", 0.09);
-    printLetterByLetter("[LOGIN]: ", 0.1);
+    printLetterByLetter("\nAgora, crie seu [LOGIN] e sua [SENHA]:\nOBS: Escolha seu login e sua senha de forma segura!", 0.05);
+    printLetterByLetter("[LOGIN]: ", 0.05);
     fgets(novo_no->dados_usuario.login, sizeof(novo_no->dados_usuario.login), stdin);
 
-    printLetterByLetter("[SENHA]: ", 0.1);
+    printLetterByLetter("[SENHA]: ", 0.05);
     fgets(novo_no->dados_usuario.senha, sizeof(novo_no->dados_usuario.senha), stdin);
 
     inserir_no_fim(lista, novo_no->dados_usuario);
