@@ -1,4 +1,5 @@
 #include "usuario.h"
+#include "restaurante.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -197,21 +198,21 @@ int cadastrar_usuario(Lista *lista, Usuario usuario)
 
     novo_no->dados_usuario = usuario;
 
-    printf("\n=============== SISTEMA DE CADASTRO ===============\n");
-    printf("\nInforme seu [NOME]: ");
+    printLetterByLetter("\n=============== SISTEMA DE CADASTRO ===============\n", 0.1);
+    printLetterByLetter("\nInforme seu [NOME]: ", 0.1);
     fgets(novo_no->dados_usuario.nome, sizeof(novo_no->dados_usuario.nome), stdin);
 
-    printf("Informe seu [CPF]: ");
+    printLetterByLetter("Informe seu [CPF]: ", 0.1);
     fgets(novo_no->dados_usuario.cpf, sizeof(novo_no->dados_usuario.cpf), stdin);
 
-    printf("Informe seu [NUMERO DE TELEFONE]: (+55) ");
+    printLetterByLetter("Informe seu [NUMERO DE TELEFONE]: (+55) ", 0.1);
     fgets(novo_no->dados_usuario.num_telefone, sizeof(novo_no->dados_usuario.num_telefone), stdin);
 
-    printf("\nAgora, crie seu [LOGIN] e sua [SENHA]: \n");
-    printf("[LOGIN]: ");
+    printLetterByLetter("\nAgora, crie seu [LOGIN] e sua [SENHA]: \n", 0.09);
+    printLetterByLetter("[LOGIN]: ", 0.1);
     fgets(novo_no->dados_usuario.login, sizeof(novo_no->dados_usuario.login), stdin);
 
-    printf("[SENHA]: ");
+    printLetterByLetter("[SENHA]: ", 0.1);
     fgets(novo_no->dados_usuario.senha, sizeof(novo_no->dados_usuario.senha), stdin);
 
     inserir_no_fim(lista, novo_no->dados_usuario);

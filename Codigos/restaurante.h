@@ -1,3 +1,5 @@
+#ifndef RESTAURANTE_H
+#define RESTAURANTE_H
 // Estrutura para armazenar os dados do prato
 typedef struct {
     char nome[100];
@@ -30,20 +32,31 @@ typedef struct {
 
 
 
-typedef struct fila Fila;
+typedef struct lista Lista_restaurante;
 
-Fila *criar_restaurante();
-int fila_vazia(Fila *fila);
-int limpar_fila(Fila *fila);
 
-int insere_restaurante(Fila *fila, Restaurante r);
-int insere_restaurantes_cadastrados(Fila *fila, Restaurante r);
-int remove_restaurante(Fila *fila, Restaurante *r);
 
-void menu_restaurante(Fila *fila);
-void mostrar_restaurantes(Fila *fila);
+Lista_restaurante *criar_restaurante();
+int limpar_lista(Lista_restaurante *lista);
 
-int cadastrar_restaurante(Fila *fila, Restaurante *restaurante);
 
-int inserir_pedido(Fila *fila, Pedido pedido);
-int remover_pedido(Fila *fila, Pedido *pedido_removido);
+int insere_restaurante_pos(Lista_restaurante *lista, Restaurante r, int pos);
+int insere_restaurante_no_final(Lista_restaurante *lista, Restaurante r);
+int insere_restaurantes_cadastrados(Lista_restaurante *lista, Restaurante r);
+int cadastrar_restaurante(Lista_restaurante *lista, Restaurante *restaurante, int pos_cadastro);
+
+
+int remove_restaurante_inicio(Lista_restaurante *lista, Restaurante *r);
+int remove_restaurante_final(Lista_restaurante *lista, Restaurante *r);
+int remove_restaurante_pos(Lista_restaurante *lista, Restaurante *r, int pos);
+
+
+void menu_restaurante(Lista_restaurante *lista);
+void mostrar_restaurantes(Lista_restaurante *lista);
+void printLetterByLetter(const char* message, float seconds);
+
+
+int inserir_pedido(Lista_restaurante *lista, Pedido pedido);
+int remover_pedido(Lista_restaurante *lista, Pedido *pedido_removido);
+
+#endif
