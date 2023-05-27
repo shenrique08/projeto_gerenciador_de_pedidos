@@ -1,5 +1,6 @@
 #include "usuario.h"
 #include "restaurante.h"
+#include "security.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -188,14 +189,11 @@ int remover_usuario(Lista *lista, Usuario usuario)
 
 
 
-int cadastrar_usuario(Lista *lista, Usuario usuario) 
-{
+int cadastrar_usuario(Lista* lista, Usuario usuario) {
     if (lista_existe(lista) == 0)
         return -1;
 
-    // será o novo usuário
-    No *novo_no = (No*) calloc(1, sizeof(No));
-
+    No* novo_no = (No*)calloc(1, sizeof(No));
     novo_no->dados_usuario = usuario;
 
     printLetterByLetter("\n=============== SISTEMA DE CADASTRO DE USUARIO ===============\n", 0.05);
@@ -208,17 +206,64 @@ int cadastrar_usuario(Lista *lista, Usuario usuario)
     printLetterByLetter("Informe seu [NUMERO DE TELEFONE]: (+55) ", 0.05);
     fgets(novo_no->dados_usuario.num_telefone, sizeof(novo_no->dados_usuario.num_telefone), stdin);
 
-    printLetterByLetter("\nAgora, crie seu [LOGIN] e sua [SENHA]:\nOBS: Escolha seu login e sua senha de forma segura!", 0.05);
-    printLetterByLetter("[LOGIN]: ", 0.05);
+    printLetterByLetter("\nAgora, crie seu [LOGIN] e sua [SENHA]:\nOBS: Escolha seu [LOGIN] e sua [SENHA] de forma segura!\n", 0.05);
+    printLetterByLetter("\n[LOGIN]: ", 0.05);
     fgets(novo_no->dados_usuario.login, sizeof(novo_no->dados_usuario.login), stdin);
 
-    printLetterByLetter("[SENHA]: ", 0.05);
-    fgets(novo_no->dados_usuario.senha, sizeof(novo_no->dados_usuario.senha), stdin);
+    bool isPasswordSecure = false;
+    while (!isPasswordSecure) {
+        printLetterByLetter("[SENHA]: ", 0.05);
+
+        fgets(novo_no->dados_usuario.senha, sizeof(novo_no->dados_usuario.senha), stdin);
+        novo_no->dados_usuario.senha[strcspn(novo_no->dados_usuario.senha, "\n")] = '\0';
+
+        // Keep track of password errors
+        bool tem_erro = false;
+
+        if (hasConsecutiveNumbers(novo_no->dados_usuario.senha)) {
+            printLetterByLetter("A senha [NAO PODE conter sequencia de numeros consecutivos].\n", 0.035);
+            tem_erro = true;
+        }
+
+        if (!hasSpecialCharacters(novo_no->dados_usuario.senha)) {
+            printLetterByLetter("A senha [DEVE conter caracteres especiais].\n", 0.035);
+            tem_erro = true;
+        }
+
+        if (!hasUppercaseLetter(novo_no->dados_usuario.senha)) {
+            printLetterByLetter("A senha [DEVE conter pelo menos uma letra maiuscula].\n", 0.035);
+            tem_erro = true;
+        }
+
+        if (!hasLowercaseLetter(novo_no->dados_usuario.senha)) {
+            printLetterByLetter("A senha [DEVE conter pelo menos uma letra minuscula].\n", 0.035);
+            tem_erro = true;
+        }
+
+        if (!hasMinimumLength(novo_no->dados_usuario.senha, 8)) {
+            printLetterByLetter("A senha [DEVE ter no minimo 8 caracteres].\n", 0.035);
+            tem_erro = true;
+        }
+
+        if (!hasNumber(novo_no->dados_usuario.senha)) {
+            printLetterByLetter("A senha [DEVE conter pelo menos um numero].\n", 0.035);
+            tem_erro = true;
+        }
+
+        if (tem_erro) {
+            printLetterByLetter("TENTE NOVAMENTE.\n\n", 0.035);
+            continue;
+        }
+
+        isPasswordSecure = true;
+        printLetterByLetter("\nLOGIN E SENHA CADASTRADOS COM SUCESSO!\n", 0.035);
+    }
 
     inserir_no_fim(lista, novo_no->dados_usuario);
 
     return 0;
 }
+
 
 
 
