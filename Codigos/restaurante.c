@@ -9,7 +9,6 @@
 
 
 typedef struct no {
-    Pedido dados_pedido;
     Restaurante dados_restaurante;
     struct no *prox;
 
@@ -64,6 +63,16 @@ int limpar_lista(Lista_restaurante *lista)
 
 
 
+int qtd_restaurantes(Lista_restaurante *lista)
+{
+    if (lista == NULL) {
+        return -1;
+    }
+
+    return lista->tam_lista;
+}
+
+
 
 
 
@@ -87,6 +96,7 @@ int insere_restaurante_no_final(Lista_restaurante *lista, Restaurante r)
     }
 
     lista->tam_lista++;
+    novo_no->dados_restaurante.qtd_pratos = r.qtd_pratos;
 
     return 0;
 }
@@ -103,9 +113,11 @@ int remove_restaurante_inicio(Lista_restaurante *lista, Restaurante *r)
     No *aux = lista->inicio;
     lista->inicio = lista->inicio->prox;
     *r = aux->dados_restaurante;
+    aux->dados_restaurante.qtd_pratos = r->qtd_pratos;
     free(aux);
 
     lista->tam_lista--;
+    
 
     return 0;
 }
@@ -129,6 +141,7 @@ int insere_restaurante_no_inicio(Lista_restaurante *lista, Restaurante r)
     }
 
     lista->tam_lista++;
+    novo_no->dados_restaurante.qtd_pratos = r.qtd_pratos;
 
     return 0;
 }
@@ -158,6 +171,7 @@ int insere_restaurante_pos(Lista_restaurante *lista, Restaurante r, int pos)
     novo_no->prox = aux->prox;
     aux->prox = novo_no;
 
+    novo_no->dados_restaurante.qtd_pratos = r.qtd_pratos;
     lista->tam_lista++;
 
     return 0;
@@ -188,6 +202,7 @@ int remove_restaurante_final(Lista_restaurante *lista, Restaurante *r)
         lista->fim = anterior;
     }
 
+    aux->dados_restaurante.qtd_pratos = r->qtd_pratos;
     *r = aux->dados_restaurante;
     free(aux);
 
@@ -221,6 +236,7 @@ int remove_restaurante_pos(Lista_restaurante *lista, Restaurante *r, int pos)
         i++;
     }
 
+    aux->dados_restaurante.qtd_pratos = r->qtd_pratos;
     anterior->prox = aux->prox;
     *r = aux->dados_restaurante;
     free(aux);
@@ -281,6 +297,10 @@ int cadastrar_restaurante(Lista_restaurante *lista, Restaurante *restaurante, in
                     printf("\nInforme o nome do [%do] prato: ", i + 1);
                     fgets(novo_no->dados_restaurante.prato[i].nome, sizeof(novo_no->dados_restaurante.prato[i].nome), stdin);
                     novo_no->dados_restaurante.prato[i].nome[strcspn(novo_no->dados_restaurante.prato[i].nome, "\n")] = '\0';
+                    // iremos colocar o nome do restaurante em uppercase para facilitar a busca
+                    for (int j = 0; novo_no->dados_restaurante.prato[i].nome[j] != '\0'; j++) {
+                        novo_no->dados_restaurante.prato[i].nome[j] = toupper(novo_no->dados_restaurante.prato[i].nome[j]);
+                    }
 
                     printf("Informe o nome da [%da] bebida que acompanha: ", i + 1);
                     fgets(novo_no->dados_restaurante.prato[i].bebida, sizeof(novo_no->dados_restaurante.prato[i].bebida), stdin);
@@ -305,6 +325,73 @@ int cadastrar_restaurante(Lista_restaurante *lista, Restaurante *restaurante, in
 
     return 0;
 }
+
+
+
+
+
+int buscar_restaurante(Lista_restaurante *lista, Restaurante *restaurante, char *nome_restaurante)
+{
+    if (lista == NULL || restaurante == NULL || lista_vazia(lista)) 
+        return -1;
+
+    No *aux = lista->inicio;
+    // precisamos verificar o nome sem contar as letras maiusculas e minusculas
+    for (int i = 0; nome_restaurante[i] != '\0'; i++) {
+        nome_restaurante[i] = toupper(nome_restaurante[i]);
+    }
+    
+    while (aux != NULL) {
+        if (strcmp(aux->dados_restaurante.nome, nome_restaurante) == 0) 
+        {
+            restaurante->qtd_pratos = aux->dados_restaurante.qtd_pratos;
+            restaurante->prato = (Prato*) calloc(restaurante->qtd_pratos, sizeof(Prato));
+            *restaurante = aux->dados_restaurante;
+            return 1;
+        }
+        aux = aux->prox;
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+int buscar_prato_principal(Lista_restaurante *lista, char *nome_prato, Prato *prato_escolhido)
+{
+    if (lista == NULL || lista->tam_lista == 0)
+        return -1;
+
+    No *aux = lista->inicio;
+
+    // Convertendo o nome do prato para maiúsculas
+    for (int i = 0; nome_prato[i] != '\0'; i++) {
+        nome_prato[i] = toupper((unsigned char)nome_prato[i]);
+    }
+
+    while (aux != NULL) {
+        for (int i = 0; i < aux->dados_restaurante.qtd_pratos; i++) {
+            // Convertendo o nome do prato atual para maiúsculas
+            char prato_atual_upper[50];
+            strcpy(prato_atual_upper, aux->dados_restaurante.prato[i].nome);
+            for (int j = 0; prato_atual_upper[j] != '\0'; j++) {
+                prato_atual_upper[j] = toupper((unsigned char)prato_atual_upper[j]);
+            }
+
+            if (strcmp(prato_atual_upper, nome_prato) == 0) {
+                *prato_escolhido = aux->dados_restaurante.prato[i];
+                return 1;
+            }
+        }
+        aux = aux->prox;
+    }
+
+    return 0;
+}
+
 
 
 
@@ -477,32 +564,99 @@ int insere_restaurantes_cadastrados(Lista_restaurante *lista, Restaurante r)
 
 
 
-void mostrar_restaurantes(Lista_restaurante *lista) 
+void menu_restaurantes(Lista_restaurante *lista) 
 {
     if (lista == NULL)
         return;
 
-    No *aux = lista->inicio;
-    int i = 1;
+    char opcao_restaurante;
+    char opcao;
+    int i;
 
-    const char headerMessage[] = "\n\n=============== RESTAURANTES DISPONIVEIS ===============\n\n";
-    printLetterByLetter(headerMessage, 0.05);
+    while (1) {
+        No *aux = lista->inicio;
+        i = 1;
 
-    for (; aux != NULL; aux = aux->prox, i++) {
-        printf("%d -> [", i);
-        fflush(stdout);
+        // primeiro, iremos mostrar todos os restaurantes cadastrados
+        printLetterByLetter("\n\n================= RESTAURANTES =================\n\n", 0.04);
+        while (aux != NULL) {
+            // Converter o nome para letras maiúsculas
+            int j;
+            for (j = 0; aux->dados_restaurante.nome[j] != '\0'; j++) 
+                aux->dados_restaurante.nome[j] = toupper(aux->dados_restaurante.nome[j]);
+            
+            printf("%d. ", i);
+            printLetterByLetter(aux->dados_restaurante.nome, 0.1); // Atraso de 0.1 segundos por letra
+            putchar('\n');
 
-        char *restauranteNome = aux->dados_restaurante.nome;
-
-        // Converter os caracteres para maiúsculas
-        for (int j = 0; restauranteNome[j] != '\0'; j++) {
-            restauranteNome[j] = toupper(restauranteNome[j]);
+            aux = aux->prox;
+            i++;
         }
 
-        printLetterByLetter(restauranteNome, 0.05);
+        // agora, iremos mostrar as opções de cada restaurante
+        do {
+            printf("\nEscolha um restaurante para mostrar os pratos disponiveis (1-%d): ", lista->tam_lista);
+            fflush(stdout);
+            scanf(" %c", &opcao_restaurante);
+            getchar();
+        } while (opcao_restaurante < '1' || opcao_restaurante > '1' + lista->tam_lista - 1);
 
-        printf("]\n");
-        sleep(0.3);
+        aux = lista->inicio;
+        i = 1;
+        while (aux != NULL && i < opcao_restaurante - '0') {
+            aux = aux->prox;
+            i++;
+        }
+
+        if (aux != NULL) {
+            const char headerMessage[] = "\n\n================= PRATOS DISPONIVEIS =================\n\n";
+            printLetterByLetter(headerMessage, 0.04);
+
+            printLetterByLetter("-> CATEGORIA: ", 0.07);
+            if (aux->dados_restaurante.tipo_culinaria == 1)
+                printLetterByLetter("*** BRASILEIRA ***\n\n", 0.07);
+            else if (aux->dados_restaurante.tipo_culinaria == 2)
+                printLetterByLetter("*** FAST FOOD ***\n\n", 0.07);
+            else if (aux->dados_restaurante.tipo_culinaria == 3)
+                printLetterByLetter("*** JAPONESA ***\n\n", 0.07);
+
+
+            for (int j = 0; j < aux->dados_restaurante.qtd_pratos; j++) 
+            {
+                printf("[COMBO] %d:\n", j + 1);
+                printLetterByLetter("- Prato Principal: ", 0.07);
+                fflush(stdout);
+
+                const char *pratoNome = aux->dados_restaurante.prato[j].nome;
+                printLetterByLetter(pratoNome, 0.07);
+                printf("\n");
+
+                printLetterByLetter("- Acompanhamento: ", 0.07);
+                fflush(stdout);
+
+                const char *acompanhamento = aux->dados_restaurante.prato[j].bebida;
+                printLetterByLetter(acompanhamento, 0.07);
+                printf("\n");
+
+                printLetterByLetter("- Preco: ", 0.07);
+                fflush(stdout);
+                printf("R$%.2f\n", aux->dados_restaurante.prato[j].preco);
+                printf("\n");
+            }
+        }
+        
+        printLetterByLetter("Deseja ver outro restaurante?\n", 0.05);
+        do {
+            printLetterByLetter("[1] - Sim\n", 0.05);
+            printLetterByLetter("[0] - Nao\n", 0.05);
+            scanf(" %c", &opcao);
+            getchar();
+            if (opcao != '1' && opcao != '0')
+                printLetterByLetter("Opcao invalida! Tente novamente\n", 0.05);
+        } while (opcao != '1' && opcao != '0');
+
+        if (opcao == '0')
+            break;
     }
 }
 
@@ -522,30 +676,28 @@ void printLetterByLetter(const char* message, float seconds)
 
 
 
-
-void menu_restaurante(Lista_restaurante *lista) 
+/*
+void menu_restaurante(Lista_restaurante *lista, char opcao_restaurante, char opcao_combo) 
 {
     if (lista == NULL)
         return;
 
     mostrar_restaurantes(lista);
 
-    int opcao_numero;
-
     printf("\n");
     do {
         printf("Escolha um restaurante (1-%d): ", lista->tam_lista);
         fflush(stdout);
-        scanf(" %d", &opcao_numero);
-        if (opcao_numero < 1 || opcao_numero > lista->tam_lista)
-            printLetterByLetter("\nCALMA LA AMIGAO. DIGITE UMA OPCAO VALIDA!!!\n\n", 0.05);
-    } while (opcao_numero < 1 || opcao_numero > lista->tam_lista);
+        scanf(" %c", &opcao_restaurante);
+        getchar();
+    } while (opcao_restaurante < '1' || opcao_restaurante > '1' + lista->tam_lista - 1);
 
     No *aux = lista->inicio;
     int i = 1;
 
-    for (; aux != NULL; aux = aux->prox, i++) {
-        if (i == opcao_numero)
+    for (; aux != NULL; aux = aux->prox, i++) 
+    {
+        if (i == opcao_restaurante - '1' + 1) 
         {
             const char headerMessage[] = "\n\n================= PRATOS DISPONIVEIS =================\n\n";
             printLetterByLetter(headerMessage, 0.07);
@@ -561,8 +713,9 @@ void menu_restaurante(Lista_restaurante *lista)
                 printLetterByLetter("[JAPONESA]\n", 0.07);
 
             printLetterByLetter("-> PRATOS DISPONIVEIS:\n\n", 0.07);
-            
-            for (int j = 0; j < aux->dados_restaurante.qtd_pratos; j++) {
+
+            for (int j = 0; j < aux->dados_restaurante.qtd_pratos; j++) 
+            {
                 printf("Combo %d:\n", j + 1);
                 printLetterByLetter("- Prato: ", 0.07);
                 fflush(stdout);
@@ -583,6 +736,20 @@ void menu_restaurante(Lista_restaurante *lista)
                 printf("R$%.2f\n", aux->dados_restaurante.prato[j].preco);
                 printf("\n");
             }
-       }
+
+            do {
+                printLetterByLetter("Escolha um combo (1-", 0.07);
+                printf("%d): ", aux->dados_restaurante.qtd_pratos);
+                printLetterByLetter("\nSair (0)\n", 0.07);
+                fflush(stdout);
+                scanf(" %c", &opcao_combo);
+                getchar();
+
+                if (opcao_combo == '0') break;
+                if (opcao_combo < '1' || opcao_combo > '1' + aux->dados_restaurante.qtd_pratos - 1)
+                    printLetterByLetter("Opcao invalida! Tente novamente\n", 0.07);
+            } while (opcao_combo < '0' || opcao_combo > '0' + aux->dados_restaurante.qtd_pratos - 1);
+        }
     }
 }
+*/

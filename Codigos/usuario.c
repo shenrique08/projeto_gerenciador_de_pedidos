@@ -28,7 +28,7 @@ typedef struct lista {
 
 /*===============================================================================================================================*/
 
-Lista *criar_lista()
+Lista *criar_usuario()
 {
     Lista *usuario = (Lista *) calloc(1, sizeof(Lista));
     usuario->inicio = NULL;
