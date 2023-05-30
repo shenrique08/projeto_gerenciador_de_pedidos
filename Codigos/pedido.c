@@ -64,77 +64,63 @@ int qtd_pedidos(Fila *fila)
 
 
 
-int inserir_pedido(Fila *fila, Pedido pedido)
+
+int inserir_pedido(Fila *fila, char *nome_restaurante, char *nome_prato, Pedido pedido, int quantidade, int status, float valor_pedido) 
 {
     if (fila == NULL)
-        return -1;
+        return -1; // Fila não existe
 
-    No *novo = (No*) calloc(1, sizeof(No));
+    No *novo = (No *) calloc(1, sizeof(No));
+    if (novo == NULL) 
+        return -1; // Falha na alocação de memória
+    
+    // Copia os dados do restaurante para o pedido
+    strcpy(pedido.restaurante.nome, nome_restaurante);
+
+    // Definir os valores do pedido
+    pedido.quantidade = quantidade;
+    pedido.status = status;
+    pedido.valorTotal = valor_pedido;
+
     novo->pedido = pedido;
     novo->prox = NULL;
 
-    if (fila->inicio == NULL)
+    // Insere o novo pedido na fila
+    if (fila->inicio == NULL) {
+        // A fila está vazia
         fila->inicio = novo;
-    else
+        fila->fim = novo;
+    } else {
+        // A fila não está vazia
         fila->fim->prox = novo;
-    fila->fim = novo;
+        fila->fim = novo;
+    }
+
     fila->qtd++;
 
-    return 0;
-}
-
-
-
-int realizar_pedido(Fila *fila, char *nome_restaurante, char *nome_prato, Pedido pedido)
-{
-    if (fila == NULL)
-        return -1;
-
-    // Find the desired restaurant and dish in the queue
-    No *atual = fila->inicio;
-    while (atual != NULL)
-    {
-        if (strcmp(atual->pedido.restaurante.nome, nome_restaurante) == 0 &&
-            strcmp(atual->pedido.restaurante.prato->nome, nome_prato) == 0)
-        {
-            // Update pedido details
-            atual->pedido.quantidade = pedido.quantidade;
-            atual->pedido.valorTotal = pedido.valorTotal;
-            atual->pedido.status = pedido.status;
-            return 0;  // Pedido updated successfully
-        }
-        atual = atual->prox;
-    }
-
-    return -2;  // Restaurant or dish not found in the queue
+    return 1; // Sucesso na inserção do pedido
 }
 
 
 
 
 
-
-
-
-int mostrar_pedidos(Fila *fila)
+void mostrar_pedido(Fila *fila) 
 {
-    if (fila == NULL || fila_vazia(fila))
-        return -1;
-
     No *aux = fila->inicio;
-    int cont = 1;
-    while (aux != NULL) {
-        printf("\n[%do] pedido\n", cont);
-        printf("Restaurante: [%s]\n", aux->pedido.restaurante.nome);
-        printf("Quantidade: [%d]\n", aux->pedido.quantidade);
-        printf("Valor total: [R$%.2f]\n", aux->pedido.valorTotal);
-        printf("Status: [%s]\n\n", (aux->pedido.status == 0) ? "Em andamento" : "Entregue");
-        aux = aux->prox;
-        cont++;
-    }
 
-    return 0;
+    printf("-------------------------------------------------------------------\n");
+    printLetterByLetter("*** PROXIMO PEDIDO A SER ENTREGUE ***\n", 0.03);
+    
+    printf("\nRestaurante: [%s]\n", aux->pedido.restaurante.nome);
+    //printf("Prato Principal: [%s]\n", atual->pedido.restaurante.prato.nome);
+    printf("Quantidade: [%d]\n", aux->pedido.quantidade);
+    printf("Valor Total: [R$%.2f]\n", aux->pedido.valorTotal);
+    printf("Status: [%s]\n", aux->pedido.status ? "Entregue" : "Em andamento");
+    printf("-------------------------------------------------------------------\n");
 }
+
+
 
 
 

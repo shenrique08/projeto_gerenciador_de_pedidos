@@ -208,8 +208,17 @@ int main()
     // o usuário não é administrador ou ele quer interagir como um usuário padrão
     if (((logou == 1) && (verifica_administrador(lista_usuarios, login, senha) == 0 )) || (interagir_como_usuario == '1')) 
     {
-        const char mensagem2[] = "\nSeja bem vindo [cliente]!!!\n";
+        
+        const char mensagem2[] = "\nSeja bem vindo";
         printLetterByLetter(mensagem2, 0.05);
+        char nome[50];
+        strcpy(nome, usuario[0].nome);
+        // tirar o \n do nome
+        nome[strlen(nome) - 1] = '\0';
+        printf("[%s]", nome);
+        printLetterByLetter("Sou o seu assistente virtual e te ajudadrei no que voce precisar!\n", 0.05);
+
+
         // aqui, o usuário pode interagir com o app como um usuário padrão, tal como um cliente, tendo acesso aos
         // restaurantes e aos pratos disponíveis, podendo fazer pedidos e avaliar os restaurantes etc
         menu_restaurantes(lista_restaurante);
@@ -231,7 +240,8 @@ int main()
                 char nome_prato_princ[50];
                 Restaurante restaurante_escolhido;
                 Prato prato_escolhido;
-                int qtd_pedidos = 0;
+                int qtd_pedidos = 1;
+                float valor_total = 0;
                 printLetterByLetter("\nInforme o [NOME] do restaurante que deseja fazer o pedido: ", 0.05);
                 do {
                     fgets(nome_restaurante, 50, stdin);
@@ -250,12 +260,12 @@ int main()
                         printLetterByLetter("\nERRO!!! Informe um [NOME] de combo valido!\n", 0.05);
                     }
                 } while (buscar_prato_principal(lista_restaurante, nome_prato_princ, &prato_escolhido) == 0);
-
+                valor_total = prato_escolhido.preco;
                 // iremos realizar o pedido
                 // função realizar pedido não está funcionando
-                if (realizar_pedido(fila_pedidos, nome_restaurante, nome_prato_princ, pedido) == 0) {
+                if (inserir_pedido(fila_pedidos, nome_restaurante, nome_prato_princ, pedido, qtd_pedidos, 0, valor_total) == 1) {
                     printLetterByLetter("\nPedido realizado com sucesso!!!\n", 0.05);
-                    mostrar_pedidos(fila_pedidos);
+                    mostrar_pedido(fila_pedidos);
                 } else {
                     printLetterByLetter("\nERRO!!! Nao foi possivel realizar o pedido!!!\n", 0.05);
                 }
@@ -273,6 +283,7 @@ int main()
                 if (fazer_outro_pedido == '0') {
                     break;
                 }
+                qtd_pedidos++;
             }
         }
     }    
