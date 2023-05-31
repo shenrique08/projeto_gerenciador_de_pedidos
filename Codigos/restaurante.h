@@ -1,35 +1,8 @@
 #ifndef RESTAURANTE_H
 #define RESTAURANTE_H
-
-
 // Estrutura para armazenar os dados do prato
-typedef struct {
-    char nome[50];
-    char bebida[50];
-    float preco;
-    int qtd_pratos;
-    
-} Prato;
-
-
-
-// Estrutura para armazenar os dados do restaurante
-typedef struct restaurante{
-    char nome[50];
-    char categoria;
-    int tipo_culinaria;
-    int qtd_pratos;
-    Prato *prato;
-    
-} Restaurante;
-
-
-
-
-
-
-
-typedef struct lista Lista_restaurante;
+#include "pedido.h"
+#include "structs.h"
 
 
 

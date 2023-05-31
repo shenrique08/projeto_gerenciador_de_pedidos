@@ -1,5 +1,5 @@
 bin.exe: $(wildcard *.c)
-	gcc $^ -o $@
+	gcc $^ -o $@ -Wall -Wextra
 
 run: bin.exe 
 	@$<

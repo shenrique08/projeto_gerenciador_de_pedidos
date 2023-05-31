@@ -9,6 +9,7 @@
 
 
 typedef struct no {
+    
     Restaurante dados_restaurante;
     struct no *prox;
 
@@ -33,6 +34,7 @@ Lista_restaurante *criar_restaurante()
     lista->inicio = NULL;
     lista->fim = NULL;
     lista->tam_lista = 0;
+
 
     return lista;
 }
@@ -82,6 +84,7 @@ int insere_restaurante_no_final(Lista_restaurante *lista, Restaurante r)
     if (lista == NULL) {
         return -1;
     }
+    r.fila_pedidos = criar_fila();
 
     No *novo_no = (No*) malloc(sizeof(No));
     novo_no->dados_restaurante = r;
@@ -130,6 +133,7 @@ int insere_restaurante_no_inicio(Lista_restaurante *lista, Restaurante r)
 {
     if (lista == NULL) 
         return -1;
+    r.fila_pedidos = criar_fila();
 
     No *novo_no = (No*) calloc(1, sizeof(No));
     novo_no->dados_restaurante = r;
@@ -152,6 +156,7 @@ int insere_restaurante_pos(Lista_restaurante *lista, Restaurante r, int pos)
 {
     if (lista == NULL || pos <= 0 || pos > lista->tam_lista + 1) 
         return -1;
+    r.fila_pedidos = criar_fila();
     
     if (pos == 1) 
         return insere_restaurante_no_inicio(lista, r);

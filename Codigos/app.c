@@ -14,8 +14,8 @@ int main()
     Lista *lista_restaurante = criar_restaurante();
     Restaurante restaurante;
 
-    Fila *fila_pedidos = criar_fila();
     Pedido pedido;
+
 
     insere_adm(lista_usuarios, usuario[0]);
     insere_restaurantes_cadastrados(lista_restaurante, restaurante);
@@ -260,12 +260,17 @@ int main()
                         printLetterByLetter("\nERRO!!! Informe um [NOME] de combo valido!\n", 0.05);
                     }
                 } while (buscar_prato_principal(lista_restaurante, nome_prato_princ, &prato_escolhido) == 0);
-                valor_total = prato_escolhido.preco;
+                pedido.valorTotal = prato_escolhido.preco * qtd_pedidos;
+                pedido.prato = prato_escolhido;
+                pedido.quantidade = 1;
+                pedido.status = '0';
+                
+                
                 // iremos realizar o pedido
                 // função realizar pedido não está funcionando
-                if (inserir_pedido(fila_pedidos, nome_restaurante, nome_prato_princ, pedido, qtd_pedidos, 0, valor_total) == 1) {
+                if (inserir_pedido(restaurante_escolhido.fila_pedidos, pedido) == 1) {
                     printLetterByLetter("\nPedido realizado com sucesso!!!\n", 0.05);
-                    mostrar_pedido(fila_pedidos);
+                    mostrar_pedido(restaurante_escolhido.fila_pedidos);
                 } else {
                     printLetterByLetter("\nERRO!!! Nao foi possivel realizar o pedido!!!\n", 0.05);
                 }
