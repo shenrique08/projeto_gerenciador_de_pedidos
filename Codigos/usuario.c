@@ -215,7 +215,6 @@ int cadastrar_usuario(Lista* lista, Usuario usuario) {
         printLetterByLetter("[SENHA]: ", 0.05);
 
         fgets(novo_no->dados_usuario.senha, sizeof(novo_no->dados_usuario.senha), stdin);
-        novo_no->dados_usuario.senha[strcspn(novo_no->dados_usuario.senha, "\n")] = '\0';
 
         // Keep track of password errors
         bool tem_erro = false;

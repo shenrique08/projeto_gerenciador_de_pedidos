@@ -6,23 +6,31 @@
 
 
 
-// Function to check if a password contains a sequence of consecutive numbers
+// verifica números consecutivos de qualquer tamanho
 bool hasConsecutiveNumbers(const char* password) {
     int length = strlen(password);
-    for (int i = 0; i < length - 2; i++) {
-        if (isdigit(password[i]) && isdigit(password[i + 1]) && isdigit(password[i + 2])) {
+    int consecutiveCount = 1;  // Initialize the count of consecutive digits to 1
+    for (int i = 0; i < length - 1; i++) {
+        if (isdigit(password[i]) && isdigit(password[i + 1])) {
             int firstDigit = password[i] - '0';
             int secondDigit = password[i + 1] - '0';
-            int thirdDigit = password[i + 2] - '0';
-            if (secondDigit == firstDigit + 1 && thirdDigit == secondDigit + 1) {
-                // Found a sequence of consecutive numbers
-                return true;
+            if (secondDigit == firstDigit + 1) {
+                // Found a consecutive digit
+                consecutiveCount++;
+                if (consecutiveCount >= 3) {
+                    // Found a sequence of consecutive numbers of length 3 or more
+                    return true;
+                }
+            } else {
+                // Reset the count of consecutive digits
+                consecutiveCount = 1;
             }
         }
     }
-    // No consecutive numbers found
+    // No consecutive numbers of length 3 or more found
     return false;
 }
+
 
 
 
