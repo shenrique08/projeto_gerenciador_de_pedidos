@@ -18,7 +18,7 @@ int inserir_pedido(Fila *fila_pedidos, Pedido pedido);
 
 
 void mostrar_pedido(Fila *fila, int status);
-int remover_pedido(Fila *fila, Pedido *pedido_entregue);
+int remover_pedido(Fila *fila);
 
 void pagar_com_cartao();
 int pagar_com_dinheiro(float valor_total);

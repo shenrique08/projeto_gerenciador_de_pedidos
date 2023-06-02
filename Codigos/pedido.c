@@ -122,7 +122,7 @@ void mostrar_pedido(Fila *fila, int status)
 
 
 
-int remover_pedido(Fila *fila, Pedido *pedido_entregue)
+/*int remover_pedido(Fila *fila, Pedido *pedido_entregue)
 {
     if (fila == NULL)
         return -1;
@@ -135,6 +135,23 @@ int remover_pedido(Fila *fila, Pedido *pedido_entregue)
         fila->fim = NULL;
     *pedido_entregue = aux->pedido;
 
+    free(aux);
+    fila->qtd--;
+
+    return 0;
+}*/
+
+int remover_pedido(Fila *fila){
+    if (fila == NULL)
+        return -1;
+    if (fila_vazia(fila))
+        return -2;
+    
+    No *aux = fila->inicio;
+    fila->inicio = aux->prox;
+    if (fila->inicio == NULL)
+        fila->fim = NULL;
+    
     free(aux);
     fila->qtd--;
 
@@ -256,19 +273,6 @@ void mostrar_pagamento(float valor_total){
             break;
     }
 }
-
-/*int pagamento(Fila *fila)
-{
-    if (fila == NULL)
-        return -1;
-    if (fila_vazia(fila))
-        return -2;
-
-    Pedido pedido_entregue;
-    remover_pedido(fila, &pedido_entregue);
-
-    return 0;
-}*/
 
 void sleepTeste(float seconds) 
 {

@@ -305,6 +305,8 @@ int main()
                     mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
                     printLetterByLetter("\nPedido finalizado com sucesso!!!\n", 0.01);
                     // remover o pedido da fila de pedidos do restaurante
+                    remover_pedido(restaurante_escolhido.fila_pedidos);
+                    //mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
                     // avaliacao do restaurante
 
                     break;
