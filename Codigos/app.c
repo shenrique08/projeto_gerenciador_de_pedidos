@@ -234,7 +234,7 @@ int main()
 
         // se o cliente desejar fazer o pedido
         if (fazer_pedido == '1') {
-            while (1) 
+            while (fazer_pedido == '1') 
             {
                 char nome_restaurante[50];
                 char nome_prato_princ[50];
@@ -307,8 +307,14 @@ int main()
                 remover_pedido(restaurante_escolhido.fila_pedidos);
                 //mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
                 // avaliacao do restaurante
+                fazer_pedido = '0';
 
             }
+
+        }
+
+        else {
+            printLetterByLetter("\nObrigado por usar o aplicativo!te a proxima!\n", 0.01);
         }
     }    
     
