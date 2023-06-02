@@ -16,8 +16,9 @@ int main()
 
     Pedido pedido;
 
-
+    // insere o administrador na lista de usuarios
     insere_adm(lista_usuarios, usuario[0]);
+    // insere restaurantes pré-cadastrados na lista de restaurante
     insere_restaurantes_cadastrados(lista_restaurante, restaurante);
 
     const char welcomeMessage[] = "\n*************** SEJA BEM VINDO AO NOSSO APLICATIVO ***************\n";
@@ -39,6 +40,7 @@ int main()
         if (tem_cadastro == '1') {
             break;
         }
+        // se o usuário não tem cadastro, ele pode se cadastrar
         else if (tem_cadastro == '0') {
             cadastrar_usuario(lista_usuarios, usuario[1]);
             tem_cadastro = '1';
@@ -52,6 +54,7 @@ int main()
     char tentar_novamente;
     int logou = 0;
 
+    // após o usuário se cadastrar, pede os dados de login
     if (tem_cadastro == '1') {
         do {
             printLetterByLetter("\nInforme seu [login]: ", 0.01);
@@ -60,11 +63,16 @@ int main()
             printLetterByLetter("Informe sua [senha]: ", 0.01);
             fgets(senha, sizeof(senha), stdin);
             
+            // verifica se o login e senha informados são válidos
             int v = verifica_login(lista_usuarios, login, senha);
+            
+            // se for válido, loga no app
             if (v == 1) {
                 printLetterByLetter("\nLogin realizado com sucesso!!!\n\n", 0.01);
                 logou = 1;
             }
+            // se não for válido, pergunta se o usuário quer tentar novamente
+            // se quiser, pergunta os dados de login novamente
             else if (v == 0) {
                 printLetterByLetter("\nUsuario nao encontrado!!!\n\n", 0.01);
                 do {
@@ -91,8 +99,10 @@ int main()
     //***********************************************************************************************************************
     char interagir_como_usuario = '0';
     if (logou == 1) {
+        // verifica se o usuário é admin
         if (verifica_administrador(lista_usuarios, login, senha) == 1) 
-        {
+        {   
+            //  se for, libera o menu de administrador
             const char mensagem1[] = "Verificamos que voce eh um usuario [administrador]!!!\nSeja bem vindo!!!";
             printLetterByLetter(mensagem1, 0.01);
             printf("\n");
@@ -118,6 +128,7 @@ int main()
                 }
 
                 switch (opcao) {
+                    // adicionar um restaurante
                     case '1':
                         do {
                             printLetterByLetter("\nInforme a [POSICAO] que deseja cadastrar o novo restaurante: ", 0.01);
@@ -153,6 +164,7 @@ int main()
                         } while (interagir_como_usuario != '0' && interagir_como_usuario != '1');
 
                         break;
+                    // remover um restaurante
                     case '2': {
                         ; // o ponto e virgula é para não dar erro de compilação
                         Restaurante restaurante_removido;
@@ -191,9 +203,11 @@ int main()
                         
                         break;
                     }
+                    // interagir com o app como cliente
                     case '3':
                         interagir_como_usuario = '1';
                         break;
+                    // listar todos os restaurantes cadastrados
                     case '4':
                         menu_restaurantes(lista_restaurante);
                         break;
@@ -240,9 +254,7 @@ int main()
                 char nome_prato_princ[50];
                 Restaurante restaurante_escolhido;
                 Prato prato_escolhido;
-                //int qtd_pedidos = 1;
-                
-                //float valor_total = 0;
+
                 printLetterByLetter("\nInforme o [NOME] do restaurante que deseja fazer o pedido: ", 0.01);
                 do {
                     fgets(nome_restaurante, 50, stdin);
@@ -299,7 +311,6 @@ int main()
                 mostrar_pagamento(pedido.valorTotal);
                 mostrar_estimativa_entrega();
                 // a funcao acima tem sleep para simular o tempo de entrega
-                // alterar o status para entregue
                 status = 1; // 1 -> pedido entregue
                 mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
                 printLetterByLetter("\nPedido finalizado com sucesso!!!\n", 0.01);
