@@ -293,3 +293,29 @@ void mostrar_estimativa_entrega() {
     //printf("-------------------------------------------------------------------\n");
     sleepTeste(estimativa);
 }
+
+void mostrar_avaliacao(){
+    printf("-------------------------------------------------------------------\n");
+    printLetterByLetter("*** AVALIACAO ***\n", 0.03);
+    printf("Avalie o nosso servico de 0 a 5: ");
+    int avaliacao;
+    scanf("%d", &avaliacao);
+    if (avaliacao < 0 || avaliacao > 5){
+        printLetterByLetter("Avaliacao invalida!\n", 0.01);
+    }
+    else{
+        printLetterByLetter("Agradecemos a avaliacao!\n", 0.01);
+    }
+
+    printLetterByLetter("Avalie o pedido de 0 a 5: ", 0.01);
+    scanf("%d", &avaliacao);
+
+    if (avaliacao < 0 || avaliacao > 5){
+        printLetterByLetter("Avaliacao invalida!\n", 0.01);
+    }
+    else{
+        printLetterByLetter("Agradecemos a avaliacao! Ate a proxima!\n", 0.01);
+    }
+
+    printf("-------------------------------------------------------------------\n");
+}

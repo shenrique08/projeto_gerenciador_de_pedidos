@@ -26,6 +26,8 @@ void pagar_com_pix();
 void mostrar_pagamento(float valor_total);
 void mostrar_estimativa_entrega();
 void sleep(float seconds);
+void mostrar_avaliacao();
+
 
 
 

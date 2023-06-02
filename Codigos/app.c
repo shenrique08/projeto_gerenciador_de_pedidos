@@ -307,8 +307,8 @@ int main()
                 remover_pedido(restaurante_escolhido.fila_pedidos);
                 //mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
                 // avaliacao do restaurante
+                mostrar_avaliacao();
                 fazer_pedido = '0';
-
             }
 
         }
