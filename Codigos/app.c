@@ -216,7 +216,7 @@ int main()
         // tirar o \n do nome
         nome[strlen(nome) - 1] = '\0';
         printf("[%s]", nome);
-        printLetterByLetter("Sou o seu assistente virtual e te ajudadrei no que voce precisar!\n", 0.01);
+        printLetterByLetter("Sou o seu assistente virtual e te ajudarei no que voce precisar!\n", 0.01);
 
 
         // aqui, o usuário pode interagir com o app como um usuário padrão, tal como um cliente, tendo acesso aos
@@ -240,7 +240,8 @@ int main()
                 char nome_prato_princ[50];
                 Restaurante restaurante_escolhido;
                 Prato prato_escolhido;
-                int qtd_pedidos = 1;
+                //int qtd_pedidos = 1;
+                
                 //float valor_total = 0;
                 printLetterByLetter("\nInforme o [NOME] do restaurante que deseja fazer o pedido: ", 0.01);
                 do {
@@ -260,14 +261,21 @@ int main()
                         printLetterByLetter("\nERRO!!! Informe um [NOME] de combo valido!\n", 0.01);
                     }
                 } while (buscar_prato_principal(lista_restaurante, nome_prato_princ, &prato_escolhido) == 0);
-                pedido.valorTotal = prato_escolhido.preco * qtd_pedidos;
+
+                printLetterByLetter("Informe a [QUANTIDADE] de combos que deseja pedir: ", 0.01);
+                do {
+                    scanf("%d", &pedido.quantidade);
+                    getchar();
+                    if (pedido.quantidade <= 0) {
+                        printLetterByLetter("\nERRO!!! Informe uma [QUANTIDADE] valida!\n", 0.01);
+                    }
+                } while (pedido.quantidade <= 0);
+
+                pedido.valorTotal = prato_escolhido.preco * pedido.quantidade;
                 pedido.prato = prato_escolhido;
-                pedido.quantidade = 1;
-                pedido.status = '0';
+                //pedido.quantidade = 1;
+                pedido.status = 0; // 0 -> pedido em andamento
                 
-                
-                // iremos realizar o pedido
-                // função realizar pedido não está funcionando
                 if (inserir_pedido(restaurante_escolhido.fila_pedidos, pedido) == 1) {
                     printLetterByLetter("\nPedido realizado com sucesso!!!\n", 0.01);
                     mostrar_pedido(restaurante_escolhido.fila_pedidos);
@@ -290,13 +298,10 @@ int main()
                     // fazer o pagamento
                     mostrar_pagamento(pedido.valorTotal);
 
-                    // se o pagamento deu certo, o pedido é realizado
-
                     break;
                 }
-                qtd_pedidos++;
-                
-                // após o pedido ser realizado E ENTREGUE, o pedido é removido da fila de pedidos
+                //qtd_pedidos++;
+
             }
         }
     }    
