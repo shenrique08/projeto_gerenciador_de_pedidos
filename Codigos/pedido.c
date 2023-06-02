@@ -102,17 +102,17 @@ int inserir_pedido(Fila *fila_pedidos, Pedido pedido)
 
 
 
-void mostrar_pedido(Fila *fila) 
+void mostrar_pedido(Fila *fila, int status) 
 {
     No *aux = fila->inicio;
 
     printf("-------------------------------------------------------------------\n");
-    printLetterByLetter("*** PROXIMO PEDIDO A SER ENTREGUE ***\n", 0.03);
+    //printLetterByLetter("*** PROXIMO PEDIDO A SER ENTREGUE ***\n", 0.03);
     
     printf("Prato Principal: [%s]\n", aux->pedido.prato.nome);
     printf("Quantidade: [%d]\n", aux->pedido.quantidade);
     printf("Valor Total: [R$%.2f]\n", aux->pedido.valorTotal);
-    printf("Status: [%s]\n", aux->pedido.status ? "Entregue" : "Em andamento");
+    printf("Status: [%s]\n", status == 1 ? "Entregue" : "Em andamento");
     printf("-------------------------------------------------------------------\n");
 }
 
@@ -269,3 +269,23 @@ void mostrar_pagamento(float valor_total){
 
     return 0;
 }*/
+
+void sleepTeste(float seconds) 
+{
+    fflush(stdout);  // Flush the output to ensure immediate printing
+
+    struct timespec sleepTime;
+    sleepTime.tv_sec = (time_t) seconds;
+    sleepTime.tv_nsec = (long) ((seconds - (time_t) seconds) * 1e9);
+
+    nanosleep(&sleepTime, NULL);
+}
+
+void mostrar_estimativa_entrega() {
+    printf("-------------------------------------------------------------------\n");
+    srand(time(NULL));
+    float estimativa = rand() % 13 + 3;
+    printf("Estimativa de entrega: %.1fs\n", estimativa);
+    //printf("-------------------------------------------------------------------\n");
+    sleepTeste(estimativa);
+}

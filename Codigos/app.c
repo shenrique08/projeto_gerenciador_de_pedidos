@@ -274,11 +274,12 @@ int main()
                 pedido.valorTotal = prato_escolhido.preco * pedido.quantidade;
                 pedido.prato = prato_escolhido;
                 //pedido.quantidade = 1;
-                pedido.status = 0; // 0 -> pedido em andamento
+                int status = 0; // 0 -> pedido em andamento
                 
                 if (inserir_pedido(restaurante_escolhido.fila_pedidos, pedido) == 1) {
                     printLetterByLetter("\nPedido realizado com sucesso!!!\n", 0.01);
-                    mostrar_pedido(restaurante_escolhido.fila_pedidos);
+                    printLetterByLetter("*** PROXIMO PEDIDO A SER ENTREGUE ***\n", 0.03);
+                    mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
                 } else {
                     printLetterByLetter("\nERRO!!! Nao foi possivel realizar o pedido!!!\n", 0.01);
                 }
@@ -297,6 +298,14 @@ int main()
                     
                     // fazer o pagamento
                     mostrar_pagamento(pedido.valorTotal);
+                    mostrar_estimativa_entrega();
+                    // a funcao acima tem sleep para simular o tempo de entrega
+                    // alterar o status para entregue
+                    status = 1; // 1 -> pedido entregue
+                    mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
+                    printLetterByLetter("\nPedido finalizado com sucesso!!!\n", 0.01);
+                    // remover o pedido da fila de pedidos do restaurante
+                    // avaliacao do restaurante
 
                     break;
                 }

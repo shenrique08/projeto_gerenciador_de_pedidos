@@ -36,7 +36,7 @@ typedef struct {
     Prato prato;
     int quantidade;
     float valorTotal;
-    int status; // 0 - Em andamento, 1 - Entregue
+    //int status; // 0 - Em andamento, 1 - Entregue
 } Pedido;
 
 
