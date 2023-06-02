@@ -196,23 +196,23 @@ int cadastrar_usuario(Lista* lista, Usuario usuario) {
     No* novo_no = (No*)calloc(1, sizeof(No));
     novo_no->dados_usuario = usuario;
 
-    printLetterByLetter("\n=============== SISTEMA DE CADASTRO DE USUARIO ===============\n", 0.05);
-    printLetterByLetter("\nInforme seu [NOME]: ", 0.05);
+    printLetterByLetter("\n=============== SISTEMA DE CADASTRO DE USUARIO ===============\n", 0.01);
+    printLetterByLetter("\nInforme seu [NOME]: ", 0.01);
     fgets(novo_no->dados_usuario.nome, sizeof(novo_no->dados_usuario.nome), stdin);
 
-    printLetterByLetter("Informe seu [CPF]: ", 0.05);
+    printLetterByLetter("Informe seu [CPF]: ", 0.01);
     fgets(novo_no->dados_usuario.cpf, sizeof(novo_no->dados_usuario.cpf), stdin);
 
-    printLetterByLetter("Informe seu [NUMERO DE TELEFONE]: (+55) ", 0.05);
+    printLetterByLetter("Informe seu [NUMERO DE TELEFONE]: (+55) ", 0.01);
     fgets(novo_no->dados_usuario.num_telefone, sizeof(novo_no->dados_usuario.num_telefone), stdin);
 
-    printLetterByLetter("\nAgora, crie seu [LOGIN] e sua [SENHA]:\nOBS: Escolha seu [LOGIN] e sua [SENHA] de forma segura!\n", 0.05);
-    printLetterByLetter("\n[LOGIN]: ", 0.05);
+    printLetterByLetter("\nAgora, crie seu [LOGIN] e sua [SENHA]:\nOBS: Escolha seu [LOGIN] e sua [SENHA] de forma segura!\n", 0.01);
+    printLetterByLetter("\n[LOGIN]: ", 0.01);
     fgets(novo_no->dados_usuario.login, sizeof(novo_no->dados_usuario.login), stdin);
 
     bool isPasswordSecure = false;
     while (!isPasswordSecure) {
-        printLetterByLetter("[SENHA]: ", 0.05);
+        printLetterByLetter("[SENHA]: ", 0.01);
 
         fgets(novo_no->dados_usuario.senha, sizeof(novo_no->dados_usuario.senha), stdin);
 

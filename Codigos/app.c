@@ -284,7 +284,7 @@ int main()
                     printLetterByLetter("\nERRO!!! Nao foi possivel realizar o pedido!!!\n", 0.01);
                 }
                 
-                printLetterByLetter("\nDeseja fazer outro pedido? \n[1] -> SIM \n[0] -> NAO\n", 0.01);
+                /*printLetterByLetter("\nDeseja fazer outro pedido? \n[1] -> SIM \n[0] -> NAO\n", 0.01);
                 char fazer_outro_pedido = '0';
                 do {
                     scanf(" %c", &fazer_outro_pedido);
@@ -292,26 +292,21 @@ int main()
                     if (fazer_outro_pedido != '1' && fazer_outro_pedido != '0') {
                         printf("\nERRO!!! Informe uma [OPCAO] valida!\n");
                     }
-                } while (fazer_outro_pedido != '1' && fazer_outro_pedido != '0');
+                } while (fazer_outro_pedido == '1');*/
 
-                if (fazer_outro_pedido == '0') {
                     
-                    // fazer o pagamento
-                    mostrar_pagamento(pedido.valorTotal);
-                    mostrar_estimativa_entrega();
-                    // a funcao acima tem sleep para simular o tempo de entrega
-                    // alterar o status para entregue
-                    status = 1; // 1 -> pedido entregue
-                    mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
-                    printLetterByLetter("\nPedido finalizado com sucesso!!!\n", 0.01);
-                    // remover o pedido da fila de pedidos do restaurante
-                    remover_pedido(restaurante_escolhido.fila_pedidos);
-                    //mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
-                    // avaliacao do restaurante
-
-                    break;
-                }
-                //qtd_pedidos++;
+                // fazer o pagamento
+                mostrar_pagamento(pedido.valorTotal);
+                mostrar_estimativa_entrega();
+                // a funcao acima tem sleep para simular o tempo de entrega
+                // alterar o status para entregue
+                status = 1; // 1 -> pedido entregue
+                mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
+                printLetterByLetter("\nPedido finalizado com sucesso!!!\n", 0.01);
+                // remover o pedido da fila de pedidos do restaurante
+                remover_pedido(restaurante_escolhido.fila_pedidos);
+                //mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
+                // avaliacao do restaurante
 
             }
         }
