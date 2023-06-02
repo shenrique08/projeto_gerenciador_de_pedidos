@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h> // srand(time(NULL)) para gerar um código de pix aleatório
+
 
 
 typedef struct no {
@@ -47,6 +49,8 @@ int fila_vazia(Fila *fila)
 
 int fila_cheia(Fila *fila)
 {
+    if (fila == NULL)
+        return -1;
     return 0;
 }
 
@@ -137,11 +141,123 @@ int remover_pedido(Fila *fila, Pedido *pedido_entregue)
     return 0;
 }
 
+void pagar_com_cartao(){
+    printf("-------------------------------------------------------------------\n");
+    printLetterByLetter("*** PAGAMENTO ***\n", 0.03);
+    
+    char nome_titular[30];
+    char numero_cartao[16];
+    char data_validade[6];
+    char codigo_seguranca[4];
 
+    printLetterByLetter("Digite o nome do titular do cartao: ", 0.01);
+    scanf(" %[^\n]", nome_titular);
+    printLetterByLetter("Digite o numero do cartao: ", 0.01);
+    scanf(" %[^\n]", numero_cartao);
+    printLetterByLetter("Digite a data de validade do cartao: ", 0.01);
+    scanf(" %[^\n]", data_validade);
+    printLetterByLetter("Digite o codigo de seguranca do cartao: ", 0.01);
+    scanf(" %[^\n]", codigo_seguranca);
 
+    printLetterByLetter("Processando pagamento...\n", 0.1);
 
+    printLetterByLetter("Pagamento realizado com sucesso!\n", 0.01);
+    printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n", 0.01);
+    
+}
 
-int pagamento(Fila *fila)
+int pagar_com_dinheiro(float valor_total){
+    printf("-------------------------------------------------------------------\n");
+    printLetterByLetter("*** PAGAMENTO ***\n", 0.03);
+
+    float valor_pago;
+
+    do {
+        printLetterByLetter("Digite quanto ira pagar na entrega: ", 0.01);
+        scanf("%f", &valor_pago);
+        if (valor_pago < valor_total){
+            printLetterByLetter("Valor insuficiente!\n", 0.01);
+        }
+        else if (valor_pago == valor_total){
+            printLetterByLetter("Sem troco necessario!\nAgradecemos o pedido! Aguarde a entrega...\n", 0.01);
+        }
+        else{
+            printLetterByLetter("Calculando troco...\n", 0.05);
+            printf("Troco: [R$%.2f]\n", valor_pago - valor_total);
+            printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n", 0.01);
+        }
+
+    } while (valor_pago < valor_total);
+
+    return 1; // Sucesso no pagamento
+}
+
+void pagar_com_pix(){
+    printf("-------------------------------------------------------------------\n");
+    printLetterByLetter("*** PAGAMENTO ***\n", 0.03);
+    
+    char codigo_pix[30];
+
+    printLetterByLetter("Gerando codigo pix...\n", 0.05);
+
+    srand(time(NULL));
+    const char caracteres[] = "0123456789abcdef";
+    const int tamanho_codigo_pix = 27; // ex: a56c-4928-93be-9b7bf14beeab
+
+    for (int i = 0; i < tamanho_codigo_pix; i++){
+        int indice = rand() % (sizeof(caracteres) - 1); // gera um indice aleatorio
+        codigo_pix[i] = caracteres[indice]; // pega um caractere aleatorio do vetor de caracteres
+        if (i == 4 || i == 9 || i == 14) // adiciona o traco nos indices corretos
+            codigo_pix[i] = '-';
+    }
+    codigo_pix[tamanho_codigo_pix] = '\0'; // adiciona o caractere nulo no final da string
+    
+    printLetterByLetter("Realize o pagamento pelo Pix copia e cola: ", 0.01);
+    printf("[%s]\n", codigo_pix);
+    getchar();
+    printLetterByLetter("Digite 'ENTER' quando o pagamento for realizado: ", 0.01);
+    getchar();
+    
+    printLetterByLetter("\nProcessando pagamento...\n", 0.1);
+    printLetterByLetter("Pagamento realizado com sucesso!\n", 0.01);
+    printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n", 0.01);
+}
+
+void mostrar_pagamento(float valor_total){
+    printf("-------------------------------------------------------------------\n");
+    printLetterByLetter("*** PAGAMENTO ***\n", 0.03);
+    printf("Valor total: [R$%.2f]\n", valor_total);
+    printf("-------------------------------------------------------------------\n");
+
+    char metodo_pagamento;
+    printf("Escolha como deseja pagar:\n");
+    printf("1. Cartao de credito\n");
+    printf("2. Pix\n");
+    printf("3. Dinheiro na entrega\n");
+    printf("4. Cancelar pedido\n");
+    printf("Digite a opcao desejada: ");
+    scanf(" %c", &metodo_pagamento);
+
+    switch (metodo_pagamento){
+        case '1':
+            pagar_com_cartao();
+            break;
+        case '2':
+            pagar_com_pix();
+            break;
+        case '3':
+            pagar_com_dinheiro(valor_total);
+            break;
+        case '4':
+            // printar pedido cancelado e remover da fila
+            break;
+        default:
+            printLetterByLetter("Opcao invalida!\n", 0.01);
+            break;
+    }
+}
+
+/*int pagamento(Fila *fila)
 {
     if (fila == NULL)
         return -1;
@@ -152,4 +268,4 @@ int pagamento(Fila *fila)
     remover_pedido(fila, &pedido_entregue);
 
     return 0;
-}
+}*/
