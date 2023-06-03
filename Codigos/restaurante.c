@@ -583,7 +583,7 @@ void menu_restaurantes(Lista_restaurante *lista)
         i = 1;
 
         // primeiro, iremos mostrar todos os restaurantes cadastrados
-        printLetterByLetter("\n\n================= RESTAURANTES =================\n\n", 0.04);
+        printLetterByLetter("\n\n================= RESTAURANTES =================\n\n", 0.02);
         while (aux != NULL) {
             // Converter o nome para letras maiúsculas
             int j;
@@ -591,7 +591,7 @@ void menu_restaurantes(Lista_restaurante *lista)
                 aux->dados_restaurante.nome[j] = toupper(aux->dados_restaurante.nome[j]);
             
             printf("%d. ", i);
-            printLetterByLetter(aux->dados_restaurante.nome, 0.1); // Atraso de 0.1 segundos por letra
+            printLetterByLetter(aux->dados_restaurante.nome, 0.07); // Atraso de 0.1 segundos por letra
             putchar('\n');
 
             aux = aux->prox;
@@ -615,49 +615,50 @@ void menu_restaurantes(Lista_restaurante *lista)
 
         if (aux != NULL) {
             const char headerMessage[] = "\n\n================= PRATOS DISPONIVEIS =================\n\n";
-            printLetterByLetter(headerMessage, 0.04);
+            printLetterByLetter(headerMessage, 0.02);
 
-            printLetterByLetter("-> CATEGORIA: ", 0.07);
+            printLetterByLetter("-> CATEGORIA: ", 0.03);
             if (aux->dados_restaurante.tipo_culinaria == 1)
-                printLetterByLetter("*** BRASILEIRA ***\n\n", 0.07);
+                printLetterByLetter("*** BRASILEIRA ***\n\n", 0.03);
             else if (aux->dados_restaurante.tipo_culinaria == 2)
-                printLetterByLetter("*** FAST FOOD ***\n\n", 0.07);
+                printLetterByLetter("*** FAST FOOD ***\n\n", 0.03);
             else if (aux->dados_restaurante.tipo_culinaria == 3)
-                printLetterByLetter("*** JAPONESA ***\n\n", 0.07);
+                printLetterByLetter("*** JAPONESA ***\n\n", 0.03);
 
 
             for (int j = 0; j < aux->dados_restaurante.qtd_pratos; j++) 
             {
                 printf("[COMBO] %d:\n", j + 1);
-                printLetterByLetter("- Prato Principal: ", 0.07);
+                printLetterByLetter("- Prato Principal: ", 0.03);
                 fflush(stdout);
 
                 const char *pratoNome = aux->dados_restaurante.prato[j].nome;
-                printLetterByLetter(pratoNome, 0.07);
+                printLetterByLetter(pratoNome, 0.03);
                 printf("\n");
 
-                printLetterByLetter("- Acompanhamento: ", 0.07);
+                printLetterByLetter("- Acompanhamento: ", 0.03);
                 fflush(stdout);
 
                 const char *acompanhamento = aux->dados_restaurante.prato[j].bebida;
-                printLetterByLetter(acompanhamento, 0.07);
+                printLetterByLetter(acompanhamento, 0.03);
                 printf("\n");
 
-                printLetterByLetter("- Preco: ", 0.07);
+                printLetterByLetter("- Preco: ", 0.03);
                 fflush(stdout);
                 printf("R$%.2f\n", aux->dados_restaurante.prato[j].preco);
                 printf("\n");
+                sleep(1.4);
             }
         }
         
-        printLetterByLetter("Deseja ver outro restaurante?\n", 0.05);
+        printLetterByLetter("Deseja ver outro restaurante?\n", 0.02);
         do {
-            printLetterByLetter("[1] - Sim\n", 0.05);
-            printLetterByLetter("[0] - Nao\n", 0.05);
+            printLetterByLetter("[1] - Sim\n", 0.02);
+            printLetterByLetter("[0] - Nao\n", 0.02);
             scanf(" %c", &opcao);
             getchar();
             if (opcao != '1' && opcao != '0')
-                printLetterByLetter("Opcao invalida! Tente novamente\n", 0.05);
+                printLetterByLetter("Opcao invalida! Tente novamente\n", 0.02);
         } while (opcao != '1' && opcao != '0');
 
         if (opcao == '0')

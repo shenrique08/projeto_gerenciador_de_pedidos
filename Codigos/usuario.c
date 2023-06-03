@@ -196,23 +196,23 @@ int cadastrar_usuario(Lista* lista, Usuario usuario) {
     No* novo_no = (No*)calloc(1, sizeof(No));
     novo_no->dados_usuario = usuario;
 
-    printLetterByLetter("\n=============== SISTEMA DE CADASTRO DE USUARIO ===============\n", 0.01);
-    printLetterByLetter("\nInforme seu [NOME]: ", 0.01);
+    printLetterByLetter("\n=============== SISTEMA DE CADASTRO DE USUARIO ===============\n", 0.02);
+    printLetterByLetter("\nInforme seu [NOME]: ", 0.02);
     fgets(novo_no->dados_usuario.nome, sizeof(novo_no->dados_usuario.nome), stdin);
 
-    printLetterByLetter("Informe seu [CPF]: ", 0.01);
+    printLetterByLetter("Informe seu [CPF]: ", 0.02);
     fgets(novo_no->dados_usuario.cpf, sizeof(novo_no->dados_usuario.cpf), stdin);
 
-    printLetterByLetter("Informe seu [NUMERO DE TELEFONE]: (+55) ", 0.01);
+    printLetterByLetter("Informe seu [NUMERO DE TELEFONE]: (+55) ", 0.02);
     fgets(novo_no->dados_usuario.num_telefone, sizeof(novo_no->dados_usuario.num_telefone), stdin);
 
-    printLetterByLetter("\nAgora, crie seu [LOGIN] e sua [SENHA]:\nOBS: Escolha seu [LOGIN] e sua [SENHA] de forma segura!\n", 0.01);
-    printLetterByLetter("\n[LOGIN]: ", 0.01);
+    printLetterByLetter("\nAgora, crie seu [LOGIN] e sua [SENHA]:\nOBS: Escolha seu [LOGIN] e sua [SENHA] de forma segura!\n", 0.02);
+    printLetterByLetter("\n[LOGIN]: ", 0.02);
     fgets(novo_no->dados_usuario.login, sizeof(novo_no->dados_usuario.login), stdin);
 
     bool isPasswordSecure = false;
     while (!isPasswordSecure) {
-        printLetterByLetter("[SENHA]: ", 0.01);
+        printLetterByLetter("[SENHA]: ", 0.02);
 
         fgets(novo_no->dados_usuario.senha, sizeof(novo_no->dados_usuario.senha), stdin);
 
@@ -220,42 +220,42 @@ int cadastrar_usuario(Lista* lista, Usuario usuario) {
         bool tem_erro = false;
 
         if (hasConsecutiveNumbers(novo_no->dados_usuario.senha)) {
-            printLetterByLetter("A senha [NAO PODE conter sequencia de numeros consecutivos].\n", 0.035);
+            printLetterByLetter("A senha [NAO PODE conter sequencia de numeros consecutivos].\n", 0.02);
             tem_erro = true;
         }
 
         if (!hasSpecialCharacters(novo_no->dados_usuario.senha)) {
-            printLetterByLetter("A senha [DEVE conter caracteres especiais].\n", 0.035);
+            printLetterByLetter("A senha [DEVE conter caracteres especiais].\n", 0.02);
             tem_erro = true;
         }
 
         if (!hasUppercaseLetter(novo_no->dados_usuario.senha)) {
-            printLetterByLetter("A senha [DEVE conter pelo menos uma letra maiuscula].\n", 0.035);
+            printLetterByLetter("A senha [DEVE conter pelo menos uma letra maiuscula].\n", 0.02);
             tem_erro = true;
         }
 
         if (!hasLowercaseLetter(novo_no->dados_usuario.senha)) {
-            printLetterByLetter("A senha [DEVE conter pelo menos uma letra minuscula].\n", 0.035);
+            printLetterByLetter("A senha [DEVE conter pelo menos uma letra minuscula].\n", 0.02);
             tem_erro = true;
         }
 
         if (!hasMinimumLength(novo_no->dados_usuario.senha, 8)) {
-            printLetterByLetter("A senha [DEVE ter no minimo 8 caracteres].\n", 0.035);
+            printLetterByLetter("A senha [DEVE ter no minimo 8 caracteres].\n", 0.02);
             tem_erro = true;
         }
 
         if (!hasNumber(novo_no->dados_usuario.senha)) {
-            printLetterByLetter("A senha [DEVE conter pelo menos um numero].\n", 0.035);
+            printLetterByLetter("A senha [DEVE conter pelo menos um numero].\n", 0.02);
             tem_erro = true;
         }
 
         if (tem_erro) {
-            printLetterByLetter("TENTE NOVAMENTE.\n\n", 0.035);
+            printLetterByLetter("TENTE NOVAMENTE.\n\n", 0.02);
             continue;
         }
 
         isPasswordSecure = true;
-        printLetterByLetter("\nLOGIN E SENHA CADASTRADOS COM SUCESSO!\n", 0.035);
+        printLetterByLetter("\nLOGIN E SENHA CADASTRADOS COM SUCESSO!\n", 0.02);
     }
 
     inserir_no_fim(lista, novo_no->dados_usuario);

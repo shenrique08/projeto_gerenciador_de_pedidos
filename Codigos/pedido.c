@@ -78,7 +78,6 @@ int inserir_pedido(Fila *fila_pedidos, Pedido pedido)
     if (novo == NULL) 
         return -1; // Falha na alocação de memória
     
-
     novo->pedido = pedido;
     novo->prox = NULL;
 
@@ -106,14 +105,12 @@ void mostrar_pedido(Fila *fila, int status)
 {
     No *aux = fila->inicio;
 
-    printf("-------------------------------------------------------------------\n");
-    //printLetterByLetter("*** PROXIMO PEDIDO A SER ENTREGUE ***\n", 0.03);
-    
+    printLetterByLetter("-------------------------------------------------------------------\n", 0.02);
     printf("Prato Principal: [%s]\n", aux->pedido.prato.nome);
     printf("Quantidade: [%d]\n", aux->pedido.quantidade);
     printf("Valor Total: [R$%.2f]\n", aux->pedido.valorTotal);
     printf("Status: [%s]\n", status == 1 ? "Entregue" : "Em andamento");
-    printf("-------------------------------------------------------------------\n");
+    printLetterByLetter("-------------------------------------------------------------------\n", 0.02);
 }
 
 
@@ -121,31 +118,12 @@ void mostrar_pedido(Fila *fila, int status)
 
 
 
-
-/*int remover_pedido(Fila *fila, Pedido *pedido_entregue)
+int remover_pedido(Fila *fila)
 {
     if (fila == NULL)
         return -1;
     if (fila_vazia(fila))
         return -2;
-
-    No *aux = fila->inicio;
-    fila->inicio = aux->prox;
-    if (fila->inicio == NULL)
-        fila->fim = NULL;
-    *pedido_entregue = aux->pedido;
-
-    free(aux);
-    fila->qtd--;
-
-    return 0;
-}*/
-
-int remover_pedido(Fila *fila){
-    if (fila == NULL)
-        return -1;
-    if (fila_vazia(fila))
-        return -2;
     
     No *aux = fila->inicio;
     fila->inicio = aux->prox;
@@ -158,50 +136,84 @@ int remover_pedido(Fila *fila){
     return 0;
 }
 
-void pagar_com_cartao(){
-    printf("-------------------------------------------------------------------\n");
-    printLetterByLetter("*** PAGAMENTO ***\n", 0.03);
+
+
+
+
+
+
+void pagar_com_cartao()
+{
+    printLetterByLetter("\n\n               *** SISTEMA DE PAGAMENTO ***               \n", 0.03);
     
     char nome_titular[30];
     char numero_cartao[16];
-    char data_validade[6];
+    char data_validade[4];
     char codigo_seguranca[4];
 
-    printLetterByLetter("Digite o nome do titular do cartao: ", 0.01);
-    scanf(" %[^\n]", nome_titular);
-    printLetterByLetter("Digite o numero do cartao: ", 0.01);
-    scanf(" %[^\n]", numero_cartao);
-    printLetterByLetter("Digite a data de validade do cartao: ", 0.01);
-    scanf(" %[^\n]", data_validade);
-    printLetterByLetter("Digite o codigo de seguranca do cartao: ", 0.01);
-    scanf(" %[^\n]", codigo_seguranca);
-
-    printLetterByLetter("Processando pagamento...\n", 0.1);
-
-    printLetterByLetter("Pagamento realizado com sucesso!\n", 0.01);
-    printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n", 0.01);
+    do {
+        printLetterByLetter("Digite o [nome do titular do cartao]: ", 0.02);
+        fgets(nome_titular, 30, stdin);
+    } while (strlen(nome_titular) > 30);
     
-}
-
-int pagar_com_dinheiro(float valor_total){
-    printf("-------------------------------------------------------------------\n");
-    printLetterByLetter("*** PAGAMENTO ***\n", 0.03);
-
-    float valor_pago;
+    do {
+        printLetterByLetter("Digite o [numero do cartao]: ", 0.02);
+        fgets(numero_cartao, 16, stdin);
+    } while (strlen(numero_cartao) > 16);
 
     do {
-        printLetterByLetter("Digite quanto ira pagar na entrega: ", 0.01);
-        scanf("%f", &valor_pago);
-        if (valor_pago < valor_total){
-            printLetterByLetter("Valor insuficiente!\n", 0.01);
+        printLetterByLetter("Digite a [data de validade do cartao]: (mm/aa) ", 0.02);
+        fgets(data_validade, 4, stdin);
+    } while (strlen(data_validade) > 4);
+
+    do {
+        printLetterByLetter("Digite o [CVV]: ", 0.02);
+        fgets(codigo_seguranca, 4, stdin);
+    } while (strlen(codigo_seguranca) > 4);
+
+    printLetterByLetter("Processando pagamento...\n", 0.2);
+
+    printLetterByLetter("Pagamento realizado com sucesso!\n", 0.02);
+    printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n", 0.02);
+}
+
+
+
+
+
+
+int pagar_com_dinheiro(float valor_total)
+{
+    printLetterByLetter("\n\n               *** SISTEMA DE PAGAMENTO ***               \n", 0.02);
+
+    float valor_pago;
+    char troco = '0';
+
+    do {
+        do {
+            printLetterByLetter("\nPrecisa de troco?\n [1] -> SIM\n [0] -> NAO: ", 0.02);
+            scanf(" %c", &troco);
+            getchar();
+            if (troco != '1' && troco != '0')
+                printLetterByLetter("Opcao invalida!\n", 0.02);
+        } while (troco != '1' && troco != '0');
+
+        // caso precise de troco
+        if (troco == '1') {
+            printLetterByLetter("Digite o valor da nota que ira pagar: R$", 0.02);
+            scanf("%f", &valor_pago);
         }
-        else if (valor_pago == valor_total){
-            printLetterByLetter("Sem troco necessario!\nAgradecemos o pedido! Aguarde a entrega...\n", 0.01);
-        }
+        
+        if (valor_pago < valor_total)
+            printLetterByLetter("Valor insuficiente!\n", 0.02);
+        
+        else if (valor_pago == valor_total)
+            printLetterByLetter("Sem troco necessario!\nAgradecemos o pedido! Aguarde a entrega...\n", 0.02);
+        
         else{
             printLetterByLetter("Calculando troco...\n", 0.05);
             printf("Troco: [R$%.2f]\n", valor_pago - valor_total);
-            printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n", 0.01);
+            printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n", 0.02);
         }
 
     } while (valor_pago < valor_total);
@@ -209,9 +221,15 @@ int pagar_com_dinheiro(float valor_total){
     return 1; // Sucesso no pagamento
 }
 
-void pagar_com_pix(){
-    printf("-------------------------------------------------------------------\n");
-    printLetterByLetter("*** PAGAMENTO ***\n", 0.03);
+
+
+
+
+
+
+void pagar_com_pix()
+{
+    printLetterByLetter("\n\n               *** SISTEMA DE PAGAMENTO ***               \n", 0.02);
     
     char codigo_pix[30];
 
@@ -221,7 +239,7 @@ void pagar_com_pix(){
     const char caracteres[] = "0123456789abcdef";
     const int tamanho_codigo_pix = 27; // ex: a56c-4928-93be-9b7bf14beeab
 
-    for (int i = 0; i < tamanho_codigo_pix; i++){
+    for (int i = 0; i < tamanho_codigo_pix; i++) {
         int indice = rand() % (sizeof(caracteres) - 1); // gera um indice aleatorio
         codigo_pix[i] = caracteres[indice]; // pega um caractere aleatorio do vetor de caracteres
         if (i == 4 || i == 9 || i == 14) // adiciona o traco nos indices corretos
@@ -229,50 +247,61 @@ void pagar_com_pix(){
     }
     codigo_pix[tamanho_codigo_pix] = '\0'; // adiciona o caractere nulo no final da string
     
-    printLetterByLetter("Realize o pagamento pelo Pix copia e cola: ", 0.01);
+    printLetterByLetter("Realize o pagamento pelo codigo Pix copia e cola: ", 0.02);
     printf("[%s]\n", codigo_pix);
     getchar();
-    printLetterByLetter("Digite 'ENTER' quando o pagamento for realizado: ", 0.01);
+    printLetterByLetter("Digite 'ENTER' quando o pagamento tiver sido realizado: ", 0.02);
     getchar();
     
-    printLetterByLetter("\nProcessando pagamento...\n", 0.1);
-    printLetterByLetter("Pagamento realizado com sucesso!\n", 0.01);
-    printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n", 0.01);
+    printLetterByLetter("\nProcessando pagamento...\n", 0.2);
+    printLetterByLetter("Pagamento realizado com sucesso!\n", 0.02);
+    printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n\n", 0.02);
 }
 
-void mostrar_pagamento(float valor_total){
-    printf("-------------------------------------------------------------------\n");
-    printLetterByLetter("*** PAGAMENTO ***\n", 0.03);
+
+
+
+
+
+void mostrar_pagamento(float valor_total)
+{
+    printLetterByLetter("\n\n               *** PAGAMENTO ***               \n", 0.03);
     printf("Valor total: [R$%.2f]\n", valor_total);
-    printf("-------------------------------------------------------------------\n");
+    printLetterByLetter("-------------------------------------------------------------------\n", 0.02);
 
     char metodo_pagamento;
-    printf("Escolha como deseja pagar:\n");
-    printf("1. Cartao de credito\n");
-    printf("2. Pix\n");
-    printf("3. Dinheiro na entrega\n");
-    printf("4. Cancelar pedido\n");
-    printf("Digite a opcao desejada: ");
-    scanf(" %c", &metodo_pagamento);
+    printLetterByLetter("Escolha como deseja pagar:\n", 0.02);
+    printLetterByLetter("1. Cartao de credito\n", 0.02);
+    printLetterByLetter("2. Pix\n", 0.02);
+    printLetterByLetter("3. Dinheiro na entrega\n", 0.02);
+    printLetterByLetter("4. Cancelar pedido\n", 0.02);
+    do {
+        printLetterByLetter("Digite a opcao desejada: ", 0.02);
+        scanf(" %c", &metodo_pagamento);
+        getchar();
 
-    switch (metodo_pagamento){
-        case '1':
-            pagar_com_cartao();
-            break;
-        case '2':
-            pagar_com_pix();
-            break;
-        case '3':
-            pagar_com_dinheiro(valor_total);
-            break;
-        case '4':
-            // printar pedido cancelado e remover da fila
-            break;
-        default:
-            printLetterByLetter("Opcao invalida!\n", 0.01);
-            break;
-    }
+        switch (metodo_pagamento) {
+            case '1':
+                pagar_com_cartao();
+                break;
+            case '2':
+                pagar_com_pix();
+                break;
+            case '3':
+                pagar_com_dinheiro(valor_total);
+                break;
+            case '4':
+                // printar pedido cancelado e remover da fila
+                break;
+            default:
+                printLetterByLetter("Opcao invalida!\n", 0.02);
+                break;
+        }
+    } while (metodo_pagamento != '1' && metodo_pagamento != '2' && metodo_pagamento != '3' && metodo_pagamento != '4');
 }
+
+
+
 
 void sleepTeste(float seconds) 
 {
@@ -285,37 +314,50 @@ void sleepTeste(float seconds)
     nanosleep(&sleepTime, NULL);
 }
 
-void mostrar_estimativa_entrega() {
-    printf("-------------------------------------------------------------------\n");
+
+
+
+
+
+void mostrar_estimativa_entrega() 
+{
+    printLetterByLetter("\n-------------------------------------------------------------------\n", 0.02);
     srand(time(NULL));
     float estimativa = rand() % 13 + 3;
-    printf("Estimativa de entrega: %.1fs\n", estimativa);
-    //printf("-------------------------------------------------------------------\n");
+    printLetterByLetter("Estimativa de entrega: ", 0.02);
+    printf("%.1fs\n", estimativa);
     sleepTeste(estimativa);
 }
 
-void mostrar_avaliacao(){
-    printf("-------------------------------------------------------------------\n");
-    printLetterByLetter("*** AVALIACAO ***\n", 0.03);
-    printf("Avalie o nosso servico de 0 a 5: ");
+
+
+
+
+void mostrar_avaliacao()
+{
+    printLetterByLetter("\n***********************************************************************\n", 0.02);
+    printLetterByLetter("               *** SISTEMA DE AVALIACAO ***               \n", 0.03);
+    printLetterByLetter("Avalie o nosso servico de 0 a 5: ", 0.02);
     int avaliacao;
-    scanf("%d", &avaliacao);
-    if (avaliacao < 0 || avaliacao > 5){
-        printLetterByLetter("Avaliacao invalida!\n", 0.01);
-    }
-    else{
-        printLetterByLetter("Agradecemos a avaliacao!\n", 0.01);
-    }
+    
+    do {
+        scanf("%d", &avaliacao);
+        getchar();
+        if (avaliacao < 0 || avaliacao > 5)
+            printLetterByLetter("Avaliacao invalida! Tente novamente\n", 0.02);
+    } while (avaliacao < 0 || avaliacao > 5);
+    
+    printLetterByLetter("Avalie o prato de 0 a 5: ", 0.02);
 
-    printLetterByLetter("Avalie o pedido de 0 a 5: ", 0.01);
-    scanf("%d", &avaliacao);
+    do {
+        scanf("%d", &avaliacao);
+        getchar();
+        if (avaliacao < 0 || avaliacao > 5)
+            printLetterByLetter("Avaliacao invalida! Tente novamente\n", 0.02);
 
-    if (avaliacao < 0 || avaliacao > 5){
-        printLetterByLetter("Avaliacao invalida!\n", 0.01);
-    }
-    else{
-        printLetterByLetter("Agradecemos a avaliacao! Ate a proxima!\n", 0.01);
-    }
-
-    printf("-------------------------------------------------------------------\n");
+    } while (avaliacao < 0 || avaliacao > 5);
+    
+    printLetterByLetter("Agradecemos a avaliacao! Ate a proxima!\n", 0.02);
+    
+    printLetterByLetter("\n***********************************************************************\n", 0.02);
 }
