@@ -147,6 +147,7 @@ int main()
                                         interagir_como_usuario = '1';
                                         break;
                                     case '0':
+                                        interagir_como_usuario = '0';
                                         printLetterByLetter("\nObrigado por usar o app!!!\n\n", 0.02);
                                         break;
                                     default:

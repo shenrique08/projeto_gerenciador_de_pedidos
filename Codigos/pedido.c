@@ -235,7 +235,7 @@ void pagar_com_pix()
     printLetterByLetter("\n\n               ***** SISTEMA DE PAGAMENTO *****               \n", 0.02);
     
     char codigo_pix[30];
-    printLetterByLetter("Gerando codigo pix...\n", 0.05);
+    printLetterByLetter("Gerando codigo pix...\n", 0.08);
 
     srand(time(NULL));
     const char caracteres[] = "0123456789abcdef";

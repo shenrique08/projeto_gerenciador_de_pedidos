@@ -817,7 +817,7 @@ void menu_restaurantes_adm(Lista_restaurante *lista)
             else if (aux->dados_restaurante.tipo_culinaria == 2)
                 printLetterByLetter("*** FAST FOOD ***\n\n", 0.03);
             else if (aux->dados_restaurante.tipo_culinaria == 3)
-                printLetterByLetter("*** JAPONESA ***\n\n", 0.03);
+                printLetterByLetter("*** ASIATICA ***\n\n", 0.03);
 
 
             for (int j = 0; j < aux->dados_restaurante.qtd_pratos; j++) 
