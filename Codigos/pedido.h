@@ -23,7 +23,7 @@ int remover_pedido(Fila *fila);
 void pagar_com_cartao();
 int pagar_com_dinheiro(float valor_total);
 void pagar_com_pix();
-void mostrar_pagamento(float valor_total);
+void mostrar_pagamento(Fila *fila, float valor_total);
 void mostrar_estimativa_entrega();
 void sleep(float seconds);
 void mostrar_avaliacao();

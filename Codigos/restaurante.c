@@ -81,9 +81,9 @@ int qtd_restaurantes(Lista_restaurante *lista)
 // agora, iremos fazer uma função para inserir um restaurante na lista
 int insere_restaurante_no_final(Lista_restaurante *lista, Restaurante r)
 {
-    if (lista == NULL) {
+    if (lista == NULL) 
         return -1;
-    }
+    
     r.fila_pedidos = criar_fila();
 
     No *novo_no = (No*) malloc(sizeof(No));
@@ -98,8 +98,8 @@ int insere_restaurante_no_final(Lista_restaurante *lista, Restaurante r)
         lista->fim = novo_no;
     }
 
-    lista->tam_lista++;
     novo_no->dados_restaurante.qtd_pratos = r.qtd_pratos;
+    lista->tam_lista++;
 
     return 0;
 }
@@ -109,10 +109,9 @@ int insere_restaurante_no_final(Lista_restaurante *lista, Restaurante r)
 
 int remove_restaurante_inicio(Lista_restaurante *lista, Restaurante *r)
 {
-    if (lista == NULL || lista_vazia(lista)) {
+    if (lista == NULL || lista_vazia(lista)) 
         return -1;
-    }
-
+    
     No *aux = lista->inicio;
     lista->inicio = lista->inicio->prox;
     *r = aux->dados_restaurante;
@@ -121,7 +120,6 @@ int remove_restaurante_inicio(Lista_restaurante *lista, Restaurante *r)
 
     lista->tam_lista--;
     
-
     return 0;
 }
 
@@ -140,47 +138,15 @@ int insere_restaurante_no_inicio(Lista_restaurante *lista, Restaurante r)
     novo_no->prox = lista->inicio;
     lista->inicio = novo_no;
 
-    if (lista->fim == NULL) {
+    if (lista->fim == NULL) 
         lista->fim = novo_no;
-    }
-
-    lista->tam_lista++;
-    novo_no->dados_restaurante.qtd_pratos = r.qtd_pratos;
-
-    return 0;
-}
-
-
-
-int insere_restaurante_pos(Lista_restaurante *lista, Restaurante r, int pos)
-{
-    if (lista == NULL || pos <= 0 || pos > lista->tam_lista + 1) 
-        return -1;
-    r.fila_pedidos = criar_fila();
     
-    if (pos == 1) 
-        return insere_restaurante_no_inicio(lista, r);
-    else if (pos == lista->tam_lista + 1) 
-        return insere_restaurante_no_final(lista, r);
-
-    No *novo_no = (No*) calloc(1, sizeof(No));
-    novo_no->dados_restaurante = r;
-
-    No *aux = lista->inicio;
-    int cont = 1;
-    while (cont < pos - 1) {
-        aux = aux->prox;
-        cont++;
-    }
-
-    novo_no->prox = aux->prox;
-    aux->prox = novo_no;
-
-    novo_no->dados_restaurante.qtd_pratos = r.qtd_pratos;
     lista->tam_lista++;
+    novo_no->dados_restaurante.qtd_pratos = r.qtd_pratos;
 
     return 0;
 }
+
 
 
 
@@ -254,7 +220,8 @@ int remove_restaurante_pos(Lista_restaurante *lista, Restaurante *r, int pos)
 
 
 
-int cadastrar_restaurante(Lista_restaurante *lista, Restaurante *restaurante, int pos_cadastro) 
+
+int cadastrar_restaurante(Lista_restaurante *lista, Restaurante *restaurante) 
 {
     if (lista == NULL || restaurante == NULL) 
         return -1;
@@ -284,7 +251,7 @@ int cadastrar_restaurante(Lista_restaurante *lista, Restaurante *restaurante, in
                 fgets(novo_no->dados_restaurante.nome, sizeof(novo_no->dados_restaurante.nome), stdin);
                 // linha abaixo usada para que o fgets não deixe o \n no final da string e atrapalhe a impressão da lista
                 novo_no->dados_restaurante.nome[strcspn(novo_no->dados_restaurante.nome, "\n")] = '\0';
-                printf("Informe a categoria do restaurante:\n");
+                printf("Informe o tipo culinario do restaurante:\n");
                 printf("\n[1] - Brasileira");
                 printf("\n[2] - Fast Food");
                 printf("\n[3] - Japonesa\n\n");
@@ -314,7 +281,7 @@ int cadastrar_restaurante(Lista_restaurante *lista, Restaurante *restaurante, in
                     scanf("%f", &novo_no->dados_restaurante.prato[i].preco);
                 }
 
-                insere_restaurante_pos(lista, novo_no->dados_restaurante, pos_cadastro);
+                insere_restaurante_no_final(lista, novo_no->dados_restaurante);
                 qtd_cadastros++;
                 break;
 
@@ -396,8 +363,6 @@ int buscar_prato_principal(Lista_restaurante *lista, char *nome_prato, Prato *pr
 
     return 0;
 }
-
-
 
 
 
@@ -559,7 +524,223 @@ int insere_restaurantes_cadastrados(Lista_restaurante *lista, Restaurante r)
 
     insere_restaurante_no_final(lista, r);
 
-    lista->tam_lista = 5;
+    // sexto restaurante
+    strcpy(r.nome, "MADERO");
+    r.tipo_culinaria = 2;
+    r.qtd_pratos = 3;
+
+    r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
+
+    strcpy(r.prato[0].nome, "Madero Burger");
+    strcpy(r.prato[0].bebida, "Coca cola");
+    r.prato[0].preco = 45.90;
+
+    strcpy(r.prato[1].nome, "Madero Veggie");
+    strcpy(r.prato[1].bebida, "Sprite");
+    r.prato[1].preco = 42.50;
+
+    strcpy(r.prato[2].nome, "Madero Bacon Super");
+    strcpy(r.prato[2].bebida, "Fanta Uva");
+    r.prato[2].preco = 59.90;
+
+    insere_restaurante_no_final(lista, r);
+
+    // sétimo restaurante
+    strcpy(r.nome, "Comida Mineira");
+    r.tipo_culinaria = 1;
+    r.qtd_pratos = 4;
+
+    r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
+
+    strcpy(r.prato[0].nome, "Feijao Tropeiro");
+    strcpy(r.prato[0].bebida, "Coca cola");
+    r.prato[0].preco = 45.90;
+
+    strcpy(r.prato[1].nome, "Frango com Quiabo");
+    strcpy(r.prato[1].bebida, "Sprite");
+    r.prato[1].preco = 42.50;
+
+    strcpy(r.prato[2].nome, "Feijoada");
+    strcpy(r.prato[2].bebida, "Suco de Laranja");
+    r.prato[2].preco = 59.90;
+
+    strcpy(r.prato[3].nome, "Tutu de Feijao");
+    strcpy(r.prato[3].bebida, "Pepsi");
+    r.prato[3].preco = 55.90;
+
+    insere_restaurante_no_final(lista, r);
+
+    // oitavo restaurante
+    strcpy(r.nome, "Sorveteria Gelato");
+    r.tipo_culinaria = 2;
+    r.qtd_pratos = 5;
+
+    r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
+
+    strcpy(r.prato[0].nome, "Napolitano");
+    strcpy(r.prato[0].bebida, "Nutella");
+    r.prato[0].preco = 15.90;
+
+    strcpy(r.prato[1].nome, "Chocolate");
+    strcpy(r.prato[1].bebida, "Leite condensado");
+    r.prato[1].preco = 12.50;
+
+    strcpy(r.prato[2].nome, "Morango");
+    strcpy(r.prato[2].bebida, "Leite Ninho");
+    r.prato[2].preco = 14.90;
+
+    strcpy(r.prato[3].nome, "Creme");
+    strcpy(r.prato[3].bebida, "Paçoca");
+    r.prato[3].preco = 12.90;
+
+    strcpy(r.prato[4].nome, "Limao");
+    strcpy(r.prato[4].bebida, "Ovomaltine");
+    r.prato[4].preco = 12.90;
+
+    insere_restaurante_no_final(lista, r);
+
+    // nono restaurante
+
+    strcpy(r.nome, "Burritos");
+    r.tipo_culinaria = 2;
+    r.qtd_pratos = 3;
+
+    r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
+
+    strcpy(r.prato[0].nome, "Burritos de Frango");
+    strcpy(r.prato[0].bebida, "Coca cola");
+    r.prato[0].preco = 37.90;
+
+    strcpy(r.prato[1].nome, "Burritos de Carne");
+    strcpy(r.prato[1].bebida, "Sprite");
+    r.prato[1].preco = 42.50;
+
+    strcpy(r.prato[2].nome, "Burritos de Queijo");
+    strcpy(r.prato[2].bebida, "Fanta Uva");
+    r.prato[2].preco = 39.90;
+
+    insere_restaurante_no_final(lista, r);
+
+    // décimo restaurante
+    strcpy(r.nome, "Casa do Pao de Queijo");
+    r.tipo_culinaria = 1;
+    r.qtd_pratos = 4;
+
+    r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
+
+    strcpy(r.prato[0].nome, "Pao de Queijo Tradicional");
+    strcpy(r.prato[0].bebida, "Cafe");
+    r.prato[0].preco = 5.90;
+
+    strcpy(r.prato[1].nome, "Pao de Queijo com Requeijao");
+    strcpy(r.prato[1].bebida, "Cafe com Leite");
+    r.prato[1].preco = 7.50;
+
+    strcpy(r.prato[2].nome, "Pao de Queijo com Presunto e Queijo");
+    strcpy(r.prato[2].bebida, "Cappuccino");
+    r.prato[2].preco = 9.90;
+
+    strcpy(r.prato[3].nome, "Pao de Queijo com Calabresa");
+    strcpy(r.prato[3].bebida, "Chocolate Quente");
+    r.prato[3].preco = 9.90;
+
+    insere_restaurante_no_final(lista, r);
+
+    // décimo primeiro restaurante
+    strcpy(r.nome, "Casa do Bolo");
+    r.tipo_culinaria = 1;
+    r.qtd_pratos = 3;
+
+    r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
+
+    strcpy(r.prato[0].nome, "Bolo de Chocolate");
+    strcpy(r.prato[0].bebida, "Leite Caramelado");
+    r.prato[0].preco = 15.90;
+
+    strcpy(r.prato[1].nome, "Bolo de Cenoura");
+    strcpy(r.prato[1].bebida, "Cafe com Leite");
+    r.prato[1].preco = 12.50;
+
+    strcpy(r.prato[2].nome, "Bolo de Milho");
+    strcpy(r.prato[2].bebida, "Cappuccino");
+    r.prato[2].preco = 14.90;
+
+    insere_restaurante_no_final(lista, r);
+
+    // décimo segundo restaurante
+
+    strcpy(r.nome, "China in Box");
+    r.tipo_culinaria = 3;
+    r.qtd_pratos = 4;
+
+    r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
+
+    strcpy(r.prato[0].nome, "Yakissoba Tradicional");
+    strcpy(r.prato[0].bebida, "Coca Zero");
+    r.prato[0].preco = 37.90;
+
+    strcpy(r.prato[1].nome, "Yakissoba de Frango");
+    strcpy(r.prato[1].bebida, "Fanta Laranja");
+    r.prato[1].preco = 42.50;
+
+    strcpy(r.prato[2].nome, "Yakissoba de Carne");
+    strcpy(r.prato[2].bebida, "Fanta Uva");
+    r.prato[2].preco = 39.90;
+
+    strcpy(r.prato[3].nome, "Yakissoba de Camarao");
+    strcpy(r.prato[3].bebida, "Suco natural de Laranja");
+    r.prato[3].preco = 42.50;
+
+    insere_restaurante_no_final(lista, r);
+
+    // décimo terceiro restaurante
+
+    strcpy(r.nome, "Temakeria e Cia");
+    r.tipo_culinaria = 3;
+    r.qtd_pratos = 4;
+
+    r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
+
+    strcpy(r.prato[0].nome, "Temaki de Salmão");
+    strcpy(r.prato[0].bebida, "Chá Gelado");
+    r.prato[0].preco = 37.90;
+
+    strcpy(r.prato[1].nome, "Temaki de Atum");
+    strcpy(r.prato[1].bebida, "Cha de Limao");
+    r.prato[1].preco = 42.50;
+
+    strcpy(r.prato[2].nome, "Temaki de Camarao");
+    strcpy(r.prato[2].bebida, "Cha de Hibisco");
+    r.prato[2].preco = 39.90;
+
+    strcpy(r.prato[3].nome, "Temaki de Kani");
+    strcpy(r.prato[3].bebida, "Cha de Erva Doce");
+    r.prato[3].preco = 42.50;
+
+    insere_restaurante_no_final(lista, r);
+
+    // décimo quarto restaurante
+
+    strcpy(r.nome, "Coco Bambu");
+    r.tipo_culinaria = 1;
+    r.qtd_pratos = 3;
+
+    r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
+
+    strcpy(r.prato[0].nome, "Camarao Internacional");
+    strcpy(r.prato[0].bebida, "Caipirinha");
+    r.prato[0].preco = 89.90;
+
+    strcpy(r.prato[1].nome, "Muqueca de Camarao");
+    strcpy(r.prato[1].bebida, "Mojito");
+    r.prato[1].preco = 79.90;
+
+    strcpy(r.prato[2].nome, "Polvo ao Coco Bambu");
+    strcpy(r.prato[2].bebida, "Caipiroska");
+    r.prato[2].preco = 89.90;
+
+    insere_restaurante_no_final(lista, r);
+
 
     return 0;
 }
@@ -569,13 +750,13 @@ int insere_restaurantes_cadastrados(Lista_restaurante *lista, Restaurante r)
 
 
 
-void menu_restaurantes(Lista_restaurante *lista) 
+void menu_restaurantes_adm(Lista_restaurante *lista) 
 {
     if (lista == NULL)
         return;
 
-    char opcao_restaurante;
-    char opcao;
+    int opcao_restaurante;
+    char opcao, ver_pratos;
     int i;
 
     while (1) {
@@ -586,29 +767,42 @@ void menu_restaurantes(Lista_restaurante *lista)
         printLetterByLetter("\n\n================= RESTAURANTES =================\n\n", 0.02);
         while (aux != NULL) {
             // Converter o nome para letras maiúsculas
-            int j;
-            for (j = 0; aux->dados_restaurante.nome[j] != '\0'; j++) 
+            for (int j = 0; aux->dados_restaurante.nome[j] != '\0'; j++) 
                 aux->dados_restaurante.nome[j] = toupper(aux->dados_restaurante.nome[j]);
             
             printf("%d. ", i);
-            printLetterByLetter(aux->dados_restaurante.nome, 0.07); // Atraso de 0.1 segundos por letra
-            putchar('\n');
+            printf("[");
+            printLetterByLetter(aux->dados_restaurante.nome, 0.05); 
+            printf("]\n");
+            sleep(0.2);
 
             aux = aux->prox;
             i++;
         }
 
+        do {
+            printf("\nDeseja ver os pratos de algum restaurante? (S/N): ");
+            fflush(stdout);
+            scanf(" %c", &ver_pratos);
+            getchar();
+            if (ver_pratos != 'S' && ver_pratos != 's' && ver_pratos != 'N' && ver_pratos != 'n')
+                printf("Opcao invalida! Tente novamente\n");
+        } while (ver_pratos != 'S' && ver_pratos != 's' && ver_pratos != 'N' && ver_pratos != 'n');
+
+        if (ver_pratos == 'N' || ver_pratos == 'n')
+            break;
+
         // agora, iremos mostrar as opções de cada restaurante
         do {
             printf("\nEscolha um restaurante para mostrar os pratos disponiveis (1-%d): ", lista->tam_lista);
             fflush(stdout);
-            scanf(" %c", &opcao_restaurante);
+            scanf("%d", &opcao_restaurante);
             getchar();
-        } while (opcao_restaurante < '1' || opcao_restaurante > '1' + lista->tam_lista - 1);
+        } while (opcao_restaurante < 1 || opcao_restaurante > lista->tam_lista);
 
         aux = lista->inicio;
         i = 1;
-        while (aux != NULL && i < opcao_restaurante - '0') {
+        while (aux != NULL && i < opcao_restaurante) {
             aux = aux->prox;
             i++;
         }
@@ -617,7 +811,7 @@ void menu_restaurantes(Lista_restaurante *lista)
             const char headerMessage[] = "\n\n================= PRATOS DISPONIVEIS =================\n\n";
             printLetterByLetter(headerMessage, 0.02);
 
-            printLetterByLetter("-> CATEGORIA: ", 0.03);
+            printLetterByLetter("-> TIPO CULINARIO: ", 0.03);
             if (aux->dados_restaurante.tipo_culinaria == 1)
                 printLetterByLetter("*** BRASILEIRA ***\n\n", 0.03);
             else if (aux->dados_restaurante.tipo_culinaria == 2)
@@ -651,14 +845,163 @@ void menu_restaurantes(Lista_restaurante *lista)
             }
         }
         
-        printLetterByLetter("Deseja ver outro restaurante?\n", 0.02);
         do {
+            printLetterByLetter("Deseja ver o cardapio de outro restaurante?\n", 0.02);
             printLetterByLetter("[1] - Sim\n", 0.02);
             printLetterByLetter("[0] - Nao\n", 0.02);
             scanf(" %c", &opcao);
             getchar();
             if (opcao != '1' && opcao != '0')
                 printLetterByLetter("Opcao invalida! Tente novamente\n", 0.02);
+        } while (opcao != '1' && opcao != '0');
+
+        if (opcao == '0')
+            break;
+    }
+}
+
+
+
+
+
+void menu_restaurante_usuario(Lista_restaurante *lista) 
+{
+    if (lista == NULL)
+        return;
+
+    int opcao_culinaria;
+    char opcao;
+    int i;
+
+    while (1) {
+        // Mostrar os tipos de culinária disponíveis
+        printLetterByLetter("\n\n================= TIPOS CULINARIOS =================\n\n", 0.02);
+        printLetterByLetter("[1] - Brasileira\n", 0.02);
+        printLetterByLetter("[2] - Fast Food\n", 0.02);
+        printLetterByLetter("[3] - Japonesa\n", 0.02);
+
+        do {
+            printLetterByLetter("\nEscolha um tipo de culinaria para mostrar os restaurantes disponiveis (1-3): ", 0.02);
+            fflush(stdout);
+            scanf("%d", &opcao_culinaria);
+            getchar();
+
+            if (opcao_culinaria < 1 || opcao_culinaria > 3)
+                printLetterByLetter("Opcao invalida! Tente novamente\n", 0.02);
+        } while (opcao_culinaria < 1 || opcao_culinaria > 3);
+
+        // Filtrar e mostrar os restaurantes do tipo culinária escolhido
+        No *aux = lista->inicio;
+        i = 1;
+        int encontrados = 0;
+
+        while (aux != NULL) {
+            if (aux->dados_restaurante.tipo_culinaria == opcao_culinaria) {
+                if (encontrados == 0) {
+                    const char headerMessage[] = "\n\n================= RESTAURANTES DO TIPO CULINARIO ESCOLHIDO =================\n\n";
+                    printLetterByLetter(headerMessage, 0.02);
+                }
+
+                // Converter o nome para letras maiúsculas
+                for (int j = 0; aux->dados_restaurante.nome[j] != '\0'; j++) 
+                    aux->dados_restaurante.nome[j] = toupper(aux->dados_restaurante.nome[j]);
+                
+                printLetterByLetter("-> [", 0.02);
+                printLetterByLetter(aux->dados_restaurante.nome, 0.05); 
+                printLetterByLetter("]\n", 0.02);
+                sleep(0.2);
+
+                encontrados++;
+            }
+
+            aux = aux->prox;
+            i++;
+        }
+
+        if (encontrados == 0) {
+            printLetterByLetter("\nNenhum restaurante encontrado para o tipo de culinária selecionado.\n", 0.02);
+            continue;
+        }
+
+        // Perguntar ao usuário qual restaurante ele deseja ver os pratos disponíveis
+        char nome_restaurante[100];
+        int restaurante_encontrado = 0;
+        printLetterByLetter("\nDigite o [nome do restaurante] para mostrar os pratos disponiveis: ", 0.02);
+        fflush(stdout);
+
+        do {
+            fgets(nome_restaurante, sizeof(nome_restaurante), stdin);
+            nome_restaurante[strcspn(nome_restaurante, "\n")] = '\0'; // remover o caractere de nova linha
+
+            // Converter o nome do restaurante para letras maiúsculas
+            for (int j = 0; nome_restaurante[j] != '\0'; j++)
+                nome_restaurante[j] = toupper(nome_restaurante[j]);
+
+            aux = lista->inicio;
+            i = 1;
+
+            while (aux != NULL) {
+                // Comparar o nome do restaurante com o nome digitado pelo usuário
+                if (strcmp(aux->dados_restaurante.nome, nome_restaurante) == 0) {
+                    restaurante_encontrado = 1;
+                    break;
+                }
+
+                aux = aux->prox;
+                i++;
+            }
+
+            if (!restaurante_encontrado)
+                printLetterByLetter("\nRestaurante nao encontrado. Digite novamente.\n", 0.02);
+
+        } while (!restaurante_encontrado);
+
+        // Mostrar os pratos disponíveis do restaurante escolhido
+        const char headerMessage[] = "\n\n====================== PRATOS DISPONIVEIS PARA O RESTAURANTE ESCOLHIDO ======================\n\n";
+        printLetterByLetter(headerMessage, 0.02);
+
+        // Mostrar os pratos disponíveis do restaurante escolhido
+        printLetterByLetter("-> TIPO CULINARIO: ", 0.03);
+        if (aux->dados_restaurante.tipo_culinaria == 1)
+            printLetterByLetter("*** BRASILEIRA ***\n\n", 0.03);
+        else if (aux->dados_restaurante.tipo_culinaria == 2)
+            printLetterByLetter("*** FAST FOOD ***\n\n", 0.03);
+        else if (aux->dados_restaurante.tipo_culinaria == 3)
+            printLetterByLetter("*** JAPONESA ***\n\n", 0.03);
+
+        for (int j = 0; j < aux->dados_restaurante.qtd_pratos; j++) {
+            printf("[COMBO] %d:\n", j + 1);
+            printLetterByLetter("- Prato Principal: ", 0.03);
+            fflush(stdout);
+
+            const char *pratoNome = aux->dados_restaurante.prato[j].nome;
+            printLetterByLetter(pratoNome, 0.03);
+            printf("\n");
+
+            printLetterByLetter("- Acompanhamento: ", 0.03);
+            fflush(stdout);
+
+            const char *acompanhamento = aux->dados_restaurante.prato[j].bebida;
+            printLetterByLetter(acompanhamento, 0.03);
+            printf("\n");
+
+            printLetterByLetter("- Preco: ", 0.03);
+            fflush(stdout);
+            printf("R$%.2f\n", aux->dados_restaurante.prato[j].preco);
+            printf("\n");
+            sleep(1.3);
+        }
+
+        do {
+            printLetterByLetter("Deseja ver o cardapio de outro restaurante?\n", 0.02);
+            printLetterByLetter("[1] - Sim\n", 0.02);
+            printLetterByLetter("[0] - Nao\n", 0.02);
+            scanf(" %c", &opcao);
+            getchar();
+
+            if (opcao != '1' && opcao != '0')
+                printLetterByLetter("\nOpcao invalida. Digite novamente.\n", 0.02);
+
         } while (opcao != '1' && opcao != '0');
 
         if (opcao == '0')
@@ -678,4 +1021,3 @@ void printLetterByLetter(const char* message, float seconds)
         sleep(seconds);
     }
 }
-

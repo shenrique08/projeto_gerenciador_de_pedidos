@@ -35,8 +35,9 @@ int main()
         // verifica se o usuário já tem cadastro no app
         // se não tiver, pergunta se ele quer se cadastrar
         // se quiser, cadastra o usuário (chama a função cadastrar_usuario)
-        printLetterByLetter("\nVoce ja tem cadastro no app?\n", 0.02);
+        
         do {
+            printLetterByLetter("\nVoce ja tem cadastro no app?\n", 0.02);
             printLetterByLetter("[1] -> SIM\n", 0.02);
             printLetterByLetter("[0] -> NAO\n", 0.02);
             scanf("%c", &tem_cadastro);
@@ -96,9 +97,7 @@ int main()
                 }
 
             } while (tentar_novamente == '1' && verifica_login(lista_usuarios, login, senha) == 0);
-            
         }
-
 
 
         // ***********************************************************************************************************************
@@ -111,14 +110,13 @@ int main()
             {   
                 //  se for, libera o menu de administrador
                 printLetterByLetter("Verificamos que voce eh um [usuario administrador].\nSeja bem vindo!!!\n", 0.02);
-                char opcao;
-                int pos_cadastro, pos_remocao;
                 printLetterByLetter("\nOperacoes disponiveis para administradores:\n", 0.02);
                 printLetterByLetter("[1] -> Adicionar restaurante\n", 0.02);
                 printLetterByLetter("[2] -> Remover um restaurante da Lista de Restaurantes\n", 0.02);
                 printLetterByLetter("[3] -> Interagir com o app como cliente\n", 0.02);
                 printLetterByLetter("[4] -> Listar todos os restaurantes cadastrados\n", 0.02);
                 printLetterByLetter("[5] -> Sair do app\n", 0.02);
+                char opcao;
                 do {
                     if (interagir_como_usuario == '1') {
                         break;
@@ -134,18 +132,9 @@ int main()
 
                     switch (opcao) {
                         case '1':
-                            do {
-                                printLetterByLetter("\nInforme a [POSICAO] que deseja cadastrar o novo restaurante: ", 0.02);
-                                scanf("%d", &pos_cadastro);
-                                getchar();
-                                
-                                if (pos_cadastro < 1 || pos_cadastro > tam_lista(lista_restaurante) + 1) 
-                                    printLetterByLetter("\nERRO!!! Informe uma [POSICAO] valida!\n", 0.02);
-                                
-                            } while (pos_cadastro < 1 || pos_cadastro > tam_lista(lista_restaurante) + 1);
-                            
-                            cadastrar_restaurante(lista_restaurante, &restaurante, pos_cadastro);
-                            printLetterByLetter("\nRestaurante cadastrado com sucesso!!!\n", 0.02);
+                            cadastrar_restaurante(lista_restaurante, &restaurante);
+                            printLetterByLetter("\nNova Lista de Restaurantes:\n", 0.02);
+                            menu_restaurantes_adm(lista_restaurante);
                             do {
                                 printLetterByLetter("\nDeseja interagir com o app como cliente?\n", 0.02);
                                 printLetterByLetter("[1] -> SIM\n", 0.02);
@@ -171,6 +160,8 @@ int main()
                         case '2': {
                             ; // o ponto e virgula é para não dar erro de compilação
                             Restaurante restaurante_removido;
+                            int pos_remocao;
+                            menu_restaurantes_adm(lista_restaurante);
                             do {
                                 printLetterByLetter("\nInforme a [POSICAO] do restaurante que deseja remover: ", 0.02);
                                 printLetterByLetter("\nOBS: A [POSICAO] do restaurante a ser removido deve ser > 0 e <= a quantidade de restaurantes cadastrados!\n", 0.02);
@@ -183,7 +174,7 @@ int main()
 
                             remove_restaurante_pos(lista_restaurante, &restaurante_removido, pos_remocao);
                             printLetterByLetter("\nNova Lista de Restaurantes:\n", 0.02);
-                            menu_restaurantes(lista_restaurante);
+                            menu_restaurantes_adm(lista_restaurante);
                             do {
                                 printLetterByLetter("\nDeseja interagir com o app como usuario?\n", 0.02);
                                 printLetterByLetter("[1] -> SIM\n", 0.02);
@@ -207,13 +198,11 @@ int main()
                             
                             break;
                         }
-                        // interagir com o app como cliente
                         case '3':
                             interagir_como_usuario = '1';
                             break;
-                        // listar todos os restaurantes cadastrados
                         case '4':
-                            menu_restaurantes(lista_restaurante);
+                            menu_restaurantes_adm(lista_restaurante);
                             break;
                         default:
                             printLetterByLetter("\nERRO!!! Informe uma [OPCAO] valida!\n", 0.02);
@@ -226,24 +215,17 @@ int main()
         // o usuário não é administrador ou ele quer interagir como um usuário padrão
         if (((logou == 1) && (verifica_administrador(lista_usuarios, login, senha) == 0 )) || (interagir_como_usuario == '1')) 
         {
-            printLetterByLetter("\nSeja bem vindo, ", 0.02);
-            char nome[50];
-            strcpy(nome, usuario.nome);
-            // tirar o \n do nome
-            nome[strlen(nome) - 1] = '\0';
-            printf(" [%s]! ", nome);
-            printLetterByLetter("Sou o seu assistente virtual e te ajudarei em que voce precisar!\n", 0.02);
-
+            printLetterByLetter("\nSeja bem vindo! Sou o seu assistente virtual e te ajudarei em que voce precisar!\n ", 0.02);
             // aqui, o usuário pode interagir com o app como um usuário padrão, tal como um cliente, tendo acesso aos
             // restaurantes e aos pratos disponíveis, podendo fazer pedidos e avaliar os restaurantes etc
-            menu_restaurantes(lista_restaurante);
+            menu_restaurante_usuario(lista_restaurante);
             char fazer_pedido = '0';
-            printLetterByLetter("\nDeseja fazer um pedido?\n[1] -> SIM \n[0] -> NAO\n", 0.02);
             do {
+                printLetterByLetter("\nDeseja fazer um pedido?\n[1] -> SIM \n[0] -> NAO\n", 0.02);
                 scanf(" %c", &fazer_pedido);
                 getchar();
                 if (fazer_pedido != '1' && fazer_pedido != '0') 
-                    printf("\nERRO!!! Informe uma [OPCAO] valida!\n");
+                    printLetterByLetter("\nERRO!!! Informe uma [OPCAO] valida!\n", 0.02);
             } while (fazer_pedido != '1' && fazer_pedido != '0');
 
             // se o cliente desejar fazer o pedido
@@ -289,13 +271,13 @@ int main()
                     
                     if (inserir_pedido(restaurante_escolhido.fila_pedidos, pedido) == 1) {
                         printLetterByLetter("\nPedido realizado com sucesso!!!\n", 0.02);
-                        printLetterByLetter("*** PROXIMO PEDIDO A SER ENTREGUE ***\n", 0.03);
+                        printLetterByLetter("*** PROXIMO PEDIDO A SER ENTREGUE ***\n\n", 0.03);
                         mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
                     } else 
                         printLetterByLetter("\nERRO!!! Nao foi possivel realizar o pedido!!!\n", 0.02);
                         
                     // fazer o pagamento
-                    mostrar_pagamento(pedido.valorTotal);
+                    mostrar_pagamento(restaurante.fila_pedidos, pedido.valorTotal);
                     mostrar_estimativa_entrega();
                     status = 1; // 1 -> pedido entregue
                     mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
