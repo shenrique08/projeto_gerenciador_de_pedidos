@@ -113,6 +113,11 @@ int main()
                 printLetterByLetter("\nOperacoes disponiveis para administradores:\n", 0.02);
                 char opcao;
                 do {
+
+                    if (interagir_como_usuario == '1') {
+                        break;
+                    }
+
                     printf("\n");
                     printLetterByLetter("[1] -> Adicionar restaurante\n", 0.02);
                     printLetterByLetter("[2] -> Remover um restaurante da Lista de Restaurantes\n", 0.02);
@@ -120,9 +125,6 @@ int main()
                     printLetterByLetter("[4] -> Listar todos os restaurantes cadastrados\n", 0.02);
                     printLetterByLetter("[5] -> Sair do app\n", 0.02);
                     
-                    if (interagir_como_usuario == '1') {
-                        break;
-                    }
                     printLetterByLetter("\nInforme a opcao desejada: ", 0.02);
                     scanf(" %c", &opcao);
                     getchar();
