@@ -216,7 +216,7 @@ int main()
         // o usuário não é administrador ou ele quer interagir como um usuário padrão
         if (((logou == 1) && (verifica_administrador(lista_usuarios, login, senha) == 0 )) || (interagir_como_usuario == '1')) 
         {
-            printLetterByLetter("\nSeja bem vindo! Sou o seu assistente virtual e te ajudarei em que voce precisar!\n ", 0.02);
+            printLetterByLetter("\nSeja bem vindo! Sou o seu assistente virtual e te ajudarei no que precisar!\n ", 0.02);
             // aqui, o usuário pode interagir com o app como um usuário padrão, tal como um cliente, tendo acesso aos
             // restaurantes e aos pratos disponíveis, podendo fazer pedidos e avaliar os restaurantes etc
             menu_restaurante_usuario(lista_restaurante);
@@ -278,16 +278,23 @@ int main()
                         printLetterByLetter("\nERRO!!! Nao foi possivel realizar o pedido!!!\n", 0.02);
                         
                     // fazer o pagamento
-                    mostrar_pagamento(restaurante.fila_pedidos, pedido.valorTotal);
-                    mostrar_estimativa_entrega();
-                    status = 1; // 1 -> pedido entregue
-                    mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
-                    printLetterByLetter("\nPedido finalizado com sucesso!!!\n", 0.02);
-                    // remover o pedido da fila de pedidos do restaurante
-                    remover_pedido(restaurante_escolhido.fila_pedidos);
-                    // avaliacao do restaurante
-                    mostrar_avaliacao();
-                    fazer_pedido = '0';
+                    int fez_pedido = mostrar_pagamento(pedido.valorTotal);
+                    if (fez_pedido){
+                        mostrar_estimativa_entrega();
+                        status = 1; // 1 -> pedido entregue
+                        mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
+                        printLetterByLetter("\nPedido finalizado com sucesso!!!\n", 0.02);
+                        // remover o pedido da fila de pedidos do restaurante
+                        remover_pedido(restaurante_escolhido.fila_pedidos);
+                        // avaliacao do restaurante
+                        mostrar_avaliacao();
+                        fazer_pedido = '0';
+                    }
+                    else {
+                        remover_pedido(restaurante_escolhido.fila_pedidos);
+                        printLetterByLetter("\nPedido cancelado com sucesso!!!\n", 0.02);
+                        fazer_pedido = '0';
+                    }
                 }
 
             }

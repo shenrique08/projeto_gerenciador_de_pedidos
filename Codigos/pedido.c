@@ -150,25 +150,25 @@ void pagar_com_cartao()
     printLetterByLetter("\n\n               ***** SISTEMA DE PAGAMENTO *****               \n", 0.03);
     
     char nome_titular[30];
-    char numero_cartao[16];
-    char data_validade[4];
+    char numero_cartao[17];
+    char data_validade[6]; // mm/aa
     char codigo_seguranca[4];
 
     do {
         printLetterByLetter("Digite o [nome do titular do cartao]: ", 0.02);
         fgets(nome_titular, 30, stdin);
     } while (strlen(nome_titular) > 30);
-    
+    fflush(stdin);
     do {
         printLetterByLetter("Digite o [numero do cartao]: ", 0.02);
-        fgets(numero_cartao, 16, stdin);
-    } while (strlen(numero_cartao) > 16);
-
+        fgets(numero_cartao, 17, stdin);
+    } while (strlen(numero_cartao) > 17);
+    fflush(stdin);
     do {
         printLetterByLetter("Digite a [data de validade do cartao]: (mm/aa) ", 0.02);
-        fgets(data_validade, 4, stdin);
-    } while (strlen(data_validade) > 4);
-
+        fgets(data_validade, 6, stdin);
+    } while (strlen(data_validade) > 6);
+    fflush(stdin);
     do {
         printLetterByLetter("Digite o [CVV]: ", 0.02);
         fgets(codigo_seguranca, 4, stdin);
@@ -234,7 +234,7 @@ void pagar_com_pix()
 {
     printLetterByLetter("\n\n               ***** SISTEMA DE PAGAMENTO *****               \n", 0.02);
     
-    char codigo_pix[30];
+    char codigo_pix[28];
     printLetterByLetter("Gerando codigo pix...\n", 0.08);
 
     srand(time(NULL));
@@ -251,8 +251,8 @@ void pagar_com_pix()
     
     printLetterByLetter("Realize o pagamento pelo codigo Pix copia e cola: ", 0.02);
     printf("[%s]\n", codigo_pix);
-    getchar();
-    printLetterByLetter("Digite 'ENTER' quando o pagamento tiver sido realizado: ", 0.02);
+    //getchar();
+    printLetterByLetter("Digite 'ENTER' quando o pagamento for realizado: ", 0.02);
     getchar();
     
     printLetterByLetter("\nProcessando pagamento...\n", 0.2);
@@ -265,7 +265,7 @@ void pagar_com_pix()
 
 
 
-void mostrar_pagamento(Fila *fila, float valor_total)
+int mostrar_pagamento(float valor_total)
 {
     printLetterByLetter("\n\n               ***** PAGAMENTO *****               \n\n", 0.03);
     printf("VALOR TOTAL DO PEDIDO: [R$%.2f]\n", valor_total);
@@ -292,15 +292,18 @@ void mostrar_pagamento(Fila *fila, float valor_total)
                 pagar_com_dinheiro(valor_total);
                 break;
             case '4':
-                mostrar_pedido(fila, -1);
-                remover_pedido(fila);
-                printLetterByLetter("Pedido cancelado com sucesso!\n", 0.02);
-                break;
+                //remover_pedido(fila);
+                //printLetterByLetter("Pedido cancelado com sucesso!\n", 0.02);
+                //printLetterByLetter("Agradecemos a preferencia!\n", 0.02);
+                return 0; // Cancelamento do pedido
+                
             default:
                 printLetterByLetter("Opcao invalida! Tente novamente\n", 0.02);
                 break;
         }
     } while (metodo_pagamento != '1' && metodo_pagamento != '2' && metodo_pagamento != '3' && metodo_pagamento != '4');
+
+    return 1; // Sucesso no pagamento
 }
 
 
@@ -315,6 +318,7 @@ void sleepTeste(float seconds)
     sleepTime.tv_nsec = (long) ((seconds - (time_t) seconds) * 1e9);
 
     nanosleep(&sleepTime, NULL);
+
 }
 
 
@@ -330,6 +334,7 @@ void mostrar_estimativa_entrega()
     printf("%.1fs\n", estimativa);
     sleepTeste(estimativa);
 }
+
 
 
 

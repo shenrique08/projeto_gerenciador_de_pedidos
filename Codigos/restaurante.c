@@ -701,8 +701,8 @@ int insere_restaurantes_cadastrados(Lista_restaurante *lista, Restaurante r)
 
     r.prato = (Prato*) calloc(r.qtd_pratos, sizeof(Prato));
 
-    strcpy(r.prato[0].nome, "Temaki de Salmão");
-    strcpy(r.prato[0].bebida, "Chá Gelado");
+    strcpy(r.prato[0].nome, "Temaki de Salmao");
+    strcpy(r.prato[0].bebida, "Cha Gelado");
     r.prato[0].preco = 37.90;
 
     strcpy(r.prato[1].nome, "Temaki de Atum");
