@@ -26,7 +26,6 @@ typedef struct restaurante {
     int qtd_pratos;
     Prato *prato;
     
-    
 } Restaurante;
 
 
@@ -36,11 +35,8 @@ typedef struct {
     Prato prato;
     int quantidade;
     float valorTotal;
-    //int status; // 0 - Em andamento, 1 - Entregue
+    
 } Pedido;
-
-
-
 
 
 #endif

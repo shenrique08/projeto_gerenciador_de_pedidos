@@ -78,32 +78,6 @@ int tam_lista(Lista *lista)
 
 
 
-
-int mostra_usuarios(Lista *lista)
-{
-    if (lista == NULL) 
-        return -1;
-    if (lista_vazia(lista) == 1) 
-        return -2;
-    No *noLista = lista->inicio;
-
-    while (noLista != NULL) {
-        printf("\nNOME: %s\n", noLista->dados_usuario.nome);
-        printf("CPF: %s\n", noLista->dados_usuario.cpf);
-        printf("NUMERO DE TELEFONE: %s\n", noLista->dados_usuario.num_telefone);
-        printf("LOGIN: %s", noLista->dados_usuario.login);
-        printf("SENHA: %s\n", noLista->dados_usuario.senha);
-
-        noLista = noLista->prox;
-    }
-
-    return 0;
-}
-
-
-
-
-
 /*======================================================================================================================*/
 
 int inserir_no_inicio(Lista *lista, Usuario usuario)
@@ -189,11 +163,12 @@ int remover_usuario(Lista *lista, Usuario usuario)
 
 
 
-int cadastrar_usuario(Lista* lista, Usuario usuario) {
+int cadastrar_usuario(Lista* lista, Usuario usuario) 
+{
     if (lista_existe(lista) == 0)
         return -1;
 
-    No* novo_no = (No*)calloc(1, sizeof(No));
+    No* novo_no = (No*) calloc(1, sizeof(No));
     novo_no->dados_usuario = usuario;
 
     printLetterByLetter("\n=============== SISTEMA DE CADASTRO DE USUARIO ===============\n", 0.02);
@@ -206,45 +181,45 @@ int cadastrar_usuario(Lista* lista, Usuario usuario) {
     printLetterByLetter("Informe seu [NUMERO DE TELEFONE]: (+55) ", 0.02);
     fgets(novo_no->dados_usuario.num_telefone, sizeof(novo_no->dados_usuario.num_telefone), stdin);
 
-    printLetterByLetter("\nAgora, crie seu [LOGIN] e sua [SENHA]:\nOBS: Escolha seu [LOGIN] e sua [SENHA] de forma segura!\n", 0.02);
+    printLetterByLetter("\nAgora, crie seu [LOGIN] e sua [SENHA]:\nOBS: Escolha seu [LOGIN] e sua [SENHA] de forma SEGURA!\n", 0.02);
     printLetterByLetter("\n[LOGIN]: ", 0.02);
     fgets(novo_no->dados_usuario.login, sizeof(novo_no->dados_usuario.login), stdin);
 
     bool isPasswordSecure = false;
-    while (!isPasswordSecure) {
+    while (isPasswordSecure == false) 
+    {
         printLetterByLetter("[SENHA]: ", 0.02);
-
         fgets(novo_no->dados_usuario.senha, sizeof(novo_no->dados_usuario.senha), stdin);
 
         // Keep track of password errors
         bool tem_erro = false;
 
-        if (hasConsecutiveNumbers(novo_no->dados_usuario.senha)) {
+        if (temNumerosConsecutivos(novo_no->dados_usuario.senha)) {
             printLetterByLetter("A senha [NAO PODE conter sequencia de numeros consecutivos].\n", 0.02);
             tem_erro = true;
         }
 
-        if (!hasSpecialCharacters(novo_no->dados_usuario.senha)) {
+        if (!temCaracteresEspeciais(novo_no->dados_usuario.senha)) {
             printLetterByLetter("A senha [DEVE conter caracteres especiais].\n", 0.02);
             tem_erro = true;
         }
 
-        if (!hasUppercaseLetter(novo_no->dados_usuario.senha)) {
+        if (!temLetraMaiuscula(novo_no->dados_usuario.senha)) {
             printLetterByLetter("A senha [DEVE conter pelo menos uma letra maiuscula].\n", 0.02);
             tem_erro = true;
         }
 
-        if (!hasLowercaseLetter(novo_no->dados_usuario.senha)) {
+        if (!temLetraMinuscula(novo_no->dados_usuario.senha)) {
             printLetterByLetter("A senha [DEVE conter pelo menos uma letra minuscula].\n", 0.02);
             tem_erro = true;
         }
 
-        if (!hasMinimumLength(novo_no->dados_usuario.senha, 8)) {
+        if (!temComprimentoMinimo(novo_no->dados_usuario.senha, 9)) {
             printLetterByLetter("A senha [DEVE ter no minimo 8 caracteres].\n", 0.02);
             tem_erro = true;
         }
 
-        if (!hasNumber(novo_no->dados_usuario.senha)) {
+        if (!temNumero(novo_no->dados_usuario.senha)) {
             printLetterByLetter("A senha [DEVE conter pelo menos um numero].\n", 0.02);
             tem_erro = true;
         }
@@ -291,6 +266,7 @@ int verifica_login(Lista *lista, char *login, char *senha)
 
 
 
+
 int verifica_administrador(Lista *lista, char *login_ins, char *senha_ins)
 {
     if (lista == NULL) 
@@ -332,7 +308,6 @@ int insere_adm(Lista *lista, Usuario usuario)
 
     return 0;
 }
-
 
 
 

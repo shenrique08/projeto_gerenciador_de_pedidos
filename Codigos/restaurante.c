@@ -9,7 +9,6 @@
 
 
 typedef struct no {
-    
     Restaurante dados_restaurante;
     struct no *prox;
 
@@ -847,8 +846,8 @@ void menu_restaurantes_adm(Lista_restaurante *lista)
         
         do {
             printLetterByLetter("Deseja ver o cardapio de outro restaurante?\n", 0.02);
-            printLetterByLetter("[1] - Sim\n", 0.02);
-            printLetterByLetter("[0] - Nao\n", 0.02);
+            printLetterByLetter("[1] - SIM\n", 0.02);
+            printLetterByLetter("[0] - NAO\n", 0.02);
             scanf(" %c", &opcao);
             getchar();
             if (opcao != '1' && opcao != '0')
@@ -963,11 +962,11 @@ void menu_restaurante_usuario(Lista_restaurante *lista)
         // Mostrar os pratos disponíveis do restaurante escolhido
         printLetterByLetter("-> TIPO CULINARIO: ", 0.03);
         if (aux->dados_restaurante.tipo_culinaria == 1)
-            printLetterByLetter("*** BRASILEIRA ***\n\n", 0.03);
+            printLetterByLetter("*** BRASILEIRO ***\n\n", 0.03);
         else if (aux->dados_restaurante.tipo_culinaria == 2)
             printLetterByLetter("*** FAST FOOD ***\n\n", 0.03);
         else if (aux->dados_restaurante.tipo_culinaria == 3)
-            printLetterByLetter("*** JAPONESA ***\n\n", 0.03);
+            printLetterByLetter("*** ASIATICO ***\n\n", 0.03);
 
         for (int j = 0; j < aux->dados_restaurante.qtd_pratos; j++) {
             printf("[COMBO] %d:\n", j + 1);

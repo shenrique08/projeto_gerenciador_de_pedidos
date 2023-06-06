@@ -110,15 +110,13 @@ int main()
             {   
                 //  se for, libera o menu de administrador
                 printLetterByLetter("Verificamos que voce eh um [usuario administrador].\nSeja bem vindo!!!\n", 0.02);
-                printLetterByLetter("\nOperacoes disponiveis para administradores:\n", 0.02);
                 char opcao;
                 do {
-
                     if (interagir_como_usuario == '1') {
                         break;
                     }
 
-                    printf("\n");
+                    printLetterByLetter("\nOperacoes disponiveis para administradores:\n", 0.02);
                     printLetterByLetter("[1] -> Adicionar restaurante\n", 0.02);
                     printLetterByLetter("[2] -> Remover um restaurante da Lista de Restaurantes\n", 0.02);
                     printLetterByLetter("[3] -> Interagir com o app como cliente\n", 0.02);
@@ -136,7 +134,7 @@ int main()
 
                     switch (opcao) {
                         case '1':
-                            char deseja_cadastrar = '1';
+                            ; char deseja_cadastrar = '1';
                             do{
                                 cadastrar_restaurante(lista_restaurante, &restaurante);
                                 printLetterByLetter("\nNova Lista de Restaurantes:\n", 0.02);
@@ -265,7 +263,7 @@ int main()
                     
                     if (inserir_pedido(restaurante_escolhido.fila_pedidos, pedido) == 1) {
                         printLetterByLetter("\nPedido realizado com sucesso!!!\n", 0.02);
-                        printLetterByLetter("*** PROXIMO PEDIDO A SER ENTREGUE ***\n\n", 0.03);
+                        printLetterByLetter("\n*** PROXIMO PEDIDO A SER ENTREGUE ***\n\n", 0.03);
                         mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
                     } else 
                         printLetterByLetter("\nERRO!!! Nao foi possivel realizar o pedido!!!\n", 0.02);

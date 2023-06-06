@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h> // srand(time(NULL)) para gerar um código de pix aleatório
+#include <time.h> 
 
 
 
@@ -25,6 +25,9 @@ typedef struct fila {
 /*#########################################################################################################################*/
 
 
+
+
+
 Fila *criar_fila() 
 {
     Fila *f = (Fila*) calloc(1, sizeof(Fila));
@@ -37,12 +40,15 @@ Fila *criar_fila()
 
 
 
+
+
 int fila_vazia(Fila *fila)
 {
     if (fila == NULL)
         return -1;
     return (fila->qtd == 0);
 }
+
 
 
 
@@ -72,7 +78,7 @@ int qtd_pedidos(Fila *fila)
 int inserir_pedido(Fila *fila_pedidos, Pedido pedido)
 {
     if (fila_pedidos == NULL)
-        return -1; // Fila não existe
+        return -1; 
 
     No *novo = (No *) calloc(1, sizeof(No));
     if (novo == NULL) 
@@ -83,7 +89,6 @@ int inserir_pedido(Fila *fila_pedidos, Pedido pedido)
 
     // Insere o novo pedido na fila
     if (fila_pedidos->inicio == NULL) {
-        // A fila está vazia
         fila_pedidos->inicio = novo;
         fila_pedidos->fim = novo;
     } else {
@@ -104,18 +109,18 @@ void mostrar_pedido(Fila *fila, int status)
 {
     No *aux = fila->inicio;
 
-    printLetterByLetter("-------------------------------------------------------------------\n", 0.02);
-    printf("Prato Principal: [%s]\n", aux->pedido.prato.nome);
-    printf("Quantidade: [%d]\n", aux->pedido.quantidade);
-    printf("Valor Total: [R$%.2f]\n", aux->pedido.valorTotal);
+    printLetterByLetter("\n=======================================================\n", 0.01);
+    printLetterByLetter("Prato Principal: ", 0.02);   printf("[%s]\n", aux->pedido.prato.nome);
+    printLetterByLetter("Quantidade: ", 0.02);        printf("[%d]\n", aux->pedido.quantidade);
+    printLetterByLetter("Valor Total: ", 0.02);       printf("[R$%.2f]\n", aux->pedido.valorTotal);
     if (status == 0) 
-        printf("Status: [EM ANDAMENTO]\n");
+        printLetterByLetter("Status: [EM ANDAMENTO]\n", 0.02);
     else if (status == 1) 
-        printf("Status: [ENTREGUE]\n");
+        printLetterByLetter("Status: [ENTREGUE]\n", 0.02);
     else if (status == -1) 
-        printf("Status: [CANCELADO]\n");
+        printLetterByLetter("Status: [CANCELADO]\n", 0.02);
     
-    printLetterByLetter("-------------------------------------------------------------------\n", 0.02);
+    printLetterByLetter("=======================================================\n", 0.01);
 }
 
 
@@ -131,6 +136,7 @@ int remover_pedido(Fila *fila)
     
     No *aux = fila->inicio;
     fila->inicio = aux->prox;
+
     if (fila->inicio == NULL)
         fila->fim = NULL;
     
@@ -144,38 +150,34 @@ int remover_pedido(Fila *fila)
 
 
 
-
 void pagar_com_cartao()
 {
-    printLetterByLetter("\n\n               ***** SISTEMA DE PAGAMENTO *****               \n", 0.03);
-    
-    char nome_titular[30];
-    char numero_cartao[17];
-    char data_validade[6]; // mm/aa
-    char codigo_seguranca[4];
+    char nome_titular[32];
+    char numero_cartao[20];
+    char data_validade[7]; // mm/aa
+    char codigo_seguranca[5];
 
     do {
-        printLetterByLetter("Digite o [nome do titular do cartao]: ", 0.02);
-        fgets(nome_titular, 30, stdin);
-    } while (strlen(nome_titular) > 30);
-    fflush(stdin);
+        printLetterByLetter("\nDigite o [nome do titular do cartao]: ", 0.02);
+        fgets(nome_titular, 32, stdin);
+    } while (strlen(nome_titular) > 33);  
+
     do {
         printLetterByLetter("Digite o [numero do cartao]: ", 0.02);
-        fgets(numero_cartao, 17, stdin);
-    } while (strlen(numero_cartao) > 17);
-    fflush(stdin);
+        fgets(numero_cartao, 20, stdin);
+    } while (strlen(numero_cartao) > 21);  
+
     do {
         printLetterByLetter("Digite a [data de validade do cartao]: (mm/aa) ", 0.02);
-        fgets(data_validade, 6, stdin);
-    } while (strlen(data_validade) > 6);
-    fflush(stdin);
+        fgets(data_validade, 7, stdin);
+    } while (strlen(data_validade) > 8);
+
     do {
         printLetterByLetter("Digite o [CVV]: ", 0.02);
-        fgets(codigo_seguranca, 4, stdin);
-    } while (strlen(codigo_seguranca) > 4);
+        fgets(codigo_seguranca, 5, stdin);
+    } while (strlen(codigo_seguranca) > 6);  
 
-    printLetterByLetter("Processando pagamento...\n", 0.2);
-
+    printLetterByLetter("\nProcessando pagamento...\n", 0.33);
     printLetterByLetter("Pagamento realizado com sucesso!\n", 0.02);
     printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n", 0.02);
 }
@@ -184,11 +186,8 @@ void pagar_com_cartao()
 
 
 
-
 int pagar_com_dinheiro(float valor_total)
 {
-    printLetterByLetter("\n\n               *** SISTEMA DE PAGAMENTO ***               \n", 0.02);
-
     float valor_pago;
     char troco = '0';
 
@@ -213,7 +212,7 @@ int pagar_com_dinheiro(float valor_total)
         else if (valor_pago == valor_total)
             printLetterByLetter("Sem troco necessario!\nAgradecemos o pedido! Aguarde a entrega...\n", 0.02);
         
-        else{
+        else {
             printLetterByLetter("Calculando troco...\n", 0.05);
             printf("Troco: [R$%.2f]\n", valor_pago - valor_total);
             printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n", 0.02);
@@ -228,12 +227,8 @@ int pagar_com_dinheiro(float valor_total)
 
 
 
-
-
 void pagar_com_pix()
 {
-    printLetterByLetter("\n\n               ***** SISTEMA DE PAGAMENTO *****               \n", 0.02);
-    
     char codigo_pix[28];
     printLetterByLetter("Gerando codigo pix...\n", 0.08);
 
@@ -242,16 +237,16 @@ void pagar_com_pix()
     const int tamanho_codigo_pix = 27; // ex: a56c-4928-93be-9b7bf14beeab
 
     for (int i = 0; i < tamanho_codigo_pix; i++) {
-        int indice = rand() % (sizeof(caracteres) - 1); // gera um indice aleatorio
-        codigo_pix[i] = caracteres[indice]; // pega um caractere aleatorio do vetor de caracteres
-        if (i == 4 || i == 9 || i == 14) // adiciona o traco nos indices corretos
+        int indice = rand() % (sizeof(caracteres) - 1); // gera um índice pseudo-aleatório
+        codigo_pix[i] = caracteres[indice]; // pega um caractere pseudo-aleatório do array de caracteres
+        if (i == 4 || i == 9 || i == 14) // adiciona o hífen nos locais corretos
             codigo_pix[i] = '-';
     }
     codigo_pix[tamanho_codigo_pix] = '\0'; // adiciona o caractere nulo no final da string
     
     printLetterByLetter("Realize o pagamento pelo codigo Pix copia e cola: ", 0.02);
     printf("[%s]\n", codigo_pix);
-    //getchar();
+
     printLetterByLetter("Digite 'ENTER' quando o pagamento for realizado: ", 0.02);
     getchar();
     
@@ -267,7 +262,7 @@ void pagar_com_pix()
 
 int mostrar_pagamento(float valor_total)
 {
-    printLetterByLetter("\n\n               ***** PAGAMENTO *****               \n\n", 0.03);
+    printLetterByLetter("\n\n               $$$$$ SISTEMA DE PAGAMENTO $$$$$               \n\n", 0.02);
     printf("VALOR TOTAL DO PEDIDO: [R$%.2f]\n", valor_total);
 
     char metodo_pagamento;
@@ -292,11 +287,7 @@ int mostrar_pagamento(float valor_total)
                 pagar_com_dinheiro(valor_total);
                 break;
             case '4':
-                //remover_pedido(fila);
-                //printLetterByLetter("Pedido cancelado com sucesso!\n", 0.02);
-                //printLetterByLetter("Agradecemos a preferencia!\n", 0.02);
                 return 0; // Cancelamento do pedido
-                
             default:
                 printLetterByLetter("Opcao invalida! Tente novamente\n", 0.02);
                 break;
@@ -305,6 +296,7 @@ int mostrar_pagamento(float valor_total)
 
     return 1; // Sucesso no pagamento
 }
+
 
 
 
@@ -327,14 +319,17 @@ void sleepTeste(float seconds)
 
 void mostrar_estimativa_entrega() 
 {
-    printLetterByLetter("\n-------------------------------------------------------------------\n", 0.02);
+    printLetterByLetter("\n---------------------------------------------------\n", 0.01);
     srand(time(NULL));
     float estimativa = rand() % 13 + 3;
     printLetterByLetter("Estimativa de entrega: ", 0.02);
     printf("%.1fs\n", estimativa);
+    printLetterByLetter("O motoboy esta a caminho...\n", 0.015);
     sleepTeste(estimativa);
+    printLetterByLetter("Aperte a tecla [ENTER] para confirmar o recebimento do pedido. ", 0.02);
+    getchar();
+    printLetterByLetter("ENTREGA REALIZADA COM SUCESSO!\n", 0.02);
 }
-
 
 
 
@@ -342,8 +337,7 @@ void mostrar_estimativa_entrega()
 
 void mostrar_avaliacao()
 {
-    printLetterByLetter("\n***********************************************************************\n", 0.02);
-    printLetterByLetter("               ***** SISTEMA DE AVALIACAO *****               \n", 0.03);
+    printLetterByLetter("\n               ***** SISTEMA DE AVALIACAO *****               \n", 0.02);
     printLetterByLetter("Avalie o nosso servico de 0 a 5: ", 0.02);
     int avaliacao;
     
@@ -354,7 +348,7 @@ void mostrar_avaliacao()
             printLetterByLetter("Avaliacao invalida! Tente novamente\n", 0.02);
     } while (avaliacao < 0 || avaliacao > 5);
     
-    printLetterByLetter("Avalie o prato de 0 a 5: ", 0.02);
+    printLetterByLetter("Avalie o prato pedido de 0 a 5: ", 0.02);
 
     do {
         scanf("%d", &avaliacao);
