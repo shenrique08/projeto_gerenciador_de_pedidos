@@ -111,13 +111,15 @@ int main()
                 //  se for, libera o menu de administrador
                 printLetterByLetter("Verificamos que voce eh um [usuario administrador].\nSeja bem vindo!!!\n", 0.02);
                 printLetterByLetter("\nOperacoes disponiveis para administradores:\n", 0.02);
-                printLetterByLetter("[1] -> Adicionar restaurante\n", 0.02);
-                printLetterByLetter("[2] -> Remover um restaurante da Lista de Restaurantes\n", 0.02);
-                printLetterByLetter("[3] -> Interagir com o app como cliente\n", 0.02);
-                printLetterByLetter("[4] -> Listar todos os restaurantes cadastrados\n", 0.02);
-                printLetterByLetter("[5] -> Sair do app\n", 0.02);
                 char opcao;
                 do {
+                    printf("\n");
+                    printLetterByLetter("[1] -> Adicionar restaurante\n", 0.02);
+                    printLetterByLetter("[2] -> Remover um restaurante da Lista de Restaurantes\n", 0.02);
+                    printLetterByLetter("[3] -> Interagir com o app como cliente\n", 0.02);
+                    printLetterByLetter("[4] -> Listar todos os restaurantes cadastrados\n", 0.02);
+                    printLetterByLetter("[5] -> Sair do app\n", 0.02);
+                    
                     if (interagir_como_usuario == '1') {
                         break;
                     }
@@ -132,73 +134,62 @@ int main()
 
                     switch (opcao) {
                         case '1':
-                            cadastrar_restaurante(lista_restaurante, &restaurante);
-                            printLetterByLetter("\nNova Lista de Restaurantes:\n", 0.02);
-                            menu_restaurantes_adm(lista_restaurante);
-                            do {
-                                printLetterByLetter("\nDeseja interagir com o app como cliente?\n", 0.02);
-                                printLetterByLetter("[1] -> SIM\n", 0.02);
-                                printLetterByLetter("[0] -> NAO\n", 0.02);
-                                scanf(" %c", &interagir_como_usuario);
-                                getchar();
-                                
-                                switch (interagir_como_usuario) {
-                                    case '1':
-                                        interagir_como_usuario = '1';
-                                        break;
-                                    case '0':
-                                        interagir_como_usuario = '0';
-                                        printLetterByLetter("\nObrigado por usar o app!!!\n\n", 0.02);
-                                        break;
-                                    default:
-                                        printLetterByLetter("\nERRO!!! Informe uma [OPCAO] valida!\n", 0.02);
-                                        break;
-                                }
-                            } while (interagir_como_usuario != '0' && interagir_como_usuario != '1');
+                            char deseja_cadastrar = '1';
+                            do{
+                                cadastrar_restaurante(lista_restaurante, &restaurante);
+                                printLetterByLetter("\nNova Lista de Restaurantes:\n", 0.02);
+                                menu_restaurantes_adm(lista_restaurante);
+
+                                do {
+                                    printLetterByLetter("\nDeseja cadastrar outro restaurante?\n", 0.02);
+                                    printLetterByLetter("[1] -> SIM\n", 0.02);
+                                    printLetterByLetter("[0] -> NAO\n", 0.02);
+                                    scanf(" %c", &deseja_cadastrar);
+                                    getchar();
+                                    if (deseja_cadastrar != '0' && deseja_cadastrar != '1') 
+                                        printLetterByLetter("\nERRO!!! Informe uma opcao valida!\n", 0.02);
+                                        
+                                } while (deseja_cadastrar != '0' && deseja_cadastrar != '1');
+
+                            } while (deseja_cadastrar == '1');
 
                             break;
+
                         // remover um restaurante
-                        case '2': {
+                        case '2':
                             ; // o ponto e virgula é para não dar erro de compilação
+                            char deseja_remover = '1';
                             Restaurante restaurante_removido;
                             int pos_remocao;
-                            menu_restaurantes_adm(lista_restaurante);
-                            do {
-                                printLetterByLetter("\nInforme a [POSICAO] do restaurante que deseja remover: ", 0.02);
-                                printLetterByLetter("\nOBS: A [POSICAO] do restaurante a ser removido deve ser > 0 e <= a quantidade de restaurantes cadastrados!\n", 0.02);
-                                scanf("%d", &pos_remocao);
-                                getchar();
-                                if (pos_remocao < 1 || pos_remocao > tam_lista(lista_restaurante) + 1) 
-                                    printLetterByLetter("\nERRO!!! Informe uma [POSICAO] valida!\n", 0.02);
-                                
-                            } while (pos_remocao < 1 || pos_remocao > tam_lista(lista_restaurante) + 1);
 
-                            remove_restaurante_pos(lista_restaurante, &restaurante_removido, pos_remocao);
-                            printLetterByLetter("\nNova Lista de Restaurantes:\n", 0.02);
-                            menu_restaurantes_adm(lista_restaurante);
                             do {
-                                printLetterByLetter("\nDeseja interagir com o app como usuario?\n", 0.02);
-                                printLetterByLetter("[1] -> SIM\n", 0.02);
-                                printLetterByLetter("[0] -> NAO (Sair do App)\n", 0.02);
-                                scanf(" %c", &interagir_como_usuario);
-                                getchar();
-                                
-                                switch (interagir_como_usuario) {
-                                    case '1':
-                                        interagir_como_usuario = '1';
-                                        break;
-                                    case '0':
-                                        printLetterByLetter("\nObrigado por usar o app!!!\n\n", 0.02);
-                                        navegar_app = '0';
-                                        break;
-                                    default:
-                                        printLetterByLetter("\nERRO!!! Informe uma [OPCAO] valida!\n", 0.02);
-                                        break;
-                                }
-                            } while (interagir_como_usuario != '0' && interagir_como_usuario != '1');
-                            
+                                menu_restaurantes_adm(lista_restaurante);
+                                do {
+                                    printLetterByLetter("\nInforme a [POSICAO] do restaurante que deseja remover: ", 0.02);
+                                    printLetterByLetter("\nOBS: A [POSICAO] do restaurante a ser removido deve ser > 0 e <= a quantidade de restaurantes cadastrados!\n", 0.02);
+                                    scanf("%d", &pos_remocao);
+                                    getchar();
+                                    if (pos_remocao < 1 || pos_remocao > tam_lista(lista_restaurante) + 1) 
+                                        printLetterByLetter("\nERRO!!! Informe uma [POSICAO] valida!\n", 0.02);
+                                    
+                                } while (pos_remocao < 1 || pos_remocao > tam_lista(lista_restaurante) + 1);
+
+                                remove_restaurante_pos(lista_restaurante, &restaurante_removido, pos_remocao);
+                                printLetterByLetter("\nNova Lista de Restaurantes:\n", 0.02);
+                                menu_restaurantes_adm(lista_restaurante);
+
+                                do {
+                                    printLetterByLetter("\nDeseja remover outro restaurante?\n", 0.02);
+                                    printLetterByLetter("[1] -> SIM\n", 0.02);
+                                    printLetterByLetter("[0] -> NAO\n", 0.02);
+                                    fgets(&deseja_remover, 2, stdin);
+                                    getchar();
+                                } while (deseja_remover != '0' && deseja_remover != '1');
+
+                            } while (deseja_remover == '1');
+
                             break;
-                        }
+                        
                         case '3':
                             interagir_como_usuario = '1';
                             break;
