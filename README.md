@@ -24,7 +24,7 @@ Fila para os pedidos que o usuário venha a fazer.
 Cadastro de usuários: Os usuários podem se cadastrar no aplicativo fornecendo informações básicas, como nome, endereço, login e senha. <br><br>
 
 Login de usuários: Os usuários cadastrados podem fazer login no aplicativo usando seu login e sua senha. <br><br>
-Acesso para administrador: login: "admin", senha: "admin"
+Acesso para administrador: login: "adm", senha: "adm"
 
 Menu de administrador: Os administradores têm acesso a um menu especial com funcionalidades adicionais, como adicionar e remover restaurantes da lista de restaurantes cadastrados. <br><br>
 Interagir como cliente: Os usuários podem interagir com o aplicativo como clientes, visualizando a lista de restaurantes cadastrados, escolhendo restaurantes, escolhendo pratos e fazendo pedidos. <br><br>
