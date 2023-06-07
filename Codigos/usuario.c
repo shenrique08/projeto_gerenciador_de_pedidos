@@ -298,9 +298,9 @@ int insere_adm(Lista *lista, Usuario usuario)
         strcpy(novo_no->dados_usuario.nome, "adm");
         strcpy(novo_no->dados_usuario.num_telefone, "666");
 
-        strcpy(novo_no->dados_usuario.login, "adm");
+        strcpy(novo_no->dados_usuario.login, "admin");
         strcat(novo_no->dados_usuario.login, "\n"); // Adiciona '\n' ao final da string login
-        strcpy(novo_no->dados_usuario.senha, "adm");
+        strcpy(novo_no->dados_usuario.senha, "admin");
         strcat(novo_no->dados_usuario.senha, "\n"); // Adiciona '\n' ao final da string senha
 
         inserir_no_inicio(lista, novo_no->dados_usuario);
