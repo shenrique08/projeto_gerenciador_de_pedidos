@@ -15,9 +15,13 @@ Bem-vindo ao repositório do aplicativo BAZOOKA DELIVERY! Este é um aplicativo 
 <br>
 
 ## 🚀 Funcionalidades
+Estruturas de dados utilizadas:
 
+Lista para restaurantes e para cadastro de usuários.
+Fila para os pedidos que o usuário venha a fazer.
 
 Cadastro de usuários: Os usuários podem se cadastrar no aplicativo fornecendo informações básicas, como nome, endereço, login e senha. <br><br>
+
 Login de usuários: Os usuários cadastrados podem fazer login no aplicativo usando seu login e sua senha. <br><br>
 Acesso para administrador: login: "admin", senha: "admin"
 
