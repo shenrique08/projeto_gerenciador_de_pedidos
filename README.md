@@ -18,14 +18,14 @@ Bem-vindo ao repositório do aplicativo BAZOOKA DELIVERY! Este é um aplicativo 
 
 
 Cadastro de usuários: Os usuários podem se cadastrar no aplicativo fornecendo informações básicas, como nome, endereço, login e senha. <br><br>
-Login de usuários: Os usuários cadastrados podem fazer login no aplicativo usando seu login e senha. <br><br>
-Acesso para administrador: longin: "admin", senha: "admin"
+Login de usuários: Os usuários cadastrados podem fazer login no aplicativo usando seu login e sua senha. <br><br>
+Acesso para administrador: login: "admin", senha: "admin"
 
-Menu de administrador: Os administradores têm acesso a um menu especial com funcionalidades adicionais, como adicionar e remover  restaurantes da lista de restaurantes cadastrados. <br><br>
-Interagir como cliente: Os usuários podem interagir com o aplicativo como clientes, visualizando a lista de restaurantes cadastrados, escolhendo restaurantes, pratos e fazendo pedidos. <br><br>
+Menu de administrador: Os administradores têm acesso a um menu especial com funcionalidades adicionais, como adicionar e remover restaurantes da lista de restaurantes cadastrados. <br><br>
+Interagir como cliente: Os usuários podem interagir com o aplicativo como clientes, visualizando a lista de restaurantes cadastrados, escolhendo restaurantes, escolhendo pratos e fazendo pedidos. <br><br>
 Pagamentos: Os usuários podem fazer pagamentos por meio do aplicativo para confirmar seus pedidos. <br><br>
-Avaliação de restaurantes: Após receberem seus pedidos, os usuários têm a opção de avaliar os restaurantes e deixar comentários. <br><br>
-Estimativa de entrega: O aplicativo fornece uma estimativa de tempo de entrega para os pedidos feitos pelos usuários. <br><br>
+Avaliação de restaurantes: Após receberem seus pedidos, os usuários têm a opção de avaliar os restaurantes. <br><br>
+Estimativa de entrega: O aplicativo fornece uma estimativa de tempo de entrega para os pedidos feitos pelos usuários, como uma forma de simular o tempo de entrega. <br><br>
 Interface de linha de comando (CLI): O aplicativo é executado em uma interface de linha de comando, com opções e informações exibidas em formato de texto. <br><br>
 
 
