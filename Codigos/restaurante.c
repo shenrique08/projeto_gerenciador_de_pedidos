@@ -840,7 +840,6 @@ void menu_restaurantes_adm(Lista_restaurante *lista)
                 fflush(stdout);
                 printf("R$%.2f\n", aux->dados_restaurante.prato[j].preco);
                 printf("\n");
-                sleep(1.4);
             }
         }
         
@@ -988,7 +987,6 @@ void menu_restaurante_usuario(Lista_restaurante *lista)
             fflush(stdout);
             printf("R$%.2f\n", aux->dados_restaurante.prato[j].preco);
             printf("\n");
-            sleep(1.3);
         }
 
         do {

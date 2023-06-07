@@ -5,7 +5,7 @@
 typedef struct usuario {
     char nome[50];
     char cpf[15];
-    char num_telefone[20];
+    char num_telefone[15];
     char login[50];
     char senha[50];
     

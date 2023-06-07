@@ -137,7 +137,7 @@ int main()
                             ; char deseja_cadastrar = '1';
                             do{
                                 cadastrar_restaurante(lista_restaurante, &restaurante);
-                                printLetterByLetter("\nNova Lista de Restaurantes:\n", 0.02);
+                                printLetterByLetter("\nNova Lista de Restaurantes:", 0.02);
                                 menu_restaurantes_adm(lista_restaurante);
 
                                 do {
@@ -161,9 +161,11 @@ int main()
                             char deseja_remover = '1';
                             Restaurante restaurante_removido;
                             int pos_remocao;
+                            int ja_removeu = 0;
 
                             do {
-                                menu_restaurantes_adm(lista_restaurante);
+                                if (!ja_removeu) 
+                                    menu_restaurantes_adm(lista_restaurante);
                                 do {
                                     printLetterByLetter("\nInforme a [POSICAO] do restaurante que deseja remover: ", 0.02);
                                     printLetterByLetter("\nOBS: A [POSICAO] do restaurante a ser removido deve ser > 0 e <= a quantidade de restaurantes cadastrados!\n", 0.02);
@@ -175,15 +177,17 @@ int main()
                                 } while (pos_remocao < 1 || pos_remocao > tam_lista(lista_restaurante) + 1);
 
                                 remove_restaurante_pos(lista_restaurante, &restaurante_removido, pos_remocao);
-                                printLetterByLetter("\nNova Lista de Restaurantes:\n", 0.02);
+                                printLetterByLetter("\nNova Lista de Restaurantes:", 0.02);
+                                ja_removeu = 1;
                                 menu_restaurantes_adm(lista_restaurante);
-
+                                
                                 do {
                                     printLetterByLetter("\nDeseja remover outro restaurante?\n", 0.02);
                                     printLetterByLetter("[1] -> SIM\n", 0.02);
                                     printLetterByLetter("[0] -> NAO\n", 0.02);
                                     fgets(&deseja_remover, 2, stdin);
                                     getchar();
+
                                 } while (deseja_remover != '0' && deseja_remover != '1');
 
                             } while (deseja_remover == '1');
@@ -263,7 +267,7 @@ int main()
                     
                     if (inserir_pedido(restaurante_escolhido.fila_pedidos, pedido) == 1) {
                         printLetterByLetter("\nPedido realizado com sucesso!!!\n", 0.02);
-                        printLetterByLetter("\n*** PROXIMO PEDIDO A SER ENTREGUE ***\n\n", 0.03);
+                        printLetterByLetter("\n*** PROXIMO PEDIDO A SER ENTREGUE ***\n", 0.03);
                         mostrar_pedido(restaurante_escolhido.fila_pedidos, status);
                     } else 
                         printLetterByLetter("\nERRO!!! Nao foi possivel realizar o pedido!!!\n", 0.02);
@@ -297,7 +301,7 @@ int main()
                 if (navegar_app != '1' && navegar_app != '0') 
                     printLetterByLetter("\nERRO!!! Informe uma [OPCAO] valida!\n", 0.02);
                 if (navegar_app == '0') {
-                    printLetterByLetter("\nObrigado por usar o nosso app!!!\n", 0.02);
+                    printLetterByLetter("\nObrigado por usar o nosso app. Ate a proxima!\n\n", 0.02);
                     navegar_app = '0';
                     break;
                 } else 

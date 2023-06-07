@@ -109,7 +109,7 @@ void mostrar_pedido(Fila *fila, int status)
 {
     No *aux = fila->inicio;
 
-    printLetterByLetter("\n=======================================================\n", 0.01);
+    printLetterByLetter("\n\n=======================================================\n", 0.01);
     printLetterByLetter("Prato Principal: ", 0.02);   printf("[%s]\n", aux->pedido.prato.nome);
     printLetterByLetter("Quantidade: ", 0.02);        printf("[%d]\n", aux->pedido.quantidade);
     printLetterByLetter("Valor Total: ", 0.02);       printf("[R$%.2f]\n", aux->pedido.valorTotal);
@@ -158,7 +158,7 @@ void pagar_com_cartao()
     char codigo_seguranca[5];
 
     do {
-        printLetterByLetter("\nDigite o [nome do titular do cartao]: ", 0.02);
+        printLetterByLetter("\n\nDigite o [nome do titular do cartao]: ", 0.02);
         fgets(nome_titular, 32, stdin);
     } while (strlen(nome_titular) > 33);  
 
@@ -193,7 +193,7 @@ int pagar_com_dinheiro(float valor_total)
 
     do {
         do {
-            printLetterByLetter("\nPrecisa de troco?\n [1] -> SIM\n [0] -> NAO: ", 0.02);
+            printLetterByLetter("\n\nPrecisa de troco?\n [1] -> SIM\n [0] -> NAO: \n", 0.02);
             scanf(" %c", &troco);
             getchar();
             if (troco != '1' && troco != '0')
@@ -204,6 +204,7 @@ int pagar_com_dinheiro(float valor_total)
         if (troco == '1') {
             printLetterByLetter("Digite o valor total que voce ira dar ao entregador: R$", 0.02);
             scanf("%f", &valor_pago);
+            getchar();
         }
         
         if (valor_pago < valor_total)
@@ -244,10 +245,10 @@ void pagar_com_pix()
     }
     codigo_pix[tamanho_codigo_pix] = '\0'; // adiciona o caractere nulo no final da string
     
-    printLetterByLetter("Realize o pagamento pelo codigo Pix copia e cola: ", 0.02);
+    printLetterByLetter("\nRealize o pagamento pelo codigo Pix copia e cola: ", 0.02);
     printf("[%s]\n", codigo_pix);
 
-    printLetterByLetter("Digite 'ENTER' quando o pagamento for realizado: ", 0.02);
+    printLetterByLetter("\nDigite 'ENTER' quando o pagamento for realizado: ", 0.02);
     getchar();
     
     printLetterByLetter("\nProcessando pagamento...\n", 0.2);
@@ -319,7 +320,7 @@ void sleepTeste(float seconds)
 
 void mostrar_estimativa_entrega() 
 {
-    printLetterByLetter("\n---------------------------------------------------\n", 0.01);
+    printLetterByLetter("\n\n---------------------------------------------------\n", 0.01);
     srand(time(NULL));
     float estimativa = rand() % 13 + 3;
     printLetterByLetter("Estimativa de entrega: ", 0.02);
@@ -337,26 +338,26 @@ void mostrar_estimativa_entrega()
 
 void mostrar_avaliacao()
 {
-    printLetterByLetter("\n               ***** SISTEMA DE AVALIACAO *****               \n", 0.02);
-    printLetterByLetter("Avalie o nosso servico de 0 a 5: ", 0.02);
-    int avaliacao;
+    printLetterByLetter("\n\n               ***** SISTEMA DE AVALIACAO *****               \n", 0.02);
+    printLetterByLetter("Avalie o nosso servico de 0 a 10: ", 0.02);
+    float avaliacao;
     
     do {
-        scanf("%d", &avaliacao);
+        scanf("%f", &avaliacao);
         getchar();
-        if (avaliacao < 0 || avaliacao > 5)
+        if (avaliacao < 0 || avaliacao > 10)
             printLetterByLetter("Avaliacao invalida! Tente novamente\n", 0.02);
-    } while (avaliacao < 0 || avaliacao > 5);
+    } while (avaliacao < 0 || avaliacao > 10);
     
-    printLetterByLetter("Avalie o prato pedido de 0 a 5: ", 0.02);
+    printLetterByLetter("Avalie o prato pedido de 0 a 10: ", 0.02);
 
     do {
-        scanf("%d", &avaliacao);
+        scanf("%f", &avaliacao);
         getchar();
-        if (avaliacao < 0 || avaliacao > 5)
+        if (avaliacao < 0 || avaliacao > 10)
             printLetterByLetter("Avaliacao invalida! Tente novamente\n", 0.02);
 
-    } while (avaliacao < 0 || avaliacao > 5);
+    } while (avaliacao < 0 || avaliacao > 10);
     
-    printLetterByLetter("Agradecemos a avaliacao! Ate a proxima!\n", 0.02);
+    printLetterByLetter("Agradecemos a avaliacao! Ate a proxima!\n\n", 0.02);
 }
