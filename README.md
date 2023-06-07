@@ -19,6 +19,7 @@ Bem-vindo ao repositório do aplicativo BAZOOKA DELIVERY! Este é um aplicativo 
 
 Cadastro de usuários: Os usuários podem se cadastrar no aplicativo fornecendo informações básicas, como nome, endereço, login e senha. <br><br>
 Login de usuários: Os usuários cadastrados podem fazer login no aplicativo usando seu login e senha. <br><br>
+Acesso para administrador: longin: "adm", senha: "adm"
 Menu de administrador: Os administradores têm acesso a um menu especial com funcionalidades adicionais, como adicionar e remover  restaurantes da lista de restaurantes cadastrados. <br><br>
 Interagir como cliente: Os usuários podem interagir com o aplicativo como clientes, visualizando a lista de restaurantes cadastrados, escolhendo restaurantes, pratos e fazendo pedidos. <br><br>
 Pagamentos: Os usuários podem fazer pagamentos por meio do aplicativo para confirmar seus pedidos. <br><br>
