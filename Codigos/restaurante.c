@@ -876,7 +876,7 @@ void menu_restaurante_usuario(Lista_restaurante *lista)
         printLetterByLetter("\n\n================= TIPOS CULINARIOS =================\n\n", 0.02);
         printLetterByLetter("[1] - Brasileira\n", 0.02);
         printLetterByLetter("[2] - Fast Food\n", 0.02);
-        printLetterByLetter("[3] - Japonesa\n", 0.02);
+        printLetterByLetter("[3] - Asiatica\n", 0.02);
 
         do {
             printLetterByLetter("\nEscolha um tipo de culinaria para mostrar os restaurantes disponiveis (1-3): ", 0.02);
