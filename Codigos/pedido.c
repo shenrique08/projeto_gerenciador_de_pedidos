@@ -82,7 +82,7 @@ int inserir_pedido(Fila *fila_pedidos, Pedido pedido)
 
     No *novo = (No *) calloc(1, sizeof(No));
     if (novo == NULL) 
-        return -1;
+        return -3;
     
     novo->pedido = pedido;
     novo->prox = NULL;
@@ -253,7 +253,7 @@ void pagar_com_pix()
     
     printLetterByLetter("\nProcessando pagamento...\n", 0.2);
     printLetterByLetter("Pagamento realizado com sucesso!\n", 0.02);
-    printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n\n", 0.02);
+    printLetterByLetter("Agradecemos o pedido! Aguarde a entrega...\n", 0.02);
 }
 
 

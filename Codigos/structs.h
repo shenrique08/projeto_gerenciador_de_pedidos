@@ -17,6 +17,7 @@ typedef struct {
 } Prato;
 
 
+
 // Estrutura para armazenar os dados do restaurante
 typedef struct restaurante {
     Fila *fila_pedidos;
@@ -37,6 +38,7 @@ typedef struct {
     float valorTotal;
     
 } Pedido;
+
 
 
 #endif

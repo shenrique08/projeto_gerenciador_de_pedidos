@@ -84,7 +84,7 @@ int inserir_no_inicio(Lista *lista, Usuario usuario)
 {
     // se a lista não existe, retorne 2
     if (lista_existe(lista) == 0)
-        return 2;
+        return -1;
     No *no = (No *) calloc(1, sizeof(No));
 
     no->dados_usuario = usuario;
@@ -137,7 +137,7 @@ int remover_usuario(Lista *lista, Usuario usuario)
     No *anterior = NULL;
     No *atual = lista->inicio;
 
-    // percorrendo a lista até encontrar o aluno
+    // percorrendo a lista até encontrar o usuário
     while (atual != NULL && strcmp(atual->dados_usuario.nome, usuario.nome) != 0) {
         anterior = atual;
         atual = atual ->prox;
@@ -145,7 +145,7 @@ int remover_usuario(Lista *lista, Usuario usuario)
 
     // se o elemento não foi encontrado
     if (atual == NULL)
-        return -1;
+        return -3;
     
     // remove o elemento encontrado
     if (anterior == NULL) // é o primeiro elemento

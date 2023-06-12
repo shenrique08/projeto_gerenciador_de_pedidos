@@ -44,10 +44,9 @@ Lista_restaurante *criar_restaurante()
 
 int limpar_lista(Lista_restaurante *lista)
 {
-    if (lista == NULL) {
+    if (lista == NULL) 
         return -1;
-    }
-
+    
     No *aux = lista->inicio;
     while (aux != NULL) {
         No *proximo = aux->prox;
@@ -64,15 +63,14 @@ int limpar_lista(Lista_restaurante *lista)
 
 
 
+
 int qtd_restaurantes(Lista_restaurante *lista)
 {
-    if (lista == NULL) {
+    if (lista == NULL) 
         return -1;
-    }
 
     return lista->tam_lista;
 }
-
 
 
 
@@ -106,6 +104,7 @@ int insere_restaurante_no_final(Lista_restaurante *lista, Restaurante r)
 
 
 
+
 int remove_restaurante_inicio(Lista_restaurante *lista, Restaurante *r)
 {
     if (lista == NULL || lista_vazia(lista)) 
@@ -126,36 +125,11 @@ int remove_restaurante_inicio(Lista_restaurante *lista, Restaurante *r)
 
 
 
-int insere_restaurante_no_inicio(Lista_restaurante *lista, Restaurante r)
-{
-    if (lista == NULL) 
-        return -1;
-    r.fila_pedidos = criar_fila();
-
-    No *novo_no = (No*) calloc(1, sizeof(No));
-    novo_no->dados_restaurante = r;
-    novo_no->prox = lista->inicio;
-    lista->inicio = novo_no;
-
-    if (lista->fim == NULL) 
-        lista->fim = novo_no;
-    
-    lista->tam_lista++;
-    novo_no->dados_restaurante.qtd_pratos = r.qtd_pratos;
-
-    return 0;
-}
-
-
-
-
-
 int remove_restaurante_final(Lista_restaurante *lista, Restaurante *r)
 {
-    if (lista == NULL || lista_vazia(lista)) {
+    if (lista == NULL || lista_vazia(lista)) 
         return -1;
-    }
-
+    
     No *aux = lista->inicio;
     No *anterior = NULL;
 
@@ -308,9 +282,8 @@ int buscar_restaurante(Lista_restaurante *lista, Restaurante *restaurante, char 
 
     No *aux = lista->inicio;
     // precisamos verificar o nome sem contar as letras maiusculas e minusculas
-    for (int i = 0; nome_restaurante[i] != '\0'; i++) {
+    for (int i = 0; nome_restaurante[i] != '\0'; i++) 
         nome_restaurante[i] = toupper(nome_restaurante[i]);
-    }
     
     while (aux != NULL) {
         if (strcmp(aux->dados_restaurante.nome, nome_restaurante) == 0) 
@@ -339,18 +312,17 @@ int buscar_prato_principal(Lista_restaurante *lista, char *nome_prato, Prato *pr
     No *aux = lista->inicio;
 
     // Convertendo o nome do prato para maiúsculas
-    for (int i = 0; nome_prato[i] != '\0'; i++) {
+    for (int i = 0; nome_prato[i] != '\0'; i++) 
         nome_prato[i] = toupper((unsigned char)nome_prato[i]);
-    }
-
+    
     while (aux != NULL) {
         for (int i = 0; i < aux->dados_restaurante.qtd_pratos; i++) {
             // Convertendo o nome do prato atual para maiúsculas
             char prato_atual_upper[50];
             strcpy(prato_atual_upper, aux->dados_restaurante.prato[i].nome);
-            for (int j = 0; prato_atual_upper[j] != '\0'; j++) {
-                prato_atual_upper[j] = toupper((unsigned char)prato_atual_upper[j]);
-            }
+            for (int j = 0; prato_atual_upper[j] != '\0'; j++) 
+                prato_atual_upper[j] = toupper((unsigned char)prato_atual_upper[j]);   
+
 
             if (strcmp(prato_atual_upper, nome_prato) == 0) {
                 *prato_escolhido = aux->dados_restaurante.prato[i];
@@ -991,8 +963,8 @@ void menu_restaurante_usuario(Lista_restaurante *lista)
 
         do {
             printLetterByLetter("Deseja ver o cardapio de outro restaurante?\n", 0.02);
-            printLetterByLetter("[1] - Sim\n", 0.02);
-            printLetterByLetter("[0] - Nao\n", 0.02);
+            printLetterByLetter("[1] - SIM\n", 0.02);
+            printLetterByLetter("[0] - NAO\n", 0.02);
             scanf(" %c", &opcao);
             getchar();
 
